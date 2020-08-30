@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">IVE</string>
     <string name="main_title">TIME TO BE PRODUCT<font color="#FA8072">IVE</font></string>
+    <string name="title_home"><font color="#FA8072">HOME</font></string>
+    <string name="title_dashboard"><font color="#FA8072">DASHBOARD</font></string>
+    <string name="title_notifications"><font color="#FA8072">TASKS</font></string>
+    <string name="text_label_1">Option 1</string>
+    <string name="text_label_2">Option 2</string>
 </resources>
