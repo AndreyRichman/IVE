@@ -1,16 +1,17 @@
-package com.mta.ive.pages.ui.notifications;
+package com.mta.ive.pages.ui.location;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+
+public class LocationViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public LocationViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("Current Location!");
     }
 
     public LiveData<String> getText() {
