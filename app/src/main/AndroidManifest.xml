@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".pages.AllTasksActivity"></activity>
+        <activity android:name=".pages.SignInActivity"></activity>
+        <activity android:name=".pages.AllTasksActivity" />
+        <activity android:name=".pages.HomeActivity" />
         <activity android:name=".pages.NewTaskActivity" />
         <activity android:name=".pages.LobbyActivity" />
         <activity android:name=".pages.LoginActivity" />
