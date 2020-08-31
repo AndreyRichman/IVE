@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D2D2D2">
+    android:background="#FFFFFF">
 
     <Button
         android:id="@+id/sign_in"
@@ -21,7 +21,7 @@
         />
 
     <Button
-        android:id="@+id/sign_up"
+        android:id="@+id/sign_in"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:text="Sign Up"
@@ -41,16 +41,14 @@
         android:textColor="#333333"
         android:textSize="25dp"
         tools:layout_editor_absoluteX="88dp"
-        tools:layout_editor_absoluteY="165dp" />
+        tools:layout_editor_absoluteY="205dp" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:srcCompat="@drawable/IVE_logo"
-        tools:layout_editor_absoluteX="130dp"
-        tools:layout_editor_absoluteY="29dp" /><![CDATA[
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/turkiz200"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="5dp" />
 
-    //tools:srcCompat="@tools:sample/avatars" />
-]]>
 </androidx.constraintlayout.widget.ConstraintLayout>
