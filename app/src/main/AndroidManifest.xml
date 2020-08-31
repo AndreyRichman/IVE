@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ive">
+    package="com.mta.ive">
 
     <application
         android:allowBackup="true"
@@ -9,13 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".pages.SignInActivity"></activity>
-        <activity android:name=".pages.AllTasksActivity" />
-        <activity android:name=".pages.HomeActivity" />
-        <activity android:name=".pages.NewTaskActivity" />
-        <activity android:name=".pages.LobbyActivity" />
-        <activity android:name=".pages.LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.mta.ive.pages.SignInActivity"></activity>
+        <activity android:name="com.mta.ive.pages.AllTasksActivity" />
+        <activity android:name="com.mta.ive.pages.HomeActivity" />
+        <activity android:name="com.mta.ive.pages.NewTaskActivity" />
+        <activity android:name="com.mta.ive.pages.LobbyActivity" />
+        <activity android:name="com.mta.ive.pages.LoginActivity" />
+        <activity android:name="com.mta.ive.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
