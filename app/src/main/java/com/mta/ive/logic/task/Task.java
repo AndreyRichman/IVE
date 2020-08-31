@@ -1,18 +1,18 @@
-package com.mta.ive.Task;
+package com.mta.ive.logic.task;
 
 import android.location.Location;
 
 import java.util.Date;
 
 public class Task {
-    private String m_taskID;
-    private String m_Title = "";
-    private int m_urgency;
-    private int m_estimatedDurationMinutes;
-    private Location m_location ;
+    private String taskID;
+    private String title = "";
+    private int urgency;
+    private int estimatedDurationMinutes;
+    private Location location ;
     //optional//
-    private Date m_dueDate;
-    private String m_Description = "";
+    private Date dueDate;
+    private String description = "";
 
     public Task() {
 
@@ -20,7 +20,8 @@ public class Task {
 
 
     public String getTitle() {
-        return m_Title;
+
+        return title;
     }
 }
 
