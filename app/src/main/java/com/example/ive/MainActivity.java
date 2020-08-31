@@ -1,12 +1,13 @@
 package com.example.ive;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.ive.pages.AllTasksActivity;
+//import com.example.ive.pages.HomeActivity;
 import com.example.ive.pages.LobbyActivity;
 import com.example.ive.pages.LoginActivity;
 import com.example.ive.pages.NewTaskActivity;
@@ -43,5 +44,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(allTasksPage);
     }
 
+//    public void goMainPage(View btn){
+//        Intent homePage = new Intent(this, HomeActivity.class);
+//        startActivity(homePage);
+//    }
 
 }
