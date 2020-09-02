@@ -10,10 +10,12 @@
         android:icon="@drawable/icon_home"
         android:title="" />
 
+
     <item
         android:id="@+id/navigation_add"
         android:icon="@drawable/icon_add"
         android:title="" />
+
 
     <item
         android:id="@+id/navigation_user"

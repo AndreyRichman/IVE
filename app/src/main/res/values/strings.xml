@@ -10,4 +10,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_location">Location</string>
 
-</resources>
+    // static array to fill spinner(drop down menu) in fragmant_task_edit
+    <string-array name="brew_array">
+            <item>Cappuccino</item>
+            <item>Espresso</item>
+            <item>Mocha</item>
+            <item>Caffè Americano</item>
+            <item>Cafe Zorro</item>
+    </string-array>
+
+    </resources>
