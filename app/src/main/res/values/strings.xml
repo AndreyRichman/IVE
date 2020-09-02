@@ -7,4 +7,13 @@
     <string name="text_label_1">Option 1</string>
     <string name="text_label_2">Option 2</string>
 
-</resources>
+    // static array to fill spinner(drop down menu) in fragmant_task_edit
+    <string-array name="brew_array">
+            <item>Cappuccino</item>
+            <item>Espresso</item>
+            <item>Mocha</item>
+            <item>Caffè Americano</item>
+            <item>Cafe Zorro</item>
+    </string-array>
+
+    </resources>

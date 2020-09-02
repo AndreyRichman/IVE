@@ -11,6 +11,8 @@ import com.mta.ive.pages.HomeActivity;
 import com.mta.ive.pages.LobbyActivity;
 import com.mta.ive.pages.LoginActivity;
 import com.mta.ive.pages.NewTaskActivity;
+import com.mta.ive.pages.SignUpActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
         Intent loginPage = new Intent(this, LoginActivity.class);
         loginPage.putExtra("PAGE_NAME", "LOGIN PAGE");
         startActivity(loginPage);
+    }
+
+    public void openSignUpPage(View btn) {
+        Intent signupPage = new Intent(this, SignUpActivity.class);
+        signupPage.putExtra("PAGE_NAME", "SIGNUP PAGE");
+        startActivity(signupPage);
     }
 
     public void openLobbyPage(View btn) {
