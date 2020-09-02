@@ -9,6 +9,7 @@ public class AddTaskViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
     public AddTaskViewModel() {
+        //TODO: DELETE ME!
         mText = new MutableLiveData<>();
         mText.setValue("Add New Task!");
     }

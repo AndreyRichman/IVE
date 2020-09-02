@@ -10,6 +10,7 @@ public class LocationViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
     public LocationViewModel() {
+        //TODO: DELETE ME!
         mText = new MutableLiveData<>();
         mText.setValue("Current Location!");
     }

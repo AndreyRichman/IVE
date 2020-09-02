@@ -9,6 +9,7 @@ public class UserViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
     public UserViewModel() {
+        //TODO: DELETE ME!
         mText = new MutableLiveData<>();
         mText.setValue("This is User fragment");
     }
