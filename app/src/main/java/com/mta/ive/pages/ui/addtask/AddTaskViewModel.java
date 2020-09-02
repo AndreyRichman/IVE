@@ -1,16 +1,16 @@
-package com.mta.ive.pages.ui.dashboard;
+package com.mta.ive.pages.ui.addtask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+public class AddTaskViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public DashboardViewModel() {
+    public AddTaskViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("Add New Task!");
     }
 
     public LiveData<String> getText() {
