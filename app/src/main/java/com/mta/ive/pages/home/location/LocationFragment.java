@@ -19,6 +19,11 @@ public class LocationFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        //        mainTitle = root.findViewById(R.id.tasksListMainTitle);
+//        subTitle = root.findViewById(R.id.tasksListSubTitle);
+//        bottomText = root.findViewById(R.id.tasksListBottomText);
+
         return inflater.inflate(R.layout.fragment_location, container, false);
 //        locationViewModel =
 //                ViewModelProviders.of(this).get(LocationViewModel.class);
@@ -32,9 +37,7 @@ public class LocationFragment extends Fragment {
 //        });
 
 //
-//        mainTitle = root.findViewById(R.id.tasksListMainTitle);
-//        subTitle = root.findViewById(R.id.tasksListSubTitle);
-//        bottomText = root.findViewById(R.id.tasksListBottomText);
+
 //
 //
 //        return root;
