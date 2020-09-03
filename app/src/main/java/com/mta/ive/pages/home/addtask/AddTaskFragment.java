@@ -1,4 +1,4 @@
-package com.mta.ive.pages.ui.addtask;
+package com.mta.ive.pages.home.addtask;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

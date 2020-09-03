@@ -1,4 +1,4 @@
-package com.mta.ive.pages.ui.user;
+package com.mta.ive.pages.home.user;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

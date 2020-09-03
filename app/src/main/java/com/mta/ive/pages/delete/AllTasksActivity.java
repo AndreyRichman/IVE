@@ -1,4 +1,4 @@
-package com.mta.ive.pages;
+package com.mta.ive.pages.delete;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ public class AllTasksActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_tasks);
+        setContentView(R.layout.delete_activity_all_tasks);
 
     }
 }

@@ -1,8 +1,8 @@
-package com.mta.ive.pages;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.mta.ive.pages.login;
 
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.mta.ive.R;
 

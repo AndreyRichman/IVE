@@ -1,4 +1,4 @@
-package com.mta.ive.pages;
+package com.mta.ive.pages.home;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,10 +12,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.mta.ive.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.mta.ive.pages.ui.addtask.AddTaskFragment;
-import com.mta.ive.pages.ui.home.HomeFragment;
-import com.mta.ive.pages.ui.location.LocationFragment;
-import com.mta.ive.pages.ui.user.UserFragment;
+import com.mta.ive.pages.home.addtask.AddTaskFragment;
+import com.mta.ive.pages.home.home.HomeFragment;
+import com.mta.ive.pages.home.location.LocationFragment;
+import com.mta.ive.pages.home.user.UserFragment;
 //import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 

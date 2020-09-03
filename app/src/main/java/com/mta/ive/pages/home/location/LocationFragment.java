@@ -1,4 +1,4 @@
-package com.mta.ive.pages.ui.location;
+package com.mta.ive.pages.home.location;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import com.mta.ive.R;
 
 public class LocationFragment extends Fragment {
 
-    private LocationViewModel locationViewModel;
+//    private LocationViewModel locationViewModel;
 
     private TextView mainTitle, subTitle, bottomText;
 
