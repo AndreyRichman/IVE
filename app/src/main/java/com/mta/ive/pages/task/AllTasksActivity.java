@@ -1,14 +1,14 @@
-package com.mta.ive.pages.home.location;
+package com.mta.ive.pages.task;
 
+import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +23,7 @@ import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
 
-public class LocationFragment extends Fragment {
+public class AllTasksActivity extends AppCompatActivity {
 
     private TextView mainTitle, subTitle, bottomText;
     DatabaseReference reference;
@@ -32,21 +32,22 @@ public class LocationFragment extends Fragment {
     TasksAdapter tasksAdapter;
     ViewGroup root;
 
-    public void setTasksAdapter(TasksAdapter tasksAdapter) {
-        this.tasksAdapter = tasksAdapter;
-    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_location);
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
 
+        tasksRecList = findViewById(R.id.tasksRecycleList);
+        tasksRecList.setLayoutManager(new LinearLayoutManager(this)); //TODO: originally: this
         tasksList = new ArrayList<>();
-        View view = inflater.inflate(R.layout.fragment_location, container, false);
-        tasksRecList = view.findViewById(R.id.tasksRecycleList);
-        tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
-
-
+//
+//        //Get data from DB
         reference = FirebaseDatabase.getInstance().getReference().child("task");
+
+        tasksAdapter = new TasksAdapter(AllTasksActivity.this, tasksList); //TODO: originally: MainActivity.this
+        tasksRecList.setAdapter(tasksAdapter);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -56,19 +57,18 @@ public class LocationFragment extends Fragment {
                     tasksList.add(task);
                 }
 
-                tasksAdapter = new TasksAdapter(view.getContext(), tasksList); //TODO: originally: MainActivity.this
-                tasksRecList.setAdapter(tasksAdapter);
+//                tasksAdapter = new TasksAdapter(AllTasksActivity.this, tasksList); //TODO: originally: MainActivity.this
+//                tasksRecList.setAdapter(tasksAdapter);
+                tasksAdapter.setAllTasks(tasksList);
                 tasksAdapter.notifyDataSetChanged();
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(),"Error pulling data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllTasksActivity.this,"Error pulling data", Toast.LENGTH_SHORT).show();
             }
         });
-
-        return view;
 
     }
 }
