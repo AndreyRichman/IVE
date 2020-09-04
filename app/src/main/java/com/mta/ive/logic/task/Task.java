@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Task {
     private String taskID;
-    private String title = "";
+    private String name = "";
     private String description = "";
     private String duration = "";
 
@@ -20,8 +20,8 @@ public class Task {
 
     }
 
-    public Task(String title, String description, String duration){
-        this.title = title;
+    public Task(String name, String description, String duration){
+        this.name = name;
         this.description = description;
         this.duration = duration;
     }
@@ -35,12 +35,12 @@ public class Task {
         this.taskID = taskID;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

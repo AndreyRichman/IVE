@@ -37,15 +37,16 @@
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp">
+
         <TextView
-            android:layout_width="match_parent"
-            android:gravity="right"
-            android:layout_height="wrap_content"
             android:id="@+id/taskDuration"
-            android:textSize="18sp"
-            android:textColor="#F63EA5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:gravity="left"
             android:text="30 Minutes"
+            android:textColor="#F63EA5"
+            android:textSize="18sp"
 
             />
     </LinearLayout>
