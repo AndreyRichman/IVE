@@ -1,12 +1,10 @@
 package com.mta.ive.pages.home;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -21,10 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
 import com.mta.ive.logic.task.Task;
-import com.mta.ive.pages.home.addtask.AddTaskFragment;
-import com.mta.ive.pages.home.home.HomeFragment;
-import com.mta.ive.pages.home.location.LocationFragment;
-import com.mta.ive.pages.home.user.UserFragment;
 import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
@@ -50,39 +44,47 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    Fragment selectedFragment = null;
-
-                    switch (menuItem.getItemId()){
-                        case R.id.navigation_location:
-                            selectedFragment = new LocationFragment();
-                            TasksAdapter adapter = getTasksAdapter();
-                            ((LocationFragment)selectedFragment).setTasksAdapter(adapter);
-
-                            break;
-                        case R.id.navigation_home:
-                            selectedFragment = new HomeFragment();
-                            break;
-
-                        case R.id.navigation_add:
-                            selectedFragment = new AddTaskFragment();
-                            break;
-
-                        case R.id.navigation_user:
-                            selectedFragment = new UserFragment();
-                            break;
-                    }
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                            selectedFragment).commit();
-
-//                    updateLocationFragment();
-                    return true;
-                }
-            };
+    //TODO deide if this is needed or cn be removed
+//    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+//            new BottomNavigationView.OnNavigationItemSelectedListener() {
+//                @Override
+//                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//                    Fragment selectedFragment = null;
+//
+//                    switch (menuItem.getItemId()){
+//                        case R.id.navigation_location:
+//                            selectedFragment = new LocationFragment();
+//                            TasksAdapter adapter = getTasksAdapter();
+//                            ((LocationFragment)selectedFragment).setTasksAdapter(adapter);
+//
+//                            break;
+//                        case R.id.navigation_home:
+//                            selectedFragment = new HomeFragment();
+//                            break;
+//
+//                        case R.id.navigation_add:
+////                            selectedFragment = new AddTaskFragment();
+//
+//                            Intent newTaskPage = new Intent(HomeActivity.this, NewTaskActivity.class);
+//                            startActivity(newTaskPage);
+//
+////                            setContentView(R.layout.activity_new_task);
+//                            return false;
+//
+////                            break;
+//
+//                        case R.id.navigation_user:
+//                            selectedFragment = new UserFragment();
+//                            break;
+//                    }
+//
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+//                            selectedFragment).commit();
+//
+////                    updateLocationFragment();
+//                    return true;
+//                }
+//            };
 
     DatabaseReference reference;
     RecyclerView tasksRecList;
