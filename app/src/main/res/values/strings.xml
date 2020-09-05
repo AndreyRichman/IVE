@@ -19,4 +19,11 @@
             <item>Cafe Zorro</item>
     </string-array>
 
+        <string-array name="priority_array">
+            <item>1 - ASAP</item>
+            <item>2 - Can Wait</item>
+            <item>3 - When Can</item>
+        </string-array>
+
+
     </resources>
