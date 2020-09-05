@@ -1,22 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.ui.location.LocationFragment">
+    android:background="#F4F4F4"
+    android:orientation="vertical"
+    android:paddingBottom="60dp"
+    tools:context=".pages.home.location.LocationFragment">
 
-    <TextView
-        android:id="@+id/text_home"
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="198dp"
+        android:background="@color/background_color"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tasksListMainTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Work"
+            android:textAlignment="center"
+            android:textColor="#FFF"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/tasksListSubTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Showing tasks by urgency"
+            android:textAlignment="center"
+
+            android:textColor="#4A4E6A"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="#131E69" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/tasksRecycleList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="-60dp"
+        android:layout_marginRight="16dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+
+        android:id="@+id/tasksListBottomText"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="30dp"
+        android:text="That's it!"
         android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textColor="#9A9A9A"
+        android:textSize="16dp" />
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/text_home"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+</LinearLayout>

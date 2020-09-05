@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.ui.addtask.AddTaskFragment">
+    tools:context=".pages.home.addtask.AddTaskFragment">
 
     <TextView
         android:id="@+id/text_dashboard"
@@ -19,4 +19,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/addTaskButton"
+        android:layout_width="254dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="80dp"
+        android:text="Add Task"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/addLocationBtn"
+        android:layout_width="254dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="80dp"
+        android:text="Add Location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTaskButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

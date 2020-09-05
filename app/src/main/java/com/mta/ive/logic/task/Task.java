@@ -6,22 +6,57 @@ import java.util.Date;
 
 public class Task {
     private String taskID;
-    private String title = "";
+    private String name = "";
+    private String description = "";
+    private String duration = "";
+
     private int urgency;
     private int estimatedDurationMinutes;
     private Location location ;
     //optional//
     private Date dueDate;
-    private String description = "";
 
     public Task() {
 
     }
 
+    public Task(String name, String description, String duration){
+        this.name = name;
+        this.description = description;
+        this.duration = duration;
+    }
 
-    public String getTitle() {
 
-        return title;
+    public String getTaskID() {
+        return taskID;
+    }
+
+    public void setTaskID(String taskID) {
+        this.taskID = taskID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 }
 

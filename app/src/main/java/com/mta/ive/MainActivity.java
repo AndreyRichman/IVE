@@ -6,12 +6,12 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mta.ive.pages.AllTasksActivity;
-import com.mta.ive.pages.HomeActivity;
-import com.mta.ive.pages.LobbyActivity;
-import com.mta.ive.pages.LoginActivity;
-import com.mta.ive.pages.NewTaskActivity;
-import com.mta.ive.pages.SignUpActivity;
+import com.mta.ive.pages.task.AllTasksActivity;
+import com.mta.ive.pages.home.HomeActivity;
+import com.mta.ive.pages.delete.LobbyActivity;
+import com.mta.ive.pages.login.LoginActivity;
+import com.mta.ive.pages.task.NewTaskActivity;
+import com.mta.ive.pages.login.SignUpActivity;
 
 
 public class MainActivity extends AppCompatActivity {

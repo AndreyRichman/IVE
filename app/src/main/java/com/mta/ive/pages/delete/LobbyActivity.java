@@ -1,4 +1,4 @@
-package com.mta.ive.pages;
+package com.mta.ive.pages.delete;
 
 import android.os.Bundle;
 
@@ -11,7 +11,7 @@ public class LobbyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lobby);
+        setContentView(R.layout.delete_activity_lobby);
 
 
 
