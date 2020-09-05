@@ -36,7 +36,7 @@ public class AllTasksActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_location);
+        setContentView(R.layout.fragment_tasks_by_location);
 
 
         tasksRecList = findViewById(R.id.tasksRecycleList);

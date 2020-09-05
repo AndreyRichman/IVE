@@ -1,4 +1,4 @@
-package com.mta.ive.pages.home.location;
+package com.mta.ive.pages.home.tasksbylocation;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,7 +23,7 @@ import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
 
-public class LocationFragment extends Fragment {
+public class TasksByLocationFragment extends Fragment {
 
     private TextView mainTitle, subTitle, bottomText;
     DatabaseReference reference;
@@ -40,7 +40,7 @@ public class LocationFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         tasksList = new ArrayList<>();
-        View view = inflater.inflate(R.layout.fragment_location, container, false);
+        View view = inflater.inflate(R.layout.fragment_tasks_by_location, container, false);
         tasksRecList = view.findViewById(R.id.tasksRecycleList);
         tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));

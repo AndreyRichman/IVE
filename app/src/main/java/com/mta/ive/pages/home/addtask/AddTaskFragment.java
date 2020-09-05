@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -27,8 +26,8 @@ public class AddTaskFragment extends Fragment {
 
 //        View buttonAddNewTask = container.findViewById(R.id.addTaskButton);
 
-        View view = inflater.inflate(R.layout.fragment_add, container, false);
-        Button addTaskButton = (Button) view.findViewById(R.id.addTaskButton);
+//        View view = inflater.inflate(R.layout.fragment_add, container, false);
+//        Button addTaskButton = (Button) view.findViewById(R.id.addTaskButton);
 
 //        addTaskButton.setOnClickListener(view1 -> {
 //            Intent intent = new Intent(getActivity(),NewTaskActivity.class);
@@ -38,7 +37,7 @@ public class AddTaskFragment extends Fragment {
 ////            startActivity(intent);
 //        });
 
-        return inflater.inflate(R.layout.fragment_add, container, false);
+        return inflater.inflate(R.layout.fragment_task_edit, container, false);
 
 //
 //        addTaskViewModel =
@@ -67,7 +66,7 @@ public class AddTaskFragment extends Fragment {
 //        });
 ////        Intent intent = new Intent(getActivity(), NewTaskActivity.class);
 ////        startActivity(intent);
-////        View view = inflater.inflate(R.layout.fragment_location, container, false);
+////        View view = inflater.inflate(R.layout.fragment_tasks_by_location, container, false);
 ////        Intent newTaskPage = new Intent(view.getContext(), NewTaskActivity.class);
 ////        newTaskPage.putExtra("PAGE_NAME", "NEW TASK PAGE");
 ////        startActivity(newTaskPage);
