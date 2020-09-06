@@ -1,18 +1,17 @@
 package com.mta.ive.vm.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mta.ive.R;
 import com.mta.ive.logic.task.Task;
-import com.mta.ive.pages.home.addtask.AddTaskFragment;
+import com.mta.ive.pages.home.HomeActivity;
 
 import java.util.ArrayList;
 
@@ -54,17 +53,36 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
         tasksHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent editTaskPage = new Intent(context, AddTaskFragment.class);
-//                View root = view.getRootView();
-//                Activity activity = (Activity) root.getContext();
-//                activity.getFragmentManager().beginTransaction().replace(R.id.nav_view, (Fragment) new AddTaskFragment()).commit();
-//                ((FragmentActivity) view.getContext()).getFragmentManager().beginTransaction()
-//                        .replace(R.id.nav_view , new AddTaskFragment())
-//                        .commit();
-                ((FragmentActivity)view.getContext()).getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_view, new AddTaskFragment())
-                                .commit();
+
+//                view.findViewById(R.id.navigation_add).callOnClick();
+
+//                view.getRootView().findViewById(R.id.navigation_add).callOnClick();
+
+                String taskName = allTasks.get(position).getName();
+                String taskDescription = allTasks.get(position).getDescription();
+                String taskDuration = allTasks.get(position).getDuration();
+                int taskId = allTasks.get(position).getId();
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("taskId", taskId);
+                ((HomeActivity)context).openEditTaskPage(bundle);
+//                TextView v = view.getRootView().findViewById(R.id.task_name);
+//                v.setText("Andreyyyy");
+
+
+//                 setContentView(R.layout.activity_home);
+
+//                view.getRootView().findViewById(R.layout)
+//                Intent editTaskPage = new Intent(context, AddTaskFragment.class);
+
+//                Fragment currentFragment = ((FragmentActivity) view.getContext()).getSupportFra
+//                ((FragmentActivity)view.getContext()).getSupportFragmentManager()
+//                        .beginTransaction()
+//
+////                        .hide(view.getRootView().getF)
+////                        .show( new TasksByLocationFragment())
+//                        .replace(R.id.contentFragment, new AddTaskFragment())
+//                                .commit();
             }
         });
     }

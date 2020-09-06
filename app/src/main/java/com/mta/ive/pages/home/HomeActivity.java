@@ -1,24 +1,19 @@
 package com.mta.ive.pages.home;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
 import com.mta.ive.logic.task.Task;
+import com.mta.ive.pages.home.addtask.EditExistingTaskActivity;
 import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
@@ -91,42 +86,52 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<Task> tasksList;
     TasksAdapter tasksAdapter;
 
-    public TasksAdapter getTasksAdapter(){
-        tasksList = new ArrayList<>();
-
-        tasksAdapter = new TasksAdapter(HomeActivity.this, tasksList); //TODO: originally: MainActivity.this
-
-        return tasksAdapter;
-    }
-    private void updateLocationFragment(){
-        tasksRecList = findViewById(R.id.tasksRecycleList);
-        tasksRecList.setLayoutManager(new LinearLayoutManager(this)); //TODO: originally: this
-        tasksList = new ArrayList<>();
+//    public TasksAdapter getTasksAdapter(){
+//        tasksList = new ArrayList<>();
 //
-//        //Get data from DB
-        reference = FirebaseDatabase.getInstance().getReference().child("task");
+//        tasksAdapter = new TasksAdapter(HomeActivity.this, tasksList); //TODO: originally: MainActivity.this
+//
+//        return tasksAdapter;
+//    }
+//    public void updateLocationFragment(){
+//        tasksRecList = findViewById(R.id.tasksRecycleList);
+//        tasksRecList.setLayoutManager(new LinearLayoutManager(this)); //TODO: originally: this
+//        tasksList = new ArrayList<>();
+////
+////        //Get data from DB
+//        reference = FirebaseDatabase.getInstance().getReference().child("task");
+//
+//        tasksAdapter = new TasksAdapter(HomeActivity.this, tasksList); //TODO: originally: MainActivity.this
+//        tasksRecList.setAdapter(tasksAdapter);
+//
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+//                    Task task = dataSnapshot1.getValue(Task.class);
+//                    tasksList.add(task);
+//                }
+//
+//                tasksAdapter = new TasksAdapter(HomeActivity.this, tasksList); //TODO: originally: MainActivity.this
+//                tasksRecList.setAdapter(tasksAdapter);
+//                tasksAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Toast.makeText(HomeActivity.this,"Error pulling data", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
-        tasksAdapter = new TasksAdapter(HomeActivity.this, tasksList); //TODO: originally: MainActivity.this
-        tasksRecList.setAdapter(tasksAdapter);
+    public void openEditTaskPage(Bundle bundle){
+//        findViewById(R.id.navigation_add).callOnClick();
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-                    Task task = dataSnapshot1.getValue(Task.class);
-                    tasksList.add(task);
-                }
 
-                tasksAdapter = new TasksAdapter(HomeActivity.this, tasksList); //TODO: originally: MainActivity.this
-                tasksRecList.setAdapter(tasksAdapter);
-                tasksAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(HomeActivity.this,"Error pulling data", Toast.LENGTH_SHORT).show();
-            }
-        });
+        Intent editTaskPage = new Intent(this, EditExistingTaskActivity.class);
+        editTaskPage.putExtras(bundle);
+        startActivity(editTaskPage);
+//        tasksAdapter.notifyDataSetChanged();
     }
 }

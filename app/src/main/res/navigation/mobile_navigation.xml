@@ -21,7 +21,7 @@
         android:id="@+id/navigation_add"
         android:name="com.mta.ive.pages.home.addtask.AddTaskFragment"
         android:label="@string/title_add"
-        tools:layout="@layout/fragment_add" />
+        tools:layout="@layout/delete_fragment_add" />
 
     <fragment
         android:id="@+id/navigation_user"

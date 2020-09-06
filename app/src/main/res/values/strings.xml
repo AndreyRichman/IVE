@@ -12,18 +12,18 @@
 
     // static array to fill spinner(drop down menu) in fragmant_task_edit
     <string-array name="brew_array">
-            <item>Cappuccino</item>
-            <item>Espresso</item>
-            <item>Mocha</item>
-            <item>Caffè Americano</item>
-            <item>Cafe Zorro</item>
+        <item>Cappuccino</item>
+        <item>Espresso</item>
+        <item>Mocha</item>
+        <item>Caffè Americano</item>
+        <item>Cafe Zorro</item>
     </string-array>
 
-        <string-array name="priority_array">
-            <item>1 - ASAP</item>
-            <item>2 - Can Wait</item>
-            <item>3 - When Can</item>
-        </string-array>
+    <string-array name="priority_array">
+        <item>1 - ASAP</item>
+        <item>2 - Can Wait</item>
+        <item>3 - When Can</item>
+    </string-array>
 
 
-    </resources>
+</resources>

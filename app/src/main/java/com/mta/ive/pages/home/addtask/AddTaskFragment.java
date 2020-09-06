@@ -48,12 +48,13 @@ public class AddTaskFragment extends Fragment {
                 Toast.makeText(getContext(), "Task was added", Toast.LENGTH_SHORT).show();
 
                 Task task = new Task();
-                int taskId = task.getTaskID();
+                int taskId = task.getId();
                 databaseReference = FirebaseDatabase.getInstance().getReference()
                         .child("task").child(String.valueOf(taskId));
 
                 task.setName(nameTextField.getText().toString());
                 task.setDescription(descriptionTextField.getText().toString());
+                task.setDuration(duration.getText().toString());
                 databaseReference.setValue(task);
 
             }
