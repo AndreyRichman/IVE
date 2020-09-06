@@ -46,6 +46,10 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null){
+            updateUI(user);
+        }
 
         signInRegularBtn.setOnClickListener(new View.OnClickListener() {
             @Override
