@@ -22,6 +22,8 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
+    String userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,12 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        userName = getIntent().getStringExtra("userName");
+    }
+
+    public String getUserName(){
+        return userName;
     }
 
     //TODO deide if this is needed or cn be removed

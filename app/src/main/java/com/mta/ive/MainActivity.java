@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mta.ive.pages.login.SignUpInActivity;
 import com.mta.ive.pages.task.AllTasksActivity;
 import com.mta.ive.pages.home.HomeActivity;
 import com.mta.ive.pages.delete.LobbyActivity;
@@ -23,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    public void openSignUpInPage(View btn) {
+        Intent loginPage = new Intent(this, SignUpInActivity.class);
+        startActivity(loginPage);
+    }
 
     public void openLoginPage(View btn) {
         Intent loginPage = new Intent(this, LoginActivity.class);
