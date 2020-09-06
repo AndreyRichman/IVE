@@ -17,6 +17,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/turkiz200" />
 
+
+
     <TextView
         android:id="@+id/text_edit_header"
         android:layout_width="wrap_content"
@@ -32,7 +34,9 @@
         android:id="@+id/constraintLayout"
         android:layout_width="404dp"
         android:layout_height="382dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_edit_header">
 
@@ -118,10 +122,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Mark as Done"
+            android:text="Mark Task as Done"
             android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.451"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
@@ -131,22 +135,23 @@
         android:id="@+id/save_button"
         android:layout_width="100dp"
         android:layout_height="40dp"
+        android:layout_marginStart="70dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="90dp"
         android:background="@drawable/rounded_corners"
         android:text="Save"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/delete_button"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.205" />
 
     <Button
         android:id="@+id/delete_button"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginEnd="70dp"
         android:layout_marginBottom="90dp"
         android:background="@drawable/rounded_corners"
         android:text="Delete"
@@ -154,7 +159,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.505" />
+        app:layout_constraintVertical_bias="0.508" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
