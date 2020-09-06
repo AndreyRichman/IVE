@@ -4,72 +4,62 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mta.ive.R;
+import com.mta.ive.logic.task.Task;
 
 
 public class AddTaskFragment extends Fragment {
 
-//    private AddTaskViewModel addTaskViewModel;
-    LayoutInflater inflater;
-    ViewGroup container;
+    Button saveBtn;
+    Button deleteBtn;
+    DatabaseReference databaseReference;
+    TextView nameTextField, descriptionTextField, duration;
+    Spinner urgency;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        this.inflater = inflater;
-        this.container = container;
+        View view = inflater.inflate(R.layout.fragment_task_edit, container, false);
+        nameTextField = view.findViewById(R.id.task_name);
+        duration = view.findViewById(R.id.duration);
+        descriptionTextField = view.findViewById(R.id.description);
+        urgency = view.findViewById(R.id.urgency);
+
+        saveBtn = view.findViewById(R.id.save_button);
+        deleteBtn = view.findViewById(R.id.delete_button);
+        Toast.makeText(view.getContext(),"New Task Page", Toast.LENGTH_SHORT).show();
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick (View btn){
+
+                Toast.makeText(getContext(), "Task was added", Toast.LENGTH_SHORT).show();
+
+                Task task = new Task();
+                int taskId = task.getTaskID();
+                databaseReference = FirebaseDatabase.getInstance().getReference()
+                        .child("task").child(String.valueOf(taskId));
+
+                task.setName(nameTextField.getText().toString());
+                task.setDescription(descriptionTextField.getText().toString());
+                databaseReference.setValue(task);
+
+            }
+        });
 
 
-//        View buttonAddNewTask = container.findViewById(R.id.addTaskButton);
-
-//        View view = inflater.inflate(R.layout.fragment_add, container, false);
-//        Button addTaskButton = (Button) view.findViewById(R.id.addTaskButton);
-
-//        addTaskButton.setOnClickListener(view1 -> {
-//            Intent intent = new Intent(getActivity(),NewTaskActivity.class);
-//            getActivity().startActivity(intent);
-//
-////            Intent intent = new Intent(container.getContext(), NewTaskActivity.class);
-////            startActivity(intent);
-//        });
-
-        return inflater.inflate(R.layout.fragment_task_edit, container, false);
-
-//
-//        addTaskViewModel =
-//                ViewModelProviders.of(this).get(AddTaskViewModel.class);
-//        View root = inflater.inflate(R.layout.fragment_add, container, false);
-//        final TextView textView = root.findViewById(R.id.text_dashboard);
-//        addTaskViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
-//        return root;
+        return view;//inflater.inflate(R.layout.fragment_task_edit, container, false);
     }
-
-//    public void openNewTaskPage(View btn){
-//        getActivity().startActivity(getContext(), NewTaskActivity.class);
-//        Intent intent = new Intent(container.getContext(), NewTaskActivity.class);
-//        startActivity(intent);
-//        View view = inflater.inflate(R.layout.fragment_add, container, false);
-//        Button addTaskButton = (Button) view.findViewById(R.id.addTaskButton);
-//
-//        addTaskButton.setOnClickListener(view1 -> {
-//            Intent intent = new Intent(container.getContext(), NewTaskActivity.class);
-//            startActivity(intent);
-//        });
-////        Intent intent = new Intent(getActivity(), NewTaskActivity.class);
-////        startActivity(intent);
-////        View view = inflater.inflate(R.layout.fragment_tasks_by_location, container, false);
-////        Intent newTaskPage = new Intent(view.getContext(), NewTaskActivity.class);
-////        newTaskPage.putExtra("PAGE_NAME", "NEW TASK PAGE");
-////        startActivity(newTaskPage);
-//
-//    }
 }

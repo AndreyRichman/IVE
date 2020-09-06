@@ -1,14 +1,18 @@
 package com.mta.ive.vm.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mta.ive.R;
 import com.mta.ive.logic.task.Task;
+import com.mta.ive.pages.home.addtask.AddTaskFragment;
 
 import java.util.ArrayList;
 
@@ -46,6 +50,23 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
         String duration = allTasks.get(position).getDuration() + " Minutes";
 
         tasksHolder.taskDuration.setText(duration);
+
+        tasksHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent editTaskPage = new Intent(context, AddTaskFragment.class);
+//                View root = view.getRootView();
+//                Activity activity = (Activity) root.getContext();
+//                activity.getFragmentManager().beginTransaction().replace(R.id.nav_view, (Fragment) new AddTaskFragment()).commit();
+//                ((FragmentActivity) view.getContext()).getFragmentManager().beginTransaction()
+//                        .replace(R.id.nav_view , new AddTaskFragment())
+//                        .commit();
+                ((FragmentActivity)view.getContext()).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_view, new AddTaskFragment())
+                                .commit();
+            }
+        });
     }
 
     @Override
