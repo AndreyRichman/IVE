@@ -111,14 +111,14 @@ public class LoginActivity extends AppCompatActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
         if (account != null){
-            String personName = account.getDisplayName();
+            String personName = account.getGivenName();
             String personEmail = account.getEmail();
             String personId = account.getId();
 
             Toast.makeText(LoginActivity.this, "Welcome " + personName, Toast.LENGTH_SHORT).show();
 
             Intent homePage = new Intent(this, HomeActivity.class);
-            homePage.putExtra("user", account);
+            homePage.putExtra("userName", personName);
             startActivity(homePage);
         }
     }

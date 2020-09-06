@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
 import com.mta.ive.logic.task.Task;
+import com.mta.ive.pages.home.HomeActivity;
 import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class TasksByLocationFragment extends Fragment {
         tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
 
+        updateUserTitle(view);
+
 
         reference = FirebaseDatabase.getInstance().getReference().child("task");
 
@@ -70,5 +73,12 @@ public class TasksByLocationFragment extends Fragment {
 
         return view;
 
+    }
+
+    private void updateUserTitle(View view) {
+        String username = ((HomeActivity)getActivity()).getUserName();
+
+        TextView title = view.findViewById(R.id.tasksListMainTitle);
+        title.setText("Hello "+ username + "! You are at Work");
     }
 }
