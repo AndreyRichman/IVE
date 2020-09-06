@@ -5,10 +5,12 @@ import android.location.Location;
 import java.util.Date;
 
 public class Task {
-    private String taskID;
+    private int id;
     private String name = "";
     private String description = "";
     private String duration = "";
+
+    public static int uniqueTaskId = 777;
 
     private int urgency;
     private int estimatedDurationMinutes;
@@ -17,7 +19,7 @@ public class Task {
     private Date dueDate;
 
     public Task() {
-
+        id = uniqueTaskId++;
     }
 
     public Task(String name, String description, String duration){
@@ -27,12 +29,12 @@ public class Task {
     }
 
 
-    public String getTaskID() {
-        return taskID;
+    public int getId() {
+        return this.id;
     }
 
-    public void setTaskID(String taskID) {
-        this.taskID = taskID;
+    public void setTaskID(int id) {
+        this.id = id;
     }
 
     public String getName() {

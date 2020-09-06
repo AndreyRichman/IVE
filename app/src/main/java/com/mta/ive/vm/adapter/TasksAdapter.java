@@ -1,7 +1,9 @@
 package com.mta.ive.vm.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mta.ive.R;
 import com.mta.ive.logic.task.Task;
+import com.mta.ive.pages.home.HomeActivity;
 
 import java.util.ArrayList;
 
@@ -46,6 +49,42 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
         String duration = allTasks.get(position).getDuration() + " Minutes";
 
         tasksHolder.taskDuration.setText(duration);
+
+        tasksHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+//                view.findViewById(R.id.navigation_add).callOnClick();
+
+//                view.getRootView().findViewById(R.id.navigation_add).callOnClick();
+
+                String taskName = allTasks.get(position).getName();
+                String taskDescription = allTasks.get(position).getDescription();
+                String taskDuration = allTasks.get(position).getDuration();
+                int taskId = allTasks.get(position).getId();
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("taskId", taskId);
+                ((HomeActivity)context).openEditTaskPage(bundle);
+//                TextView v = view.getRootView().findViewById(R.id.task_name);
+//                v.setText("Andreyyyy");
+
+
+//                 setContentView(R.layout.activity_home);
+
+//                view.getRootView().findViewById(R.layout)
+//                Intent editTaskPage = new Intent(context, AddTaskFragment.class);
+
+//                Fragment currentFragment = ((FragmentActivity) view.getContext()).getSupportFra
+//                ((FragmentActivity)view.getContext()).getSupportFragmentManager()
+//                        .beginTransaction()
+//
+////                        .hide(view.getRootView().getF)
+////                        .show( new TasksByLocationFragment())
+//                        .replace(R.id.contentFragment, new AddTaskFragment())
+//                                .commit();
+            }
+        });
     }
 
     @Override
