@@ -38,7 +38,7 @@ public class AddTaskFragment extends Fragment {
 
         saveBtn = view.findViewById(R.id.save_button);
         deleteBtn = view.findViewById(R.id.delete_button);
-        Toast.makeText(view.getContext(),"New Task Page", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(view.getContext(),"New Task Page", Toast.LENGTH_SHORT).show();
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -57,6 +57,8 @@ public class AddTaskFragment extends Fragment {
                 task.setDuration(duration.getText().toString());
 
                 LogicHandler.saveTask(task);
+
+                btn.getRootView().findViewById(R.id.navigation_location).callOnClick();
 
 //                databaseReference.setValue(task);
 

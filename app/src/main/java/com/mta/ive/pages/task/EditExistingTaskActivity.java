@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +51,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 
                 updateTaskByFields(taskId);
                 finish();
+                Toast.makeText(btn.getRootView().getContext(),"Task saved", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -59,6 +61,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
             public void onClick (View btn){
                 deleteTaskById(taskId);
                 finish();
+                Toast.makeText(btn.getRootView().getContext(),"Task deleted", Toast.LENGTH_SHORT).show();
             }
         });
 

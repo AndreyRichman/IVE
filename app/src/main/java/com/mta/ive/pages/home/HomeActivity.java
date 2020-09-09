@@ -151,4 +151,8 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(editTaskPage);
 //        tasksAdapter.notifyDataSetChanged();
     }
+
+//    public void goToTasksLocationPage(){
+//        findViewById(R.id.navigation_location).callOnClick();
+//    }
 }
