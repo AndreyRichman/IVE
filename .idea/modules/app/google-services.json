@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "82302532744",
+    "firebase_url": "https://ivefirebaseproject.firebaseio.com",
+    "project_id": "ivefirebaseproject",
+    "storage_bucket": "ivefirebaseproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82302532744:android:ce21d2ace580d98f4eb33d",
+        "android_client_info": {
+          "package_name": "com.example.ive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "82302532744-8787n48pdl5dbusdgcjv1i2hksa8e9vl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ive",
+            "certificate_hash": "dbdcd2dc0e9a4e795fcf38fc4e32efb53fa529fa"
+          }
+        },
+        {
+          "client_id": "82302532744-sq3j2ici23n0viifob6shsdvs0k5icqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApRYb0IdjroFCML9ms81KkHhU31qfXgFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "82302532744-sq3j2ici23n0viifob6shsdvs0k5icqb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
