@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.task.Task;
-import com.mta.ive.pages.task.EditExistingTaskActivity;
+import com.mta.ive.pages.home.addtask.EditExistingTaskActivity;
 import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;

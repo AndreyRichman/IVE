@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".pages.login.SignUpInActivity"></activity>
-        <activity android:name=".pages.task.EditExistingTaskActivity" />
+        <activity android:name=".pages.home.addtask.EditExistingTaskActivity" />
         <activity android:name=".pages.login.SignUpActivity" />
         <activity android:name=".pages.delete.AllTasksActivity" />
         <activity android:name=".pages.home.HomeActivity" />
