@@ -1,4 +1,4 @@
-package com.mta.ive.pages.task;
+package com.mta.ive.pages.delete;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +36,7 @@ public class AllTasksActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_tasks_by_location2);
+        setContentView(R.layout.delete_fragment_tasks_by_location2);
 
 
         tasksRecList = findViewById(R.id.tasksRecycleList);

@@ -1,4 +1,4 @@
-package com.mta.ive.pages.home.addtask;
+package com.mta.ive.pages.task;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,16 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
+import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.task.Task;
 
 public class EditExistingTaskActivity extends AppCompatActivity {
 
     EditText taskName, taskDescription, taskDuration;
 
-    int taskId;
+    String taskId;
 
     DatabaseReference databaseReference;
 
@@ -35,7 +35,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 
 
         Bundle bundle = getIntent().getExtras();
-        this.taskId = bundle.getInt("taskId");
+        this.taskId = bundle.getString("taskId");
 
 
         Button saveBtn = findViewById(R.id.save_button);
@@ -71,18 +71,21 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         });
     }
 
-    private void readTaskFromDB(int taskId){
-        databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("task").child(String.valueOf(taskId));
+    private void readTaskFromDB(String taskId){
+        databaseReference = LogicHandler.getTaskDBReferenceById(taskId);
+//        databaseReference = FirebaseDatabase.getInstance().getReference()
+//                .child("task").child(String.valueOf(taskId));
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Task task = snapshot.getValue(Task.class);
+                if (snapshot != null) {
+                    Task task = snapshot.getValue(Task.class);
 
-                taskName.setText(task.getName());
-                taskDuration.setText(task.getDuration());
-                taskDescription.setText(task.getDescription());
+                    taskName.setText(task.getName());
+                    taskDuration.setText(task.getDuration());
+                    taskDescription.setText(task.getDescription());
+                }
             }
 
             @Override
@@ -91,9 +94,12 @@ public class EditExistingTaskActivity extends AppCompatActivity {
             }
         });
     }
-    private void updateTaskByFields(int taskId){
-        databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("task").child(String.valueOf(taskId));
+    private void updateTaskByFields(String taskId){
+
+
+        databaseReference = LogicHandler.getTaskDBReferenceById(taskId);
+//        databaseReference = FirebaseDatabase.getInstance().getReference()
+//                .child("task").child(String.valueOf(taskId));
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -104,7 +110,8 @@ public class EditExistingTaskActivity extends AppCompatActivity {
                 task.setDescription(taskDescription.getText().toString());
                 task.setDuration(taskDuration.getText().toString());
 
-                databaseReference.setValue(task);
+                LogicHandler.updateExistingTask(task);// saveTask(task);
+//                databaseReference.setValue(task);
             }
 
             @Override
@@ -114,8 +121,9 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         });
     }
 
-    private void deleteTaskById(int idToDelete){
-        FirebaseDatabase.getInstance().getReference()
-                .child("task").child(String.valueOf(taskId)).removeValue();
+    private void deleteTaskById(String idToDelete){
+        LogicHandler.deleteTaskById(idToDelete);
+//        FirebaseDatabase.getInstance().getReference()
+//                .child("task").child(String.valueOf(taskId)).removeValue();
     }
 }

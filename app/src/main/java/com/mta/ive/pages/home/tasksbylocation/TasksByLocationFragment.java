@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
+import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.pages.home.HomeActivity;
 import com.mta.ive.vm.adapter.TasksAdapter;
@@ -44,16 +44,19 @@ public class TasksByLocationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tasks_by_location, container, false);
         tasksRecList = view.findViewById(R.id.tasksRecycleList);
         tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
+//        tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
 
         updateUserTitle(view);
 
 
-        reference = FirebaseDatabase.getInstance().getReference().child("task");
+//        reference = FirebaseDatabase.getInstance().getReference().child("task");
+
+        reference = LogicHandler.getAllTasksDBReference();
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                tasksList = new ArrayList<>();
                 for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
                     Task task = dataSnapshot1.getValue(Task.class);
                     tasksList.add(task);
