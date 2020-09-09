@@ -1,40 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="70dp">
+    android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/linear_logo"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.057"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/turkiz200" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.057"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/turkiz200" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/text_edit_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Task"
+        android:layout_marginTop="8dp"
+        android:text="Task Edit"
         android:textColor="#333333"
         android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/linear_logo" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="406dp"
-        android:layout_height="350dp"
-        android:layout_marginTop="16dp"
+        android:id="@+id/page_fields"
+        android:layout_width="404dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_edit_header">
 
@@ -42,6 +51,7 @@
             android:id="@+id/task_name"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="Task Name"
             android:inputType="textPersonName"
@@ -55,7 +65,7 @@
             android:id="@+id/task_location"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="14dp"
             android:background="@android:drawable/btn_dropdown"
 
             android:spinnerMode="dropdown"
@@ -67,7 +77,7 @@
             android:id="@+id/duration"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="14dp"
             android:ems="10"
             android:hint="Est. Duration (in min)"
             android:inputType="number"
@@ -80,18 +90,19 @@
             android:id="@+id/urgency"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="14dp"
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/duration" />
+            app:layout_constraintTop_toBottomOf="@+id/duration"
+            tools:layout_editor_absoluteX="130dp" />
 
         <EditText
             android:id="@+id/description"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="22dp"
             android:ems="10"
             android:hint="Description (op)"
             android:inputType="textPersonName"
@@ -104,41 +115,88 @@
             android:id="@+id/editTextDate"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="14dp"
             android:ems="10"
             android:hint="Due Date (op)"
             android:inputType="date"
             android:textSize="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description" />
+            app:layout_constraintTop_toBottomOf="@+id/description"
+            tools:layout_editor_absoluteX="130dp" />
 
         <CheckBox
             android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Mark Task as Done"
+            android:layout_marginTop="16dp"
+            android:text="Mark as Done"
             android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.451"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/save_button"
-        android:layout_width="155dp"
-        android:layout_height="38dp"
-        android:background="@drawable/rounded_corners"
-        android:text="Save"
-        android:textColor="#FFFFFF"
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/page_fields"
+        tools:layout_editor_absoluteX="16dp">
 
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_corners"
+            android:text="Save"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toStartOf="@+id/delete_button"
+            tools:layout_editor_absoluteY="554dp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"></Space>
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_corners"
+            android:text="Delete"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toStartOf="@+id/cancel_button"
+            tools:layout_editor_absoluteY="554dp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"></Space>
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_corners"
+            android:text="Cancel"
+            android:textColor="#FFFFFF" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"></Space>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,7 +27,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_existing_task);
+        setContentView(R.layout.activity_edit_existing_task2);
 
         taskName = findViewById(R.id.task_name);
         taskDescription = findViewById(R.id.description);

@@ -26,11 +26,11 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/settings_header"
+        android:id="@+id/personal_settings_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="App Settings"
+        android:text="Personal Settings"
         android:textColor="#333333"
         android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,56 +46,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_header">
+        app:layout_constraintTop_toBottomOf="@+id/personal_settings_header">
 
-
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="160dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="32dp"
-            android:text="Consider Due Dates in Task Scheduling"
-            android:textSize="14dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTime2" />
-
-        <Spinner
-            android:id="@+id/SchedulingPolicy"
-            android:layout_width="160dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="32dp"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
         <EditText
-            android:id="@+id/editTextTime"
-            android:layout_width="160dp"
+            android:id="@+id/username"
+            android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:ems="10"
-            android:hint="Beginning of day (hour)"
-            android:inputType="time"
+            android:hint="Username"
+            android:inputType="textPersonName"
             android:textSize="15dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTime2"
-            android:layout_width="160dp"
+            android:id="@+id/password"
+            android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_marginTop="32dp"
             android:ems="10"
-            android:hint="End of day (hour)"
-            android:inputType="time"
+            android:hint="Password"
+            android:inputType="textPassword"
             android:textSize="15dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTime" />
+            app:layout_constraintTop_toBottomOf="@+id/username" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="32dp"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -108,7 +104,8 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/page_fields"
-        tools:layout_editor_absoluteX="16dp">
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
 
         <Space
             android:layout_width="0dp"
@@ -116,7 +113,7 @@
             android:layout_weight="1"></Space>
 
         <Button
-            android:id="@+id/delete_button"
+            android:id="@+id/save_button"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:background="@drawable/rounded_corners"
@@ -144,6 +141,5 @@
             android:layout_weight="1"></Space>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

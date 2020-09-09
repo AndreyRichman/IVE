@@ -9,7 +9,7 @@
         android:id="@+id/navigation_location"
         android:name="com.mta.ive.pages.home.tasksbylocation.TasksByLocationFragment"
         android:label="@string/title_location"
-        tools:layout="@layout/fragment_tasks_by_location" />
+        tools:layout="@layout/fragment_tasks_by_location2" />
 
     <fragment
         android:id="@+id/navigation_home"
