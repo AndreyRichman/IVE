@@ -41,7 +41,7 @@ public class TasksByLocationFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         tasksList = new ArrayList<>();
-        View view = inflater.inflate(R.layout.fragment_tasks_by_location, container, false);
+        View view = inflater.inflate(R.layout.fragment_tasks_by_location2, container, false);
         tasksRecList = view.findViewById(R.id.tasksRecycleList);
         tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
@@ -79,6 +79,6 @@ public class TasksByLocationFragment extends Fragment {
         String username = ((HomeActivity)getActivity()).getUserName();
 
         TextView title = view.findViewById(R.id.tasksListMainTitle);
-        title.setText("Hello "+ username + "! You are at Work");
+        title.setText("Hello "+ username + "! \n Here are your tasks at Work:");
     }
 }

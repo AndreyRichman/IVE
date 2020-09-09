@@ -30,7 +30,7 @@ public class AddTaskFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_task_edit, container, false);
+        View view = inflater.inflate(R.layout.fragment_task_add, container, false);
         nameTextField = view.findViewById(R.id.task_name);
         duration = view.findViewById(R.id.duration);
         descriptionTextField = view.findViewById(R.id.description);
@@ -61,6 +61,6 @@ public class AddTaskFragment extends Fragment {
         });
 
 
-        return view;//inflater.inflate(R.layout.fragment_task_edit, container, false);
+        return view;//inflater.inflate(R.layout.fragment_task_add, container, false);
     }
 }

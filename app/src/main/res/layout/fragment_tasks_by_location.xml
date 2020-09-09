@@ -27,7 +27,7 @@
             android:textSize="28sp" />
 
         <TextView
-            android:id="@+id/tasksListSubTitle"
+            android:id="@+id/showing_tasks_by"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"

@@ -38,7 +38,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         return new TaskViewHolder(LayoutInflater.from( parent.getContext())
-                .inflate(R.layout.task_item, parent, false));
+                .inflate(R.layout.task_item2, parent, false));
     }
 
     // Enter UI fieds values here:
