@@ -7,11 +7,11 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mta.ive.pages.login.SignUpInActivity;
-import com.mta.ive.pages.task.AllTasksActivity;
+import com.mta.ive.pages.delete.AllTasksActivity;
 import com.mta.ive.pages.home.HomeActivity;
 import com.mta.ive.pages.delete.LobbyActivity;
 import com.mta.ive.pages.login.LoginActivity;
-import com.mta.ive.pages.task.NewTaskActivity;
+import com.mta.ive.pages.delete.NewTaskActivity;
 import com.mta.ive.pages.login.SignUpActivity;
 
 

@@ -14,9 +14,9 @@
         <activity android:name=".pages.login.SignUpInActivity"></activity>
         <activity android:name=".pages.home.addtask.EditExistingTaskActivity" />
         <activity android:name=".pages.login.SignUpActivity" />
-        <activity android:name=".pages.task.AllTasksActivity" />
+        <activity android:name=".pages.delete.AllTasksActivity" />
         <activity android:name=".pages.home.HomeActivity" />
-        <activity android:name=".pages.task.NewTaskActivity" />
+        <activity android:name=".pages.delete.NewTaskActivity" />
         <activity android:name=".pages.delete.LobbyActivity" />
         <activity android:name=".pages.login.LoginActivity" />
         <activity android:name=".MainActivity">

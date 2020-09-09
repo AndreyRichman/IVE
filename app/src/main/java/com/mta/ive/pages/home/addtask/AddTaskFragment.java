@@ -13,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mta.ive.R;
+import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.task.Task;
 
 
@@ -38,7 +38,7 @@ public class AddTaskFragment extends Fragment {
 
         saveBtn = view.findViewById(R.id.save_button);
         deleteBtn = view.findViewById(R.id.delete_button);
-        Toast.makeText(view.getContext(),"New Task Page", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(view.getContext(),"New Task Page", Toast.LENGTH_SHORT).show();
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -48,14 +48,19 @@ public class AddTaskFragment extends Fragment {
                 Toast.makeText(getContext(), "Task was added", Toast.LENGTH_SHORT).show();
 
                 Task task = new Task();
-                int taskId = task.getId();
-                databaseReference = FirebaseDatabase.getInstance().getReference()
-                        .child("task").child(String.valueOf(taskId));
+//                String taskId = task.getId();
+//                databaseReference = FirebaseDatabase.getInstance().getReference()
+//                        .child("task").child(String.valueOf(taskId));
 
                 task.setName(nameTextField.getText().toString());
                 task.setDescription(descriptionTextField.getText().toString());
                 task.setDuration(duration.getText().toString());
-                databaseReference.setValue(task);
+
+                LogicHandler.saveTask(task);
+
+                btn.getRootView().findViewById(R.id.navigation_location).callOnClick();
+
+//                databaseReference.setValue(task);
 
             }
         });

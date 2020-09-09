@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.mta.ive.R;
+import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.pages.home.addtask.EditExistingTaskActivity;
 import com.mta.ive.vm.adapter.TasksAdapter;
@@ -31,6 +32,14 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
 
+
+        String email = getIntent().getStringExtra("email");
+        userName = getIntent().getStringExtra("userName");
+
+        LogicHandler.createUserIfNotExist(email, userName);
+
+//        User user = LogicHandler.getUserByEmail(email, userName);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 //        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -40,7 +49,7 @@ public class HomeActivity extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        userName = getIntent().getStringExtra("userName");
+
     }
 
     public String getUserName(){
@@ -71,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
 //                            Intent newTaskPage = new Intent(HomeActivity.this, NewTaskActivity.class);
 //                            startActivity(newTaskPage);
 //
-////                            setContentView(R.layout.activity_new_task);
+////                            setContentView(R.layout.delete_activity_new_task_2);
 //                            return false;
 //
 ////                            break;
@@ -142,4 +151,8 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(editTaskPage);
 //        tasksAdapter.notifyDataSetChanged();
     }
+
+//    public void goToTasksLocationPage(){
+//        findViewById(R.id.navigation_location).callOnClick();
+//    }
 }

@@ -14,18 +14,19 @@ import com.mta.ive.logic.task.Task;
 import com.mta.ive.pages.home.HomeActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
 
     Context context;
-    ArrayList<Task> allTasks;
+    List<Task> allTasks;
 
-    public TasksAdapter(Context context, ArrayList<Task> tasks){
+    public TasksAdapter(Context context, List<Task> tasks){
         this.context = context;
         this.allTasks = tasks;
     }
 
-    public ArrayList<Task> getAllTasks() {
+    public List<Task> getAllTasks() {
         return allTasks;
     }
 
@@ -61,10 +62,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
                 String taskName = allTasks.get(position).getName();
                 String taskDescription = allTasks.get(position).getDescription();
                 String taskDuration = allTasks.get(position).getDuration();
-                int taskId = allTasks.get(position).getId();
+                String taskId = allTasks.get(position).getId();
 
                 Bundle bundle = new Bundle();
-                bundle.putInt("taskId", taskId);
+                bundle.putString("taskId", taskId);
                 ((HomeActivity)context).openEditTaskPage(bundle);
 //                TextView v = view.getRootView().findViewById(R.id.task_name);
 //                v.setText("Andreyyyy");

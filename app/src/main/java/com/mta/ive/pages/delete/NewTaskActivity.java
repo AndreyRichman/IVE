@@ -1,4 +1,4 @@
-package com.mta.ive.pages.task;
+package com.mta.ive.pages.delete;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +33,7 @@ public class NewTaskActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_task);
+        setContentView(R.layout.delete_activity_new_task_2);
 
         nameTextField = findViewById(R.id.newTaskNameEditText);
         descriptionTextField = findViewById(R.id.newTaskDescriptionEditText);
