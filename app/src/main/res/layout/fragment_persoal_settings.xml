@@ -103,9 +103,10 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/page_fields"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintVertical_bias="0.0">
 
         <Space
             android:layout_width="0dp"
@@ -121,19 +122,6 @@
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toStartOf="@+id/delete_button"
             tools:layout_editor_absoluteY="554dp" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"></Space>
-
-        <Button
-            android:id="@+id/cancel_button"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:background="@drawable/rounded_corners"
-            android:text="Cancel"
-            android:textColor="#FFFFFF" />
 
         <Space
             android:layout_width="0dp"
