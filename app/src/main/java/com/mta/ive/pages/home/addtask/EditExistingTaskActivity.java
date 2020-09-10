@@ -1,5 +1,7 @@
 package com.mta.ive.pages.home.addtask;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.task.Task;
+import com.mta.ive.pages.home.HomeActivity;
 
 public class EditExistingTaskActivity extends AppCompatActivity {
 
@@ -44,6 +47,11 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         Button deleteBtn = findViewById(R.id.delete_button);
         readTaskFromDB(taskId);
 
+
+        setNavigationButtons();
+
+
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -71,6 +79,34 @@ public class EditExistingTaskActivity extends AppCompatActivity {
             public void onClick (View btn){
                 finish();
             }
+        });
+    }
+
+    private void setNavigationButtons() {
+        findViewById(R.id.navigation_location).setOnClickListener( t -> {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("selection", "1");
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        });
+        findViewById(R.id.navigation_home).setOnClickListener( t -> {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("selection", "2");
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        });
+        findViewById(R.id.navigation_add).setOnClickListener( t -> {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("selection", "3");
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        });
+
+        findViewById(R.id.navigation_user).setOnClickListener( t -> {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("selection", "4");
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
         });
     }
 

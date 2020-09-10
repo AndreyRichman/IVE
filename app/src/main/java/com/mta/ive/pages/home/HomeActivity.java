@@ -1,5 +1,6 @@
 package com.mta.ive.pages.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -146,10 +147,63 @@ public class HomeActivity extends AppCompatActivity {
 //        findViewById(R.id.navigation_add).callOnClick();
 
 
+//        Intent editTaskPage = new Intent(this, EditExistingTaskActivity.class);
+//        editTaskPage.putExtras(bundle);
+//        startActivity(editTaskPage);
+
+
+        int LAUNCH_SECOND_ACTIVITY = 1;
         Intent editTaskPage = new Intent(this, EditExistingTaskActivity.class);
         editTaskPage.putExtras(bundle);
-        startActivity(editTaskPage);
+        startActivityForResult(editTaskPage, LAUNCH_SECOND_ACTIVITY);
 //        tasksAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK){
+            String selection = data.getStringExtra("selection");
+
+            Integer option = Integer.parseInt(selection);
+            switch (option) {
+                case 1:
+                    findViewById(R.id.navigation_location).callOnClick();
+                    break;
+                case 2:
+                    findViewById(R.id.navigation_home).callOnClick();
+                    break;
+                case 3:
+                    findViewById(R.id.navigation_add).callOnClick();
+                    break;
+                case 4:
+                    findViewById(R.id.navigation_user).callOnClick();
+                    break;
+            }
+//            switchToTabAccordingToSelection(Integer.parseInt(selection));
+        }
+//        if (resultCode == Activity.RESULT_CANCELED) {
+//            //Write your code if there's no result
+//
+//        }
+    }//onActivityResult
+
+    private void switchToTabAccordingToSelection(int selection) {
+        switch (selection){
+            case 1:
+                findViewById(R.id.navigation_location).callOnClick();
+                break;
+            case 2:
+                findViewById(R.id.navigation_home).callOnClick();
+                break;
+            case 3:
+                findViewById(R.id.navigation_add).callOnClick();
+                break;
+            case 4:
+                findViewById(R.id.navigation_user).callOnClick();
+                break;
+        }
     }
 
 //    public void goToTasksLocationPage(){
