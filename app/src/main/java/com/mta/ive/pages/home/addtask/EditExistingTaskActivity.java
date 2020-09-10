@@ -18,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.task.Task;
-import com.mta.ive.pages.home.HomeActivity;
 
 public class EditExistingTaskActivity extends AppCompatActivity {
 
@@ -31,7 +30,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_existing_task2);
+        setContentView(R.layout.activity_edit_task);
 
         taskName = findViewById(R.id.task_name);
         taskDescription = findViewById(R.id.description);
