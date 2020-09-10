@@ -69,7 +69,8 @@
             android:spinnerMode="dropdown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+            app:layout_constraintTop_toBottomOf="@+id/checkBox"
+            android:entries="@array/scheduling_policy" />
 
         <EditText
             android:id="@+id/editTextTime"
