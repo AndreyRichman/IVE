@@ -15,7 +15,7 @@
         android:id="@+id/navigation_home"
         android:name="com.mta.ive.pages.home.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_manage_locations" />
 
     <fragment
         android:id="@+id/navigation_add"
@@ -27,7 +27,7 @@
         android:id="@+id/navigation_user"
         android:name="com.mta.ive.pages.home.user.UserFragment"
         android:label="@string/title_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_settings" />
 
 
 </navigation>

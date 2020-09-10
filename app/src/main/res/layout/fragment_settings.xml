@@ -94,7 +94,7 @@
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -114,6 +114,7 @@
             android:background="@drawable/rounded_corners"
             android:text="Log out"
             android:textColor="#FFFFFF"
+            android:layout_gravity="center"
             tools:layout_editor_absoluteY="554dp" />
 
         <Space

@@ -72,13 +72,6 @@ public class EditExistingTaskActivity extends AppCompatActivity {
             }
         });
 
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick (View btn){
-                finish();
-            }
-        });
     }
 
     private void setNavigationButtons() {
