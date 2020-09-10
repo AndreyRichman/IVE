@@ -25,5 +25,16 @@
         <item>3 - When Can</item>
     </string-array>
 
+    <string-array name="urgency_list"> //Made this urgency list because "2 - Can Wait" and "3 - When Can" seems to be the same. so put regular values such as: high, med, low.
+        <item>1 - High</item>
+        <item>2 - Medium</item>
+        <item>3 - Low</item>
+    </string-array>
+
+    <string-array name="scheduling_policy">
+        <item>Efficient</item>
+        <item>Urgency</item>
+    </string-array>
+
 
 </resources>
