@@ -11,7 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".pages.login.SignUpInActivity"></activity>
+        <activity android:name=".pages.login.SignUpInActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity android:name=".pages.home.addtask.EditExistingTaskActivity" />
         <activity android:name=".pages.login.SignUpActivity" />
         <activity android:name=".pages.delete.AllTasksActivity" />
@@ -20,11 +27,7 @@
         <activity android:name=".pages.delete.LobbyActivity" />
         <activity android:name=".pages.login.LoginActivity" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
