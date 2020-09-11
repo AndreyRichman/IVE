@@ -36,6 +36,7 @@ public class HomeFragment extends Fragment {
     DatabaseReference reference;
     LocationsAdapter tasksAdapter;
     Button addNewButton;
+    List<UserLocation> userLocations;
 //    private HomeViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -44,6 +45,8 @@ public class HomeFragment extends Fragment {
 
         locationsRecList = view.findViewById(R.id.locationsRecycleList);
         locationsRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        userLocations = new ArrayList<>();
+        locationsRecList.setAdapter(new LocationsAdapter(view.getContext(), userLocations));
 
 
         addNewButton = view.findViewById(R.id.add_location_button);
@@ -69,7 +72,7 @@ public class HomeFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<UserLocation> userLocations = new ArrayList<>();
+                userLocations = new ArrayList<>();
                 for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
                     UserLocation userLocation = dataSnapshot1.getValue(UserLocation.class);
                     userLocations.add(userLocation);

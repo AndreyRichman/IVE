@@ -44,7 +44,7 @@ public class TasksByLocationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tasks_by_location, container, false);
         tasksRecList = view.findViewById(R.id.tasksRecycleList);
         tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//        tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
+        tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
 
         updateUserTitle(view);
 
