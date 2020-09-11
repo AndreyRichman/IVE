@@ -151,7 +151,7 @@
         app:layout_constraintTop_toBottomOf="@+id/page_fields" />
 
     <Button
-        android:id="@+id/delete_button"
+        android:id="@+id/save_location_button"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginTop="32dp"

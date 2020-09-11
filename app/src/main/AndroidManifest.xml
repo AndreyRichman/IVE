@@ -26,6 +26,7 @@
         <activity android:name=".pages.delete.NewTaskActivity" />
         <activity android:name=".pages.delete.LobbyActivity" />
         <activity android:name=".pages.login.LoginActivity" />
+        <activity android:name=".pages.home.home.AddLocationFragment" />
         <activity android:name=".MainActivity">
 
         </activity>

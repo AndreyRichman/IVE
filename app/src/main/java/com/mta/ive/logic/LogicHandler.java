@@ -3,6 +3,7 @@ package com.mta.ive.logic;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.UsersHandler;
 
@@ -49,6 +50,21 @@ public class LogicHandler {
         ref.setValue(task);
     }
 
+    public static void saveLocation(UserLocation userLocation){
+        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(String.valueOf(email.hashCode()))
+                .child("locations")
+                .push();
+
+        String locationId = ref.getKey();
+        userLocation.setId(locationId);
+
+        ref.setValue(userLocation);
+    }
+
     public static void updateExistingTask(Task task){
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
@@ -70,6 +86,15 @@ public class LogicHandler {
                 .child("tasks");
 //        return FirebaseDatabase.getInstance().getReference().child("task");
 
+    }
+
+    public static DatabaseReference getAllLocationsDBReference(){
+        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        return FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(String.valueOf(email.hashCode()))
+                .child("locations");
     }
 
     public static DatabaseReference getTaskDBReferenceById(String taskId){
