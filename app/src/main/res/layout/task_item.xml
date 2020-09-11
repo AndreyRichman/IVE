@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/taskUiItem"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@drawable/bg_of_task_item"
+    android:layout_height="100dp"
 
     android:layout_marginTop="10dp"
-    android:layout_height="100dp">
+    android:background="@drawable/bg_of_task_item">
 
     <LinearLayout
         android:layout_width="202dp"
@@ -15,7 +13,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/taskTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="19dp"
@@ -24,7 +21,6 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/taskDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -36,12 +32,10 @@
     <LinearLayout
         android:layout_width="125dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
-        >
+        android:layout_marginTop="30dp">
 
         <TextView
-            android:id="@+id/taskDuration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
