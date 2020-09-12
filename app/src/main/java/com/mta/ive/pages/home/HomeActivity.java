@@ -16,6 +16,7 @@ import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.pages.home.addtask.EditExistingTaskActivity;
+import com.mta.ive.pages.home.home.AddLocationFragment;
 import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
@@ -157,6 +158,13 @@ public class HomeActivity extends AppCompatActivity {
         editTaskPage.putExtras(bundle);
         startActivityForResult(editTaskPage, LAUNCH_SECOND_ACTIVITY);
 //        tasksAdapter.notifyDataSetChanged();
+    }
+
+    public void openAddLocationPage(Bundle bundle){
+        int LAUNCH_SECOND_ACTIVITY = 1;
+        Intent addLocationPage = new Intent(this, AddLocationFragment.class);
+        addLocationPage.putExtras(bundle);
+        startActivityForResult(addLocationPage, LAUNCH_SECOND_ACTIVITY);
     }
 
     @Override

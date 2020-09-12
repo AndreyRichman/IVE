@@ -163,7 +163,7 @@
         app:layout_constraintTop_toBottomOf="@+id/page_fields" />
 
     <Button
-        android:id="@+id/cancel_button"
+        android:id="@+id/cancel_newlocation_button"
         android:layout_width="255dp"
         android:layout_height="39dp"
         android:layout_marginStart="64dp"
