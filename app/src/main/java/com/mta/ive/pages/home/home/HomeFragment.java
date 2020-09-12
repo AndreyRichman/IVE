@@ -54,8 +54,15 @@ public class HomeFragment extends Fragment {
         addNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent addLocationPage = new Intent(getActivity(), AddLocationFragment.class);
-                startActivity(addLocationPage);
+                Bundle bundle = new Bundle();
+                //put data to transfer to the page using bundle
+                ((HomeActivity)getActivity()).openAddLocationPage(bundle);
+
+//                Intent addLocationPage = new Intent(getActivity(), AddLocationFragment.class);
+//                startActivity(addLocationPage);
+
+
+
 
 //                ((HomeActivity)context).openEditTaskPage(bundle);
 

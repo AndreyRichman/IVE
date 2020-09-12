@@ -51,6 +51,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
 
         tasksHolder.taskDuration.setText(duration);
 
+        hideLineIfNeeded(tasksHolder, position);
+
         tasksHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +88,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
 //                                .commit();
             }
         });
+    }
+
+    private void hideLineIfNeeded(@NonNull TaskViewHolder locationViewHolder, int position) {
+        if (position == allTasks.size() - 1){
+            locationViewHolder.hideTaskLine();
+        }
     }
 
     @Override

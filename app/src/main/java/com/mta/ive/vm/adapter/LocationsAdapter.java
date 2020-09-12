@@ -5,17 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mta.ive.R;
 import com.mta.ive.logic.location.UserLocation;
-import com.mta.ive.logic.task.Task;
-import com.mta.ive.pages.home.HomeActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LocationsAdapter extends RecyclerView.Adapter<LocationViewHolder> {
@@ -43,6 +39,8 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationViewHolder> {
         locationViewHolder.locationAddress.setText(alluserLocations.get(position).getAddress());
 
 
+        hideLineIfNeeded(locationViewHolder, position);
+
         locationViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,6 +52,12 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationViewHolder> {
 //                ((HomeActivity)context).openEditTaskPage(bundle);
             }
         });
+    }
+
+    private void hideLineIfNeeded(@NonNull LocationViewHolder locationViewHolder, int position) {
+        if (position == alluserLocations.size() - 1){
+            locationViewHolder.hideLocationLine();
+        }
     }
 
     @Override
