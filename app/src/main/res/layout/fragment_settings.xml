@@ -75,7 +75,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/manage_locations3"
+            android:id="@+id/personal_settings"
             android:layout_width="156dp"
             android:layout_height="41dp"
 
