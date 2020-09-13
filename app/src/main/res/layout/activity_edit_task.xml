@@ -173,7 +173,7 @@
             android:layout_weight="1"></Space>
 
         <Button
-            android:id="@+id/save_location_button"
+            android:id="@+id/delete_button"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:background="@drawable/rounded_corners"

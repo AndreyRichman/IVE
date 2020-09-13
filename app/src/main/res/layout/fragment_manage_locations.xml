@@ -26,26 +26,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/turkiz200" />
-
-        <TextView
-            android:id="@+id/locationsTitle"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="15dp"
-            android:text="Locations:"
-            android:textAlignment="center"
-            android:textColor="#333333"
-            android:textSize="18sp" />
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/showing_locations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Showing All Locations"
+        android:text="Showing all Locations on app"
         android:textAlignment="center"
         android:textColor="#333333"
         android:textSize="18sp"
@@ -54,42 +42,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_logo" />
 
-    <!--
-    in line 41 : android:layout_height="wrap_content"
-    makes the tasksListBottomText not show on app (you can't scroll
-    low enough to show it).
-    changing the height, for example
-    android:layout_height="200dp"
-    makes the tasksListBottomText show, but the tasks
-    will be cut to only the number of tasks that can fit into 200dp
-    -->
+    <TextView
+        android:id="@+id/click_on_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="click on location to see tasks in locations"
+        android:textAlignment="center"
+        android:textColor="#333333"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_logo" />
 
     <androidx.recyclerview.widget.RecyclerView
 
         android:id="@+id/locationsRecycleList"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="380dp"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/showing_locations">
+        app:layout_constraintTop_toBottomOf="@+id/click_on_location">
 
     </androidx.recyclerview.widget.RecyclerView>
-
 
     <LinearLayout
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:layout_marginBottom="4dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationsRecycleList"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/locationsRecycleList">
 
         <Space
             android:layout_width="0dp"
@@ -100,11 +89,11 @@
             android:id="@+id/add_location_button"
             android:layout_width="100dp"
             android:layout_height="40dp"
+            android:layout_gravity="center"
             android:background="@drawable/rounded_corners"
             android:text="Add Location"
-            android:textSize="12dp"
             android:textColor="#FFFFFF"
-            android:layout_gravity="center"
+            android:textSize="12dp"
             tools:layout_editor_absoluteY="554dp" />
 
         <Space
@@ -113,6 +102,5 @@
             android:layout_weight="1"></Space>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

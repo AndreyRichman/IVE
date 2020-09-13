@@ -47,7 +47,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_location_header">
 
-
         <EditText
             android:id="@+id/location_name"
             android:layout_width="150dp"
@@ -74,9 +73,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/location_name" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -109,11 +106,11 @@
             android:layout_weight="1"></Space>
 
         <Button
-            android:id="@+id/cancel_newlocation_button"
+            android:id="@+id/delete_location_button"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:background="@drawable/rounded_corners"
-            android:text="Cancel"
+            android:text="Delete"
             android:textColor="#FFFFFF" />
 
         <Space
