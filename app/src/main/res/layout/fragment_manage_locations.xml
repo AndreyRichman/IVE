@@ -7,9 +7,7 @@
     android:layout_height="match_parent"
     android:background="#F4F4F4"
     android:orientation="vertical"
-    android:paddingBottom="60dp"
-    tools:context=".pages.home.tasksbylocation.TasksByLocationFragment"
-    >
+    android:paddingBottom="60dp" >
 
     <LinearLayout
         android:id="@+id/linear_logo"
@@ -28,7 +26,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/turkiz200" />
-
     </LinearLayout>
 
     <TextView
