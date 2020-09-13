@@ -93,7 +93,7 @@ public class AddTaskFragment extends Fragment {
                 for(DataSnapshot data: snapshot.getChildren()){
                     UserLocation location = data.getValue(UserLocation.class);
 
-                    Item spinnerItem = new Item(location.getName(), location.getId());
+                    Item spinnerItem = new Item(location.getName(), location.getId(), location);
                     items.add(spinnerItem);
                 }
                 mySpinner = (MultiSelectionSpinner) view.findViewById(R.id.spinner_locations);
