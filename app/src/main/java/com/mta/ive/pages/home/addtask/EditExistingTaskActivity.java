@@ -49,7 +49,6 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 
 
         Button saveBtn = findViewById(R.id.save_button);
-        Button cancelBtn = findViewById(R.id.cancel_button);
         Button deleteBtn = findViewById(R.id.delete_button);
         readTaskFromDB(taskId);
 
