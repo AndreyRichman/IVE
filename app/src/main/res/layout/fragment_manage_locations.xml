@@ -7,9 +7,7 @@
     android:layout_height="match_parent"
     android:background="#F4F4F4"
     android:orientation="vertical"
-    android:paddingBottom="60dp"
-    tools:context=".pages.home.tasksbylocation.TasksByLocationFragment"
-    >
+    android:paddingBottom="60dp" >
 
     <LinearLayout
         android:id="@+id/linear_logo"
@@ -30,12 +28,12 @@
             app:srcCompat="@drawable/turkiz200" />
 
         <TextView
-            android:id="@+id/tasksListMainTitle"
+            android:id="@+id/locationsTitle"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="15dp"
-            android:text="Work"
+            android:text="Locations:"
             android:textAlignment="center"
             android:textColor="#333333"
             android:textSize="18sp" />
@@ -43,11 +41,11 @@
 
 
     <TextView
-        android:id="@+id/showing_tasks_by"
+        android:id="@+id/showing_locations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Showing tasks by urgency"
+        android:text="Showing All Locations"
         android:textAlignment="center"
         android:textColor="#333333"
         android:textSize="18sp"
@@ -75,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/showing_tasks_by">
+        app:layout_constraintTop_toBottomOf="@+id/showing_locations">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -90,7 +88,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tasksRecycleList"
+        app:layout_constraintTop_toBottomOf="@+id/locationsRecycleList"
         app:layout_constraintVertical_bias="0.0">
 
         <Space
