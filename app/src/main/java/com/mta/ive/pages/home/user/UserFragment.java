@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.mta.ive.R;
+import com.mta.ive.logic.location.ActivityManageLocations;
 import com.mta.ive.pages.login.LoginActivity;
 import com.mta.ive.pages.login.SignUpInActivity;
 
@@ -32,9 +33,12 @@ public class UserFragment extends Fragment {
         logoutBtn = (Button)view.findViewById(R.id.logout_button);
 
         logoutBtn.setOnClickListener( click -> {
-
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getActivity(), SignUpInActivity.class));
+        });
+
+        manageLocationBtn.setOnClickListener( click -> {
+            startActivity(new Intent(getActivity(), ActivityManageLocations.class));
         });
 
         return view;
