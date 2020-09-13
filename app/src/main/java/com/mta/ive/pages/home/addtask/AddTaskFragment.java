@@ -20,6 +20,8 @@ import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
+import com.mta.ive.vm.adapter.multiselect.Item;
+import com.mta.ive.vm.adapter.multiselect.MultiSelectionSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +35,13 @@ public class AddTaskFragment extends Fragment {
     TextView nameTextField, descriptionTextField, duration;
     Spinner urgency;
 
+    MultiSelectionSpinner mySpinner;
+    View view;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_add_task, container, false);
+        view = inflater.inflate(R.layout.fragment_add_task, container, false);
         nameTextField = view.findViewById(R.id.task_name);
         duration = view.findViewById(R.id.duration);
         descriptionTextField = view.findViewById(R.id.description);
@@ -48,7 +52,7 @@ public class AddTaskFragment extends Fragment {
 //        Toast.makeText(view.getContext(),"New Task Page", Toast.LENGTH_SHORT).show();
 
 
-//        updateLocations();
+        updateLocations();
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -84,11 +88,16 @@ public class AddTaskFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<UserLocation> locations = new ArrayList<>();
+
+                ArrayList<Item> items = new ArrayList<>();
                 for(DataSnapshot data: snapshot.getChildren()){
                     UserLocation location = data.getValue(UserLocation.class);
-                    locations.add(location);
+
+                    Item spinnerItem = new Item(location.getName(), location.getId(), location);
+                    items.add(spinnerItem);
                 }
+                mySpinner = (MultiSelectionSpinner) view.findViewById(R.id.spinner_locations);
+                mySpinner.setItems(items);
 
 
             }

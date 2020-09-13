@@ -17,7 +17,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
+import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
+import com.mta.ive.vm.adapter.multiselect.Item;
+import com.mta.ive.vm.adapter.multiselect.MultiSelectionSpinner;
+
+import java.util.ArrayList;
 
 public class EditExistingTaskActivity extends AppCompatActivity {
 
@@ -26,6 +31,8 @@ public class EditExistingTaskActivity extends AppCompatActivity {
     String taskId;
 
     DatabaseReference databaseReference;
+
+    MultiSelectionSpinner mySpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 
         setNavigationButtons();
 
+        updateLocations();
 
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -155,5 +163,32 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         LogicHandler.deleteTaskById(idToDelete);
 //        FirebaseDatabase.getInstance().getReference()
 //                .child("task").child(String.valueOf(taskId)).removeValue();
+    }
+
+    private void updateLocations() {
+        DatabaseReference reference = LogicHandler.getAllLocationsDBReference();
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                ArrayList<Item> items = new ArrayList<>();
+                for(DataSnapshot data: snapshot.getChildren()){
+                    UserLocation location = data.getValue(UserLocation.class);
+
+                    Item spinnerItem = new Item(location.getName(), location.getId(), location);
+                    items.add(spinnerItem);
+                }
+                mySpinner = (MultiSelectionSpinner) findViewById(R.id.spinner_locations);
+                mySpinner.setItems(items);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
