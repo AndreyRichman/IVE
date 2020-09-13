@@ -38,9 +38,6 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationViewHolder> {
         locationViewHolder.locationName.setText(alluserLocations.get(position).getName());
         locationViewHolder.locationAddress.setText(alluserLocations.get(position).getAddress());
 
-
-        hideLineIfNeeded(locationViewHolder, position);
-
         locationViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,12 +49,6 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationViewHolder> {
 //                ((HomeActivity)context).openEditTaskPage(bundle);
             }
         });
-    }
-
-    private void hideLineIfNeeded(@NonNull LocationViewHolder locationViewHolder, int position) {
-        if (position == alluserLocations.size() - 1){
-            locationViewHolder.hideLocationLine();
-        }
     }
 
     @Override

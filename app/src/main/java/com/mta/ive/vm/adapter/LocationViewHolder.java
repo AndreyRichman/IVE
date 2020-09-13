@@ -19,10 +19,6 @@ class LocationViewHolder extends  RecyclerView.ViewHolder{
 
         locationName = (TextView) itemView.findViewById(R.id.locationTitleText);
         locationAddress = (TextView) itemView.findViewById(R.id.locationAddressText);
-        locationLine = (ImageView) itemView.findViewById(R.id.location_line);
     }
 
-    public void hideLocationLine(){
-        locationLine.setVisibility(View.INVISIBLE);
-    }
 }

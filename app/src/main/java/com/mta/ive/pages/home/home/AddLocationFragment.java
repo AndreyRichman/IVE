@@ -26,7 +26,7 @@ import com.mta.ive.logic.task.Task;
 
 public class AddLocationFragment extends AppCompatActivity {
 
-    Button saveLocationButton, cancelButton;
+    Button saveLocationButton, deleteButton;
     TextView locationName, locationAddress;
 
     @Override
@@ -35,7 +35,7 @@ public class AddLocationFragment extends AppCompatActivity {
         setContentView(R.layout.fragment_add_new_location);
 
         saveLocationButton = findViewById(R.id.save_location_button);
-        cancelButton = findViewById(R.id.cancel_newlocation_button);
+        deleteButton = findViewById(R.id.delete_location_button);
 
         locationName = findViewById(R.id.location_name);
         locationAddress = findViewById(R.id.location_address);
@@ -52,7 +52,7 @@ public class AddLocationFragment extends AppCompatActivity {
             }
         });
 
-        cancelButton.setOnClickListener( click -> {
+        deleteButton.setOnClickListener( click -> {
             finish();
         });
 

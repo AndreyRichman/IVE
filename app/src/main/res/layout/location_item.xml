@@ -20,19 +20,12 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="0dp"
-            app:srcCompat="@drawable/task_arrow" />
-
-        <ImageView
-            android:id="@+id/location_line"
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="0dp"
-            app:srcCompat="@drawable/task_line3" />
+            app:srcCompat="@drawable/task_loc" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="202dp"
+        android:layout_width="346dp"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
         android:orientation="vertical">
@@ -54,25 +47,6 @@
             android:text="Sadna project"
             android:textColor="#ADADAD"
             android:textSize="18sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_marginLeft="10dp"
-        >
-
-        <TextView
-            android:id="@+id/locationBlueText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="left"
-            android:text="(location)"
-            android:textColor="#27A1AC"
-            android:textSize="16sp" />
 
     </LinearLayout>
 
