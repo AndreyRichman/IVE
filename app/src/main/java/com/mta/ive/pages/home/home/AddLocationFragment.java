@@ -42,10 +42,19 @@ public class AddLocationFragment extends AppCompatActivity {
 
             @Override
             public void onClick (View btn){
+                if(locationName.getText().toString().matches("")) {
+                    Toast.makeText(btn.getRootView().getContext(),"Name is missing", Toast.LENGTH_SHORT).show();
+                }
+                else if (locationAddress.getText().toString().matches("")){
+                    Toast.makeText(btn.getRootView().getContext(),"Address is missing", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    addNewLocation();
+                    finish();
+                    Toast.makeText(btn.getRootView().getContext(),"Location added", Toast.LENGTH_SHORT).show();
 
-                addNewLocation();
-                finish();
-                Toast.makeText(btn.getRootView().getContext(),"Location added", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
