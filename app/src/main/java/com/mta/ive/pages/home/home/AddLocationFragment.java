@@ -2,33 +2,29 @@ package com.mta.ive.pages.home.home;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.hardware.usb.UsbRequest;
 import android.os.Bundle;
 
 
-import android.os.UserHandle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.GoogleMapActivity;
 import com.mta.ive.logic.location.UserLocation;
-import com.mta.ive.logic.task.Task;
 
 public class AddLocationFragment extends AppCompatActivity {
 
     Button saveLocationButton, deleteButton;
     TextView locationName, locationAddress;
+    LatLng locationLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +58,38 @@ public class AddLocationFragment extends AppCompatActivity {
 
         locationAddress.setOnClickListener(click -> {
             // Intent addLocationPage = new Intent(this, AddLocationFragment.class);
-            startActivity(new Intent(this, GoogleMapActivity.class));
+//            startActivity(new Intent(this, GoogleMapActivity.class));
+            int LAUNCH_SECOND_ACTIVITY = 1;
+            Intent googleMapPage = new Intent(this, GoogleMapActivity.class);
+
+            startActivityForResult(googleMapPage, LAUNCH_SECOND_ACTIVITY);
+
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK) {
+            double lat = data.getDoubleExtra("lat", 32);
+            double lng = data.getDoubleExtra("lng", 35);
+            String address = data.getStringExtra("address");
+
+
+            this.locationLatLng = new LatLng(lat, lng);
+
+            locationAddress.setText(address);
+        }
+    }
+
     private void addNewLocation(){
         UserLocation userLocation = new UserLocation();
 
         userLocation.setName(locationName.getText().toString());
         userLocation.setAddress(locationAddress.getText().toString());
+        userLocation.setLatitude(this.locationLatLng.latitude);
+        userLocation.setLongitude(this.locationLatLng.longitude);
 
         LogicHandler.saveLocation(userLocation);
     }
