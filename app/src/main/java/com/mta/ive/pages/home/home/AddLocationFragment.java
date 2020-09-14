@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
+import com.mta.ive.logic.location.GoogleMapActivity;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 
@@ -59,6 +60,10 @@ public class AddLocationFragment extends AppCompatActivity {
 
         setNavigationButtons();
 
+        locationAddress.setOnClickListener(click -> {
+            // Intent addLocationPage = new Intent(this, AddLocationFragment.class);
+            startActivity(new Intent(this, GoogleMapActivity.class));
+        });
     }
     private void addNewLocation(){
         UserLocation userLocation = new UserLocation();

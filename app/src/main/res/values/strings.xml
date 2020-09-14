@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">IVE</string>
     <string name="main_title">TIME TO BE PRODUCT<font color="#FA8072">IVE</font></string>
+    //check if this key works, if not - find a new one
+    <string name="map_key" translatable="false">AIzaSyB_qsP8AOP_P0MdlPz-48TDaJYjTP3vbjo</string>
     <string name="title_home"><font color="#FA8072">HOME</font></string>
     <string name="title_add"><font color="#FA8072">Add Task</font></string>
     <string name="title_user"><font color="#FA8072">User</font></string>
@@ -25,7 +27,8 @@
         <item>3 - When Can</item>
     </string-array>
 
-    <string-array name="urgency_list"> //Made this urgency list because "2 - Can Wait" and "3 - When Can" seems to be the same. so put regular values such as: high, med, low.
+    <string-array name="urgency_list">//Made this urgency list because "2 - Can Wait" and "3 - When
+        Can" seems to be the same. so put regular values such as: high, med, low.
         <item>1 - High</item>
         <item>2 - Medium</item>
         <item>3 - Low</item>
