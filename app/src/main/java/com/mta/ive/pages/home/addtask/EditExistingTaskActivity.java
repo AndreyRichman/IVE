@@ -99,22 +99,26 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         });
 
 
+        initDatePickerDialog();
         dateTextField.setOnClickListener(view -> {
-            final Calendar calendar = Calendar.getInstance();
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            int month = calendar.get(Calendar.MONTH);
-            int year = calendar.get(Calendar.YEAR);
-
-            datePickerDialog = new DatePickerDialog(EditExistingTaskActivity.this,
-                    new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                            dateTextField.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                        }
-                    }, year, month, day);
             datePickerDialog.show();
         });
 
+    }
+
+    private void initDatePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        datePickerDialog = new DatePickerDialog(EditExistingTaskActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        dateTextField.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                    }
+                }, year, month, day);
     }
 
     private void setNavigationButtons() {

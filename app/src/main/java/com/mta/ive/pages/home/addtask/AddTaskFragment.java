@@ -76,23 +76,10 @@ public class AddTaskFragment extends Fragment {
         updateLocations();
 
 
+        initDatePickerDialog();
         dateTextField.setOnClickListener(view -> {
-            final Calendar calendar = Calendar.getInstance();
-            day = calendar.get(Calendar.DAY_OF_MONTH);
-            month = calendar.get(Calendar.MONTH);
-            year = calendar.get(Calendar.YEAR);
-
-            datePickerDialog = new DatePickerDialog(getContext(),
-                    new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                            dateString = dayOfMonth + "/" + monthOfYear  + "/" + year;
-                            dateTextField.setText(dateString);
-                        }
-                    }, year, month, day);
             datePickerDialog.show();
         });
-
 
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +114,22 @@ public class AddTaskFragment extends Fragment {
 
 
         return view;//inflater.inflate(R.layout.fragment_add_task, container, false);
+    }
+
+    private void initDatePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH);
+        year = calendar.get(Calendar.YEAR);
+
+        datePickerDialog = new DatePickerDialog(getContext(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        dateString = dayOfMonth + "/" + monthOfYear  + "/" + year;
+                        dateTextField.setText(dateString);
+                    }
+                }, year, month, day);
     }
 
     private void updateLocations() {
