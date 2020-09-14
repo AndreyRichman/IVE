@@ -61,9 +61,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
 
 //                view.getRootView().findViewById(R.id.navigation_add).callOnClick();
 
-                String taskName = allTasks.get(position).getName();
-                String taskDescription = allTasks.get(position).getDescription();
-                String taskDuration = allTasks.get(position).getDuration();
+//                String taskName = allTasks.get(position).getName();
+//                String taskDescription = allTasks.get(position).getDescription();
+//                String taskDuration = allTasks.get(position).getDuration();
                 String taskId = allTasks.get(position).getId();
 
                 Bundle bundle = new Bundle();

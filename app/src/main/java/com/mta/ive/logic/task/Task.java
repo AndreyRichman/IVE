@@ -1,32 +1,71 @@
 package com.mta.ive.logic.task;
 
-import android.location.Location;
+import com.mta.ive.logic.location.UserLocation;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public class Task {
     private String id;
     private String name = "";
     private String description = "";
-    private String duration = "";
+    private int duration = 0;
+    private int priority = 0;
+    private List<UserLocation> locations;
+//    private LocalDate deadLineDate;
+    private String deadLineDate;
 
-    public static int uniqueTaskId = 777;
 
-    private int urgency;
-    private int estimatedDurationMinutes;
-    private Location location ;
+
+
+//    private int urgency;
+//    private int estimatedDurationMinutes;
+//    private Location location ;
     //optional//
-    private Date dueDate;
+//    private Date dueDate;
 
     public Task() {
     }
 
-    public Task(String name, String description, String duration){
+    public Task(String name, String description, int duration){
         this.name = name;
         this.description = description;
         this.duration = duration;
     }
 
+//    public LocalDate getDeadLineDate() {
+//        return deadLineDate;
+//    }
+//
+//    public void setDeadLineDate(LocalDate deadLineDate) {
+//        this.deadLineDate = deadLineDate;
+//    }
+
+
+    public String getDeadLineDate() {
+        return deadLineDate;
+    }
+
+    public void setDeadLineDate(String deadLineDate) {
+        this.deadLineDate = deadLineDate;
+    }
+
+    public List<UserLocation> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<UserLocation> locations) {
+        this.locations = locations;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
 
     public String getId() {
         return this.id;
@@ -52,11 +91,11 @@ public class Task {
         this.description = description;
     }
 
-    public String getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 }
