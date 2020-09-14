@@ -15,10 +15,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.mta.ive.R;
 import com.mta.ive.pages.login.SignUpInActivity;
 
-public class ActivityManageLocations extends AppCompatActivity {
 
-    protected void onCreate(Bundle savedInstanceState) {
+public class ActivityManageLocations extends AppCompatActivity
+{
+    Button addLocationBtn;
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_manage_locations);
+        addLocationBtn = (Button)findViewById(R.id.add_location_button);
+        addLocationBtn.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(this, ActivityAddNewLocation.class);
+            startActivity(intent);
+        });
     }
 }
