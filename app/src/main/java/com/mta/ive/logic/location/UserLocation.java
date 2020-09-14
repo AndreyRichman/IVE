@@ -1,10 +1,14 @@
 package com.mta.ive.logic.location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class UserLocation {
 
     private String id;
     private String name;
     private String address;
+    private double latitude;
+    private double longitude;
 
     public UserLocation() {
     }
@@ -37,5 +41,21 @@ public class UserLocation {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }
