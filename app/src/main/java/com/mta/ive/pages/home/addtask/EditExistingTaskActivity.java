@@ -161,11 +161,15 @@ public class EditExistingTaskActivity extends AppCompatActivity {
                     taskDuration.setText(String.valueOf(task.getDuration()));
                     taskDescription.setText(task.getDescription());
                     dateTextField.setText(task.getDeadLineDate());
+
                     List<UserLocation> taskLocations = task.getLocations();
-                    ArrayList<Item> locationItems = taskLocations.stream()
-                            .map(userLocation ->
-                            new Item(userLocation.getName(), userLocation.getId(), userLocation))
-                            .collect(Collectors.toCollection(ArrayList::new));
+                    ArrayList<Item> locationItems = null;
+                    if (taskLocations != null) {
+                        locationItems = taskLocations.stream()
+                                .map(userLocation ->
+                                        new Item(userLocation.getName(), userLocation.getId(), userLocation))
+                                .collect(Collectors.toCollection(ArrayList::new));
+                    }
                     updateLocations(locationItems);
 //                    locationMultiSpinner.setSelection(locationItems);
                 }
@@ -226,7 +230,10 @@ public class EditExistingTaskActivity extends AppCompatActivity {
                 }
                 locationMultiSpinner = (MultiSelectionSpinner) findViewById(R.id.spinner_locations);
                 locationMultiSpinner.setItems(items);
-                locationMultiSpinner.setSelection(selectedItems);
+
+                if (selectedItems != null) {
+                    locationMultiSpinner.setSelection(selectedItems);
+                }
 
 
             }
