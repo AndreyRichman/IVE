@@ -26,8 +26,8 @@ public class ActivityManageLocations extends AppCompatActivity
         addLocationBtn = (Button)findViewById(R.id.add_location_button);
         addLocationBtn.setOnClickListener(v ->
         {
-            Intent intent = new Intent(this, ActivityAddNewLocation.class);
-            startActivity(intent);
+            Intent addLocationIntent = new Intent(this, ActivityAddNewLocation.class);
+            startActivity(addLocationIntent);
         });
     }
 }
