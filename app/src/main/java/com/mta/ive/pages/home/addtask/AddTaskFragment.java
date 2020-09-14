@@ -90,30 +90,58 @@ public class AddTaskFragment extends Fragment {
             @Override
             public void onClick (View btn){
 
-                Toast.makeText(getContext(), "Task was added", Toast.LENGTH_SHORT).show();
+                boolean mandatoryFieldsAreFilled = mandatoryFieldsAreFilled();
 
-                Task task = new Task();
+                if (mandatoryFieldsAreFilled) {
 
-                task.setName(nameTextField.getText().toString());
-                task.setDescription(descriptionTextField.getText().toString());
-                task.setDuration(Integer.parseInt(durationTextField.getText().toString()));
-                task.setPriority(prioritySpinner.getSelectedItemPosition());
+                    Toast.makeText(getContext(), "Task was added", Toast.LENGTH_SHORT).show();
 
-                task.setLocations(locationMultiSpinner.getSelectedItems()
-                        .stream().map(Item::getLocation).collect(Collectors.toList()));
+                    Task task = new Task();
 
-                task.setDeadLineDate(dateString);
+                    task.setName(nameTextField.getText().toString());
+                    task.setDescription(descriptionTextField.getText().toString());
+                    task.setDuration(Integer.parseInt(durationTextField.getText().toString()));
+                    task.setPriority(prioritySpinner.getSelectedItemPosition());
 
-                LogicHandler.saveTask(task);
+                    task.setLocations(locationMultiSpinner.getSelectedItems()
+                            .stream().map(Item::getLocation).collect(Collectors.toList()));
 
-                btn.getRootView().findViewById(R.id.navigation_location).callOnClick();
+                    task.setDeadLineDate(dateString);
 
+                    LogicHandler.saveTask(task);
 
+                    btn.getRootView().findViewById(R.id.navigation_location).callOnClick();
+
+                }
             }
         });
 
 
         return view;//inflater.inflate(R.layout.fragment_add_task, container, false);
+    }
+
+    private boolean mandatoryFieldsAreFilled(){
+        boolean nameIsEmpty = nameTextField.getText().toString().matches("");
+        boolean locationNotSelected = locationMultiSpinner.getSelectedItems().size() == 0;
+        boolean durationIsEmpty = durationTextField.getText().toString().matches("");
+
+        if (nameIsEmpty){
+            notifyMissingField("Name");
+            return false;
+        }
+        if (locationNotSelected) {
+            notifyMissingField("Location");
+            return false;
+        }
+        if (durationIsEmpty){
+            notifyMissingField("Duration");
+            return false;
+        }
+        return true;
+    }
+
+    private void notifyMissingField(String fieldName){
+        Toast.makeText(getContext(), fieldName + " is missing", Toast.LENGTH_SHORT).show();
     }
 
     private void initDatePickerDialog() {

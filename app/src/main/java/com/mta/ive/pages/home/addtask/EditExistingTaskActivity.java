@@ -82,9 +82,12 @@ public class EditExistingTaskActivity extends AppCompatActivity {
             @Override
             public void onClick (View btn){
 
-                updateTaskByFields(taskId);
-                finish();
-                Toast.makeText(btn.getRootView().getContext(),"Task saved", Toast.LENGTH_SHORT).show();
+                boolean mandatoryFieldsAreFilled = mandatoryFieldsAreFilled();
+                if (mandatoryFieldsAreFilled) {
+                    updateTaskByFields(taskId);
+                    finish();
+                    Toast.makeText(btn.getRootView().getContext(), "Task saved", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -106,6 +109,30 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 
     }
 
+    private boolean mandatoryFieldsAreFilled(){
+        boolean nameIsEmpty = taskName.getText().toString().matches("");
+        boolean locationNotSelected = locationMultiSpinner.getSelectedItems().size() == 0;
+        boolean durationIsEmpty = taskDuration.getText().toString().matches("");
+
+        if (nameIsEmpty){
+            notifyMissingField("Name");
+            return false;
+        }
+        if (locationNotSelected) {
+            notifyMissingField("Location");
+            return false;
+        }
+        if (durationIsEmpty){
+            notifyMissingField("Duration");
+            return false;
+        }
+        return true;
+    }
+
+    private void notifyMissingField(String fieldName){
+        Toast.makeText(EditExistingTaskActivity.this, fieldName + " is missing", Toast.LENGTH_SHORT).show();
+    }
+
     private void initDatePickerDialog() {
         final Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -116,7 +143,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        dateTextField.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        dateTextField.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
                     }
                 }, year, month, day);
     }
