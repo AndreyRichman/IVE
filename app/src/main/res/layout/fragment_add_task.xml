@@ -123,6 +123,7 @@
             android:hint="Due Date (op)"
             android:inputType="date"
             android:textSize="15dp"
+            android:focusableInTouchMode="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description" />
