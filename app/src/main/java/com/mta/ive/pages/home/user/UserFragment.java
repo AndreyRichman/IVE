@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mta.ive.R;
 import com.mta.ive.logic.location.ActivityManageLocations;
+import com.mta.ive.pages.home.home.AddLocationFragment;
+import com.mta.ive.pages.home.home.HomeFragment;
 import com.mta.ive.pages.login.LoginActivity;
 import com.mta.ive.pages.login.SignUpInActivity;
 

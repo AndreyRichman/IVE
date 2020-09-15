@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F4F4F4"
-    android:orientation="vertical"
-    android:paddingBottom="60dp" >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/linear_logo"
@@ -73,12 +72,11 @@
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationsRecycleList">
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintTop_toBottomOf="@+id/locationsRecycleList"
+        tools:layout_editor_absoluteX="16dp">
 
         <Space
             android:layout_width="0dp"
@@ -87,13 +85,11 @@
 
         <Button
             android:id="@+id/add_location_button"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/rounded_corners"
-            android:text="Add Location"
+            android:text="Add location"
             android:textColor="#FFFFFF"
-            android:textSize="12dp"
             tools:layout_editor_absoluteY="554dp" />
 
         <Space
@@ -101,6 +97,20 @@
             android:layout_height="1dp"
             android:layout_weight="1"></Space>
 
+
+
     </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemIconSize="26dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
