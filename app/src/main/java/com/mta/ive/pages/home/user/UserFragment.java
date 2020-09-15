@@ -1,5 +1,6 @@
 package com.mta.ive.pages.home.user;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.mta.ive.R;
 import com.mta.ive.logic.location.ActivityManageLocations;
+import com.mta.ive.pages.home.HomeActivity;
 import com.mta.ive.pages.home.home.AddLocationFragment;
 import com.mta.ive.pages.home.home.HomeFragment;
 import com.mta.ive.pages.login.LoginActivity;
@@ -23,10 +26,11 @@ public class UserFragment extends Fragment {
 
 //    private UserViewModel notificationsViewModel;
     Button appSettingBtn, manageLocationBtn, personalSettingBtn, logoutBtn;
+    View view;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        view = inflater.inflate(R.layout.fragment_settings, container, false);
 
 
         appSettingBtn = (Button)view.findViewById(R.id.app_settings);
@@ -40,7 +44,12 @@ public class UserFragment extends Fragment {
         });
 
         manageLocationBtn.setOnClickListener( click -> {
-            startActivity(new Intent(getActivity(), ActivityManageLocations.class));
+//            startActivity(new Intent(getActivity(), ActivityManageLocations.class));
+            Bundle bundle = new Bundle();
+            ((HomeActivity)view.getContext()).openManageLocationsPage(bundle);
+//            int LAUNCH_SECOND_ACTIVITY = 1;
+//            Intent addLocationPage = new Intent(getContext(), ActivityManageLocations.class);
+//            startActivityForResult(addLocationPage, LAUNCH_SECOND_ACTIVITY);
         });
 
         return view;
@@ -59,4 +68,55 @@ public class UserFragment extends Fragment {
 //        });
 //        return root;
     }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (resultCode == Activity.RESULT_OK) {
+//            String selection = data.getStringExtra("selection");
+//
+//            Integer option = Integer.parseInt(selection);
+//            switch (option) {
+//                case 1:
+//                    view.findViewById(R.id.navigation_location).callOnClick();
+//                    break;
+//                case 2:
+//                    view.findViewById(R.id.navigation_home).callOnClick();
+//                    break;
+//                case 3:
+//                    view.findViewById(R.id.navigation_add).callOnClick();
+//                    break;
+//                case 4:
+//                    view.findViewById(R.id.navigation_user).callOnClick();
+//                    break;
+//            }
+////            switchToTabAccordingToSelection(Integer.parseInt(selection));
+//        }
+//    }
+    //    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (resultCode == Activity.RESULT_OK) {
+//            String selection = data.getStringExtra("selection");
+//
+//            Integer option = Integer.parseInt(selection);
+//            switch (option) {
+//                case 1:
+//                    view.findViewById(R.id.navigation_location).callOnClick();
+//                    break;
+//                case 2:
+//                    view.findViewById(R.id.navigation_home).callOnClick();
+//                    break;
+//                case 3:
+//                    view.findViewById(R.id.navigation_add).callOnClick();
+//                    break;
+//                case 4:
+//                    view.findViewById(R.id.navigation_user).callOnClick();
+//                    break;
+//            }
+////            switchToTabAccordingToSelection(Integer.parseInt(selection));
+//        }
+//    }
 }

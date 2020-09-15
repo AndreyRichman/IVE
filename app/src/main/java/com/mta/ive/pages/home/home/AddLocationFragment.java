@@ -104,7 +104,7 @@ public class AddLocationFragment extends AppCompatActivity {
     }
 
     private void setNavigationButtons() {
-        ((BottomNavigationView)findViewById(R.id.nav_view)).setSelectedItemId(R.id.navigation_home);
+        ((BottomNavigationView)findViewById(R.id.nav_view)).setSelectedItemId(R.id.navigation_user);
 
         findViewById(R.id.navigation_location).setOnClickListener( t -> {
             Intent returnIntent = new Intent();

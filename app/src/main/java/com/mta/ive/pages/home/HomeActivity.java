@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
+import com.mta.ive.logic.location.ActivityManageLocations;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.pages.home.addtask.EditExistingTaskActivity;
 import com.mta.ive.pages.home.home.AddLocationFragment;
@@ -163,6 +164,13 @@ public class HomeActivity extends AppCompatActivity {
     public void openAddLocationPage(Bundle bundle){
         int LAUNCH_SECOND_ACTIVITY = 1;
         Intent addLocationPage = new Intent(this, AddLocationFragment.class);
+        addLocationPage.putExtras(bundle);
+        startActivityForResult(addLocationPage, LAUNCH_SECOND_ACTIVITY);
+    }
+
+    public void openManageLocationsPage(Bundle bundle){
+        int LAUNCH_SECOND_ACTIVITY = 1;
+        Intent addLocationPage = new Intent(this, ActivityManageLocations.class);
         addLocationPage.putExtras(bundle);
         startActivityForResult(addLocationPage, LAUNCH_SECOND_ACTIVITY);
     }
