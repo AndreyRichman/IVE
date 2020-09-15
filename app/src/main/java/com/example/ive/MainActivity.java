@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ive.deviceManager.DeviceManager;
 import com.example.ive.pages.AllTasksActivity;
 import com.example.ive.pages.HomeActivity;
 import com.example.ive.pages.LobbyActivity;
@@ -14,11 +15,17 @@ import com.example.ive.pages.NewTaskActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        DeviceManager d=new DeviceManager();
+        d.getLocationFromDevice(this);
+
+
+
     }
 
 

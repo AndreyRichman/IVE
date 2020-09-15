@@ -1,10 +1,15 @@
 package com.example.ive.taskManager;
 
+import android.content.Intent;
+import android.os.IBinder;
+
+import androidx.annotation.Nullable;
+
 import com.example.ive.Task.Task;
 
 import java.util.List;
 
-public class TaskManager {
+public class TaskManager  {
     public List<Task> getAllTasks(String userID) {
 return null;    }
 
@@ -21,6 +26,8 @@ return null;    }
 
     public void addTask(Task task, String userID) {
     }
+
+
 
     ;
 }
