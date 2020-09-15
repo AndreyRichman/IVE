@@ -5,11 +5,6 @@
         android:id="@+id/navigation_location"
         android:icon="@drawable/icon_location"
         android:title="" />
-    <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/icon_home"
-        android:title="" />
-
 
     <item
         android:id="@+id/navigation_add"

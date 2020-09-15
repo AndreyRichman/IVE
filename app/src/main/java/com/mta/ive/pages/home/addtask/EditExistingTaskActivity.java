@@ -155,22 +155,17 @@ public class EditExistingTaskActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         });
-        findViewById(R.id.navigation_home).setOnClickListener( t -> {
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("selection", "2");
-            setResult(Activity.RESULT_OK, returnIntent);
-            finish();
-        });
+
         findViewById(R.id.navigation_add).setOnClickListener( t -> {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("selection", "3");
+            returnIntent.putExtra("selection", "2");
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         });
 
         findViewById(R.id.navigation_user).setOnClickListener( t -> {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("selection", "4");
+            returnIntent.putExtra("selection", "3");
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         });

@@ -188,12 +188,9 @@ public class HomeActivity extends AppCompatActivity {
                     findViewById(R.id.navigation_location).callOnClick();
                     break;
                 case 2:
-                    findViewById(R.id.navigation_home).callOnClick();
-                    break;
-                case 3:
                     findViewById(R.id.navigation_add).callOnClick();
                     break;
-                case 4:
+                case 3:
                     findViewById(R.id.navigation_user).callOnClick();
                     break;
             }
@@ -211,12 +208,9 @@ public class HomeActivity extends AppCompatActivity {
                 findViewById(R.id.navigation_location).callOnClick();
                 break;
             case 2:
-                findViewById(R.id.navigation_home).callOnClick();
-                break;
-            case 3:
                 findViewById(R.id.navigation_add).callOnClick();
                 break;
-            case 4:
+            case 3:
                 findViewById(R.id.navigation_user).callOnClick();
                 break;
         }
