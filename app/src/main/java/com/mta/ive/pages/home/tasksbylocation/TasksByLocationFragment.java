@@ -82,6 +82,6 @@ public class TasksByLocationFragment extends Fragment {
         String username = ((HomeActivity)getActivity()).getUserName();
 
         TextView title = view.findViewById(R.id.tasksListMainTitle);
-        title.setText("Hello "+ username + "! \n Here are your tasks at Work:");
+        title.setText("Hello "+ username + "! \n Here are your tasks at Work");
     }
 }
