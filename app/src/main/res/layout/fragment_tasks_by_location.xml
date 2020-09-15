@@ -39,6 +39,21 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:backgroundTint="#27a1ac"
+        android:src="@drawable/switch_loc8"
+        app:maxImageSize="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tasksRecycleList"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/showing_tasks_by"
