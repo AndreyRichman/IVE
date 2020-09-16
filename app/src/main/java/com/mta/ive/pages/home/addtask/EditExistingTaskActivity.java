@@ -25,6 +25,7 @@ import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
+import com.mta.ive.logic.users.User;
 import com.mta.ive.vm.adapter.multiselect.Item;
 import com.mta.ive.vm.adapter.multiselect.MultiSelectionSpinner;
 
@@ -47,6 +48,9 @@ public class EditExistingTaskActivity extends AppCompatActivity {
     DatePickerDialog datePickerDialog;
     MultiSelectionSpinner locationMultiSpinner;
 
+    String dateString;
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,7 +147,8 @@ public class EditExistingTaskActivity extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        dateTextField.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
+                        dateString = dayOfMonth + "/" + monthOfYear + "/" + year;
+                        dateTextField.setText(dateString);
                     }
                 }, year, month, day);
     }
@@ -171,67 +176,101 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void readTaskFromDB(String taskId){
-        databaseReference = LogicHandler.getTaskDBReferenceById(taskId);
-//        databaseReference = FirebaseDatabase.getInstance().getReference()
-//                .child("task").child(String.valueOf(taskId));
+        Task task = LogicHandler.getCurrentUser().getTasks().get(taskId);
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot != null) {
-                    Task task = snapshot.getValue(Task.class);
 
-                    taskName.setText(task.getName());
-                    taskDuration.setText(String.valueOf(task.getDuration()));
-                    taskDescription.setText(task.getDescription());
-                    dateTextField.setText(task.getDeadLineDate());
+        taskName.setText(task.getName());
+        taskDuration.setText(String.valueOf(task.getDuration()));
+        taskDescription.setText(task.getDescription());
+        dateTextField.setText(task.getDeadLineDate());
 
-                    List<UserLocation> taskLocations = task.getLocations();
-                    ArrayList<Item> locationItems = null;
-                    if (taskLocations != null) {
-                        locationItems = taskLocations.stream()
-                                .map(userLocation ->
-                                        new Item(userLocation.getName(), userLocation.getId(), userLocation))
-                                .collect(Collectors.toCollection(ArrayList::new));
-                    }
-                    updateLocations(locationItems);
-//                    locationMultiSpinner.setSelection(locationItems);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        List<UserLocation> taskLocations = task.getLocations();
+        ArrayList<Item> locationItems = null;
+        if (taskLocations != null) {
+            locationItems = taskLocations.stream()
+                    .map(userLocation ->
+                            new Item(userLocation.getName(), userLocation.getId(), userLocation))
+                    .collect(Collectors.toCollection(ArrayList::new));
+        }
+        updateLocations(locationItems);
+//        databaseReference = LogicHandler.getTaskDBReferenceById(taskId);
+//
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.N)
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot != null) {
+//                    Task task = snapshot.getValue(Task.class);
+//
+//                    taskName.setText(task.getName());
+//                    taskDuration.setText(String.valueOf(task.getDuration()));
+//                    taskDescription.setText(task.getDescription());
+//                    dateTextField.setText(task.getDeadLineDate());
+//
+//                    List<UserLocation> taskLocations = task.getLocations();
+//                    ArrayList<Item> locationItems = null;
+//                    if (taskLocations != null) {
+//                        locationItems = taskLocations.stream()
+//                                .map(userLocation ->
+//                                        new Item(userLocation.getName(), userLocation.getId(), userLocation))
+//                                .collect(Collectors.toCollection(ArrayList::new));
+//                    }
+//                    updateLocations(locationItems);
+////                    locationMultiSpinner.setSelection(locationItems);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateTaskByFields(String taskId){
 
+        Task task = LogicHandler.getCurrentUser().getTasks().get(taskId);
 
-        databaseReference = LogicHandler.getTaskDBReferenceById(taskId);
-//        databaseReference = FirebaseDatabase.getInstance().getReference()
-//                .child("task").child(String.valueOf(taskId));
+        task.setName(taskName.getText().toString());
+        task.setDescription(taskDescription.getText().toString());
+        task.setDuration(Integer.parseInt(taskDuration.getText().toString()));
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Task task = snapshot.getValue(Task.class);
 
-                task.setName(taskName.getText().toString());
-                task.setDescription(taskDescription.getText().toString());
-                task.setDuration(Integer.parseInt(taskDuration.getText().toString()));
+        task.setPriority(prioritySpinner.getSelectedItemPosition());
 
-                LogicHandler.updateExistingTask(task);// saveTask(task);
-//                databaseReference.setValue(task);
-            }
+        task.setLocations(locationMultiSpinner.getSelectedItems()
+                .stream().map(Item::getLocation).collect(Collectors.toList()));
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        task.setDeadLineDate(dateString);
 
-            }
-        });
+
+
+
+        LogicHandler.updateExistingTask(task);
+
+//
+//        databaseReference = LogicHandler.getTaskDBReferenceById(taskId);
+//
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                Task task = snapshot.getValue(Task.class);
+//
+//                task.setName(taskName.getText().toString());
+//                task.setDescription(taskDescription.getText().toString());
+//                task.setDuration(Integer.parseInt(taskDuration.getText().toString()));
+//
+//                LogicHandler.updateExistingTask(task);// saveTask(task);
+////                databaseReference.setValue(task);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 
     private void deleteTaskById(String idToDelete){
@@ -240,34 +279,47 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 //                .child("task").child(String.valueOf(taskId)).removeValue();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateLocations(ArrayList<Item> selectedItems) {
-        DatabaseReference reference = LogicHandler.getAllLocationsDBReference();
+        ArrayList<Item> items = new ArrayList<>();
+        User user = LogicHandler.getCurrentUser();
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                ArrayList<Item> items = new ArrayList<>();
-                for(DataSnapshot data: snapshot.getChildren()){
-                    UserLocation location = data.getValue(UserLocation.class);
-
-                    Item spinnerItem = new Item(location.getName(), location.getId(), location);
-                    items.add(spinnerItem);
-                }
-                locationMultiSpinner = (MultiSelectionSpinner) findViewById(R.id.spinner_locations);
-                locationMultiSpinner.setItems(items);
-
-                if (selectedItems != null) {
-                    locationMultiSpinner.setSelection(selectedItems);
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+        user.getArrayOfLocations().forEach(location -> {
+            Item spinnerItem = new Item(location.getName(), location.getId(), location);
+            items.add(spinnerItem);
+            locationMultiSpinner.setItems(items);
         });
+
+        if (selectedItems != null && selectedItems.size() > 0) {
+                    locationMultiSpinner.setSelection(selectedItems);
+        }
+//        DatabaseReference reference = LogicHandler.getAllLocationsDBReference();
+//
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                ArrayList<Item> items = new ArrayList<>();
+//                for(DataSnapshot data: snapshot.getChildren()){
+//                    UserLocation location = data.getValue(UserLocation.class);
+//
+//                    Item spinnerItem = new Item(location.getName(), location.getId(), location);
+//                    items.add(spinnerItem);
+//                }
+//                locationMultiSpinner = (MultiSelectionSpinner) findViewById(R.id.spinner_locations);
+//                locationMultiSpinner.setItems(items);
+//
+//                if (selectedItems != null) {
+//                    locationMultiSpinner.setSelection(selectedItems);
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 }
