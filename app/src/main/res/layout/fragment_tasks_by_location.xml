@@ -36,7 +36,9 @@
             android:text="Work"
             android:textAlignment="center"
             android:textColor="#333333"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:fontFamily="@font/raleway_bold"
+            />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -64,6 +66,8 @@
         android:textAlignment="center"
         android:textColor="#333333"
         android:textSize="18sp"
+        android:fontFamily="@font/raleway_medium"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,6 +82,8 @@
         android:textAlignment="center"
         android:textColor="#333333"
         android:textSize="14dp"
+        android:fontFamily="@font/raleway_medium"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +93,7 @@
 
         android:id="@+id/tasksRecycleList"
         android:layout_width="match_parent"
-        android:layout_height="410dp"
+        android:layout_height="400dp"
         android:layout_marginTop="24dp"
         app:layout_constraintTop_toBottomOf="@+id/click_on_task"
         tools:layout_editor_absoluteX="0dp">
@@ -99,10 +105,13 @@
         android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginStart="176dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="176dp"
+        android:fontFamily="@font/raleway_medium"
         android:text="That's it!"
         android:textAlignment="center"
         android:textColor="#333333"
+
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
