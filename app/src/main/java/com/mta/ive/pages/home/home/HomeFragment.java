@@ -31,86 +31,86 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-
-    RecyclerView locationsRecList;
-    DatabaseReference reference;
-    LocationsAdapter tasksAdapter;
-    Button addNewButton;
-    List<UserLocation> userLocations;
-//    private HomeViewModel homeViewModel;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_manage_locations, container, false);
-
-        locationsRecList = view.findViewById(R.id.locationsRecycleList);
-        locationsRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        userLocations = new ArrayList<>();
-        locationsRecList.setAdapter(new LocationsAdapter(view.getContext(), userLocations));
-
-
-        addNewButton = view.findViewById(R.id.add_location_button);
-
-        addNewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                //put data to transfer to the page using bundle
-                ((HomeActivity)getActivity()).openAddLocationPage(bundle);
-
-//                Intent addLocationPage = new Intent(getActivity(), AddLocationFragment.class);
-//                startActivity(addLocationPage);
-
-
-
-
-//                ((HomeActivity)context).openEditTaskPage(bundle);
-
-//                v.getRootView().findViewById(R.id.navigation_add_location).callOnClick();
-//                FragmentTransaction fragmentTransaction = getActivity()
-//                        .getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.nav_host_fragment, new AddLocationFragment());
-//                fragmentTransaction.commit();
-            }
-        });
-
-        reference = LogicHandler.getAllLocationsDBReference();
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userLocations = new ArrayList<>();
-                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-                    UserLocation userLocation = dataSnapshot1.getValue(UserLocation.class);
-                    userLocations.add(userLocation);
-                }
-
-
-
-                tasksAdapter = new LocationsAdapter(view.getContext(), userLocations); //TODO: originally: MainActivity.this
-                locationsRecList.setAdapter(tasksAdapter);
-                tasksAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(),"Error pulling data", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        return view;
-
-//        homeViewModel =
-//                ViewModelProviders.of(this).get(HomeViewModel.class);
-//        View root = inflater.inflate(R.layout.fragment_home, container, false);
-//        final TextView textView = root.findViewById(R.id.text_home);
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+//
+//    RecyclerView locationsRecList;
+//    DatabaseReference reference;
+//    LocationsAdapter tasksAdapter;
+//    Button addNewButton;
+//    List<UserLocation> userLocations;
+////    private HomeViewModel homeViewModel;
+//
+//    public View onCreateView(@NonNull LayoutInflater inflater,
+//                             ViewGroup container, Bundle savedInstanceState) {
+//        View view = inflater.inflate(R.layout.fragment_manage_locations, container, false);
+//
+//        locationsRecList = view.findViewById(R.id.locationsRecycleList);
+//        locationsRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+//        userLocations = new ArrayList<>();
+//        locationsRecList.setAdapter(new LocationsAdapter(view.getContext(), userLocations));
+//
+//
+//        addNewButton = view.findViewById(R.id.add_location_button);
+//
+//        addNewButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
+//            public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                //put data to transfer to the page using bundle
+//                ((HomeActivity)getActivity()).openAddLocationPage(bundle);
+//
+////                Intent addLocationPage = new Intent(getActivity(), AddLocationFragment.class);
+////                startActivity(addLocationPage);
+//
+//
+//
+//
+////                ((HomeActivity)context).openEditTaskPage(bundle);
+//
+////                v.getRootView().findViewById(R.id.navigation_add_location).callOnClick();
+////                FragmentTransaction fragmentTransaction = getActivity()
+////                        .getSupportFragmentManager().beginTransaction();
+////                fragmentTransaction.replace(R.id.nav_host_fragment, new AddLocationFragment());
+////                fragmentTransaction.commit();
 //            }
 //        });
-//        return root;
-    }
+//
+//        reference = LogicHandler.getAllLocationsDBReference();
+//
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                userLocations = new ArrayList<>();
+//                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+//                    UserLocation userLocation = dataSnapshot1.getValue(UserLocation.class);
+//                    userLocations.add(userLocation);
+//                }
+//
+//
+//
+//                tasksAdapter = new LocationsAdapter(view.getContext(), userLocations); //TODO: originally: MainActivity.this
+//                locationsRecList.setAdapter(tasksAdapter);
+//                tasksAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Toast.makeText(getContext(),"Error pulling data", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        return view;
+//
+////        homeViewModel =
+////                ViewModelProviders.of(this).get(HomeViewModel.class);
+////        View root = inflater.inflate(R.layout.fragment_home, container, false);
+////        final TextView textView = root.findViewById(R.id.text_home);
+////        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+////            @Override
+////            public void onChanged(@Nullable String s) {
+////                textView.setText(s);
+////            }
+////        });
+////        return root;
+//    }
 }

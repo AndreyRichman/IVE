@@ -48,6 +48,7 @@ public class LogicHandler {
 //                .setValue(task);
         String taskId = ref.getKey();
         task.setId(taskId);
+        getCurrentUser().addTask(task);
 //        task.setTaskID(taskId);
         ref.setValue(task);
     }
@@ -63,6 +64,7 @@ public class LogicHandler {
 
         String locationId = ref.getKey();
         userLocation.setId(locationId);
+        getCurrentUser().addLocation(userLocation);
 
         ref.setValue(userLocation);
     }
@@ -77,6 +79,7 @@ public class LogicHandler {
                 .child(task.getId())
                 .setValue(task);
 
+        getCurrentUser().getTasks().put(task.getId(), task);
     }
 
     public static User getCurrentUser(){
@@ -87,36 +90,35 @@ public class LogicHandler {
         UsersHandler.getInstance().setCurrentUser(user);
     }
 
-    public static DatabaseReference getAllTasksDBReference(){
-        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+//    public static DatabaseReference getAllTasksDBReference(){
+//        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+//
+//        return FirebaseDatabase.getInstance().getReference()
+//                .child("users")
+//                .child(String.valueOf(email.hashCode()))
+//                .child("tasks");
+//
+//    }
 
-        return FirebaseDatabase.getInstance().getReference()
-                .child("users")
-                .child(String.valueOf(email.hashCode()))
-                .child("tasks");
-//        return FirebaseDatabase.getInstance().getReference().child("task");
+//    public static DatabaseReference getAllLocationsDBReference(){
+//        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+//
+//        return FirebaseDatabase.getInstance().getReference()
+//                .child("users")
+//                .child(String.valueOf(email.hashCode()))
+//                .child("locations");
+//    }
 
-    }
-
-    public static DatabaseReference getAllLocationsDBReference(){
-        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
-        return FirebaseDatabase.getInstance().getReference()
-                .child("users")
-                .child(String.valueOf(email.hashCode()))
-                .child("locations");
-    }
-
-    public static DatabaseReference getTaskDBReferenceById(String taskId){
-        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
-        return FirebaseDatabase.getInstance().getReference()
-                .child("users")
-                .child(String.valueOf(email.hashCode()))
-                .child("tasks")
-                .child(String.valueOf(taskId));
-
-    }
+//    public static DatabaseReference getTaskDBReferenceById(String taskId){
+//        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+//
+//        return FirebaseDatabase.getInstance().getReference()
+//                .child("users")
+//                .child(String.valueOf(email.hashCode()))
+//                .child("tasks")
+//                .child(String.valueOf(taskId));
+//
+//    }
 
     public static String getCurrentUserEmail() {
         return currentUserEmail;
@@ -129,14 +131,30 @@ public class LogicHandler {
                 .child("users")
                 .child(String.valueOf(userEmail.hashCode()));
     }
-    public static void deleteTaskById(String taskId){
-        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
-        FirebaseDatabase.getInstance().getReference()
-                .child("users")
-                .child(String.valueOf(email.hashCode()))
-                .child("tasks")
-                .child(String.valueOf(taskId)).removeValue();
+    public static Task getTaskById(String id){
+        return getCurrentUser().getTasks().get(id);
+    }
+
+    public static void deleteTaskById(String taskId){
+
+        Task taskToArchive = getTaskById(taskId);
+        taskToArchive.setStatus(Task.Status.ARCHIVED);
+        updateExistingTask(taskToArchive);
+//
+//        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+//
+//        FirebaseDatabase.getInstance().getReference()
+//                .child("users")
+//                .child(String.valueOf(email.hashCode()))
+//                .child("tasks")
+//                .child(String.valueOf(taskId)).removeValue();
+    }
+
+    public static void markDoneTask(String taskId) {
+        Task taskToArchive = getTaskById(taskId);
+        taskToArchive.setStatus(Task.Status.DONE);
+        updateExistingTask(taskToArchive);
     }
 
     public static void createUserIfNotExist(String email, String userName) {

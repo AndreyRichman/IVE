@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mta.ive.MainActivity;
 import com.mta.ive.R;
 import com.mta.ive.pages.home.HomeActivity;
 
@@ -99,7 +100,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user){
         if (user != null) {
-            Intent homePage = new Intent(this, HomeActivity.class);
+            Intent homePage = new Intent(this, MainActivity.class);
             homePage.putExtra("userName", this.userName);
             homePage.putExtra("email", user.getEmail());
 

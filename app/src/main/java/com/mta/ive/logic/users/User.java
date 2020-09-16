@@ -79,15 +79,12 @@ public class User {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Task> getArrayOfTasks()
     {
-        if(this.tasks == null || this.tasks.size() < 1)
-        {
-            return new ArrayList<>();
+        ArrayList<Task> activeTasks = new ArrayList<>();
+        if(this.tasks != null && this.tasks.size() > 0){
+            activeTasks = new ArrayList<>(this.tasks.values());
         }
 
-        else
-        {
-            return new ArrayList<>(this.tasks.values());
-        }
+        return activeTasks.stream().filter(Task::isActive).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public ArrayList<UserLocation> getArrayOfLocations()
@@ -101,5 +98,13 @@ public class User {
         {
             return new ArrayList<>(this.locations.values());
         }
+    }
+
+    public void addTask(Task taskToAdd){
+        this.tasks.put(taskToAdd.getId(), taskToAdd);
+    }
+
+    public void addLocation(UserLocation userLocation){
+        this.locations.put(userLocation.getId(), userLocation);
     }
 }

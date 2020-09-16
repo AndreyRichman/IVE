@@ -22,6 +22,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.mta.ive.MainActivity;
 import com.mta.ive.R;
 import com.mta.ive.pages.home.HomeActivity;
 
@@ -124,9 +125,9 @@ public class SignUpInActivity extends AppCompatActivity {
             String personName = account.getGivenName();
             String personEmail = account.getEmail();
 
-            Toast.makeText(SignUpInActivity.this, "Welcome " + personName, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(SignUpInActivity.this, "Welcome " + personName, Toast.LENGTH_SHORT).show();
 
-            Intent homePage = new Intent(this, HomeActivity.class);
+            Intent homePage = new Intent(this, MainActivity.class);
             homePage.putExtra("userName", personName);
             homePage.putExtra("email", personEmail);
             startActivity(homePage);
@@ -139,12 +140,13 @@ public class SignUpInActivity extends AppCompatActivity {
             String personName = user.getDisplayName();
             String personEmail = user.getEmail();
 
-            Toast.makeText(SignUpInActivity.this, "Welcome " + personName, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(SignUpInActivity.this, "Welcome " + personName, Toast.LENGTH_SHORT).show();
 
-            Intent homePage = new Intent(this, HomeActivity.class);
+            Intent homePage = new Intent(this, MainActivity.class);
             homePage.putExtra("userName", personName);
             homePage.putExtra("email", personEmail);
             startActivity(homePage);
+            finish();
         }
 
     }

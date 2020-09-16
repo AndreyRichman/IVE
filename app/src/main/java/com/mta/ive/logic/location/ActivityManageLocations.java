@@ -63,30 +63,35 @@ public class ActivityManageLocations extends AppCompatActivity
 //            startActivity(addLocationIntent);
         });
 
-        reference = LogicHandler.getAllLocationsDBReference();
+        userLocations = LogicHandler.getCurrentUser().getArrayOfLocations();
+        tasksAdapter = new LocationsAdapter(ActivityManageLocations.this, userLocations); //TODO: originally: MainActivity.this
+        locationsRecList.setAdapter(tasksAdapter);
+        tasksAdapter.notifyDataSetChanged();
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userLocations = new ArrayList<>();
-                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-                    UserLocation userLocation = dataSnapshot1.getValue(UserLocation.class);
-                    userLocations.add(userLocation);
-                }
-
-
-
-                tasksAdapter = new LocationsAdapter(ActivityManageLocations.this, userLocations); //TODO: originally: MainActivity.this
-                locationsRecList.setAdapter(tasksAdapter);
-                tasksAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(ActivityManageLocations.this,"Error pulling data", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        reference = LogicHandler.getAllLocationsDBReference();
+//
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                userLocations = new ArrayList<>();
+//                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+//                    UserLocation userLocation = dataSnapshot1.getValue(UserLocation.class);
+//                    userLocations.add(userLocation);
+//                }
+//
+//
+//
+//                tasksAdapter = new LocationsAdapter(ActivityManageLocations.this, userLocations); //TODO: originally: MainActivity.this
+//                locationsRecList.setAdapter(tasksAdapter);
+//                tasksAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Toast.makeText(ActivityManageLocations.this,"Error pulling data", Toast.LENGTH_SHORT).show();
+//            }
+//        });
         setNavigationButtons();
 
     }

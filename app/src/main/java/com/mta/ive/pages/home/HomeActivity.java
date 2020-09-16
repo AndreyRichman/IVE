@@ -36,28 +36,20 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-        String email = getIntent().getStringExtra("email");
-        userName = getIntent().getStringExtra("userName");
+//        String email = getIntent().getStringExtra("email");
+//        userName = getIntent().getStringExtra("userName");
+//
+//        LogicHandler.createUserIfNotExist(email, userName);
 
-        LogicHandler.createUserIfNotExist(email, userName);
-
-//        User user = LogicHandler.getUserByEmail(email, userName);
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-//                .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
 
     }
 
-    public String getUserName(){
-        return userName;
-    }
+//    public String getUserName(){
+//        return userName;
+//    }
 
     //TODO deide if this is needed or cn be removed
 //    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -214,6 +206,10 @@ public class HomeActivity extends AppCompatActivity {
                 findViewById(R.id.navigation_user).callOnClick();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
 //    public void goToTasksLocationPage(){
