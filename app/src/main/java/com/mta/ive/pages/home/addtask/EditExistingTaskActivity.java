@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -37,8 +38,8 @@ import java.util.stream.Collectors;
 public class EditExistingTaskActivity extends AppCompatActivity {
 
     EditText taskName, taskDescription, taskDuration;
-
-    EditText  dateTextField;
+    EditText dateTextField;
+    CheckBox doneCheckBox;
 
     String taskId;
 
@@ -66,6 +67,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         dateTextField = findViewById(R.id.editTextDate);
         dateTextField.setInputType(InputType.TYPE_NULL);
 
+        doneCheckBox = findViewById(R.id.doneCheckBox);
 
         Bundle bundle = getIntent().getExtras();
         this.taskId = bundle.getString("taskId");
@@ -231,24 +233,28 @@ public class EditExistingTaskActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateTaskByFields(String taskId){
 
-        Task task = LogicHandler.getCurrentUser().getTasks().get(taskId);
+        if (doneCheckBox.isChecked()){
+            LogicHandler.markDoneTask(taskId);
 
-        task.setName(taskName.getText().toString());
-        task.setDescription(taskDescription.getText().toString());
-        task.setDuration(Integer.parseInt(taskDuration.getText().toString()));
+        }
+        else {
 
+            Task task = LogicHandler.getCurrentUser().getTasks().get(taskId);
 
-        task.setPriority(prioritySpinner.getSelectedItemPosition());
-
-        task.setLocations(locationMultiSpinner.getSelectedItems()
-                .stream().map(Item::getLocation).collect(Collectors.toList()));
-
-        task.setDeadLineDate(dateString);
+            task.setName(taskName.getText().toString());
+            task.setDescription(taskDescription.getText().toString());
+            task.setDuration(Integer.parseInt(taskDuration.getText().toString()));
 
 
+            task.setPriority(prioritySpinner.getSelectedItemPosition());
 
+            task.setLocations(locationMultiSpinner.getSelectedItems()
+                    .stream().map(Item::getLocation).collect(Collectors.toList()));
 
-        LogicHandler.updateExistingTask(task);
+            task.setDeadLineDate(dateString);
+
+            LogicHandler.updateExistingTask(task);
+        }
 
 //
 //        databaseReference = LogicHandler.getTaskDBReferenceById(taskId);

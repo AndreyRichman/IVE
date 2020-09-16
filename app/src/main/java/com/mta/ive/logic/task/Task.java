@@ -15,9 +15,11 @@ public class Task {
     private List<UserLocation> locations;
 //    private LocalDate deadLineDate;
     private String deadLineDate;
+    private Status status = Status.ACTIVE;
 
 
 
+    public enum Status { ACTIVE, ARCHIVED, DONE}
 
 //    private int urgency;
 //    private int estimatedDurationMinutes;
@@ -34,7 +36,19 @@ public class Task {
         this.duration = duration;
     }
 
-//    public LocalDate getDeadLineDate() {
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public boolean isActive(){
+        return this.status == Status.ACTIVE;
+    }
+
+    //    public LocalDate getDeadLineDate() {
 //        return deadLineDate;
 //    }
 //

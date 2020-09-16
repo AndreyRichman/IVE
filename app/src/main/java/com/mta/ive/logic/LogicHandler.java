@@ -131,14 +131,30 @@ public class LogicHandler {
                 .child("users")
                 .child(String.valueOf(userEmail.hashCode()));
     }
-    public static void deleteTaskById(String taskId){
-        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
-        FirebaseDatabase.getInstance().getReference()
-                .child("users")
-                .child(String.valueOf(email.hashCode()))
-                .child("tasks")
-                .child(String.valueOf(taskId)).removeValue();
+    public static Task getTaskById(String id){
+        return getCurrentUser().getTasks().get(id);
+    }
+
+    public static void deleteTaskById(String taskId){
+
+        Task taskToArchive = getTaskById(taskId);
+        taskToArchive.setStatus(Task.Status.ARCHIVED);
+        updateExistingTask(taskToArchive);
+//
+//        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+//
+//        FirebaseDatabase.getInstance().getReference()
+//                .child("users")
+//                .child(String.valueOf(email.hashCode()))
+//                .child("tasks")
+//                .child(String.valueOf(taskId)).removeValue();
+    }
+
+    public static void markDoneTask(String taskId) {
+        Task taskToArchive = getTaskById(taskId);
+        taskToArchive.setStatus(Task.Status.DONE);
+        updateExistingTask(taskToArchive);
     }
 
     public static void createUserIfNotExist(String email, String userName) {
