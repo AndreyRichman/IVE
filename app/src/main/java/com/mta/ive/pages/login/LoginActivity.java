@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mta.ive.MainActivity;
 import com.mta.ive.R;
 import com.mta.ive.pages.home.HomeActivity;
 
@@ -105,9 +106,9 @@ public class LoginActivity extends AppCompatActivity {
             String email = user.getEmail();
 //            String personId = account.getId();
 
-            Toast.makeText(LoginActivity.this, "Welcome " + email, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(LoginActivity.this, "Welcome " + email, Toast.LENGTH_SHORT).show();
 
-            Intent homePage = new Intent(this, HomeActivity.class);
+            Intent homePage = new Intent(this, MainActivity.class);
             homePage.putExtra("email", email);
             startActivity(homePage);
         }

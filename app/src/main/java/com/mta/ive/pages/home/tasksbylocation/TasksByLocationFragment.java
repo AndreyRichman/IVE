@@ -39,9 +39,9 @@ public class TasksByLocationFragment extends Fragment {
 
     View view;
 
-    public void setTasksAdapter(TasksAdapter tasksAdapter) {
-        this.tasksAdapter = tasksAdapter;
-    }
+//    public void setTasksAdapter(TasksAdapter tasksAdapter) {
+//        this.tasksAdapter = tasksAdapter;
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
