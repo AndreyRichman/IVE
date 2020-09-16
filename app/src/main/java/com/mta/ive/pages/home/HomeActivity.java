@@ -216,6 +216,10 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
 //    public void goToTasksLocationPage(){
 //        findViewById(R.id.navigation_location).callOnClick();
 //    }
