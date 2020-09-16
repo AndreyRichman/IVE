@@ -31,6 +31,8 @@
         <activity android:name=".pages.home.HomeActivity" />
         <activity android:name=".pages.delete.NewTaskActivity" />
         <activity android:name=".pages.delete.LobbyActivity" />
+        <activity android:name=".pages.settings.UserSettings" />
+        <activity android:name=".pages.settings.AppSettings" />
         <activity android:name=".logic.location.ActivityManageLocations" />
         <activity android:name=".logic.location.ActivityAddNewLocation" />
         <activity android:name=".pages.login.LoginActivity" />
