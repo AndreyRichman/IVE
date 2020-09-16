@@ -48,6 +48,7 @@ public class LogicHandler {
 //                .setValue(task);
         String taskId = ref.getKey();
         task.setId(taskId);
+        getCurrentUser().addTask(task);
 //        task.setTaskID(taskId);
         ref.setValue(task);
     }
@@ -63,6 +64,7 @@ public class LogicHandler {
 
         String locationId = ref.getKey();
         userLocation.setId(locationId);
+        getCurrentUser().addLocation(userLocation);
 
         ref.setValue(userLocation);
     }

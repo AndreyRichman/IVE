@@ -102,4 +102,12 @@ public class User {
             return new ArrayList<>(this.locations.values());
         }
     }
+
+    public void addTask(Task taskToAdd){
+        this.tasks.put(taskToAdd.getId(), taskToAdd);
+    }
+
+    public void addLocation(UserLocation userLocation){
+        this.locations.put(userLocation.getId(), userLocation);
+    }
 }
