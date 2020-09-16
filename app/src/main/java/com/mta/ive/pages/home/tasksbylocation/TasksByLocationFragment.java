@@ -55,7 +55,7 @@ public class TasksByLocationFragment extends Fragment {
 
         updateAllUserFields();
 
-        updateUserTitle(view);
+//        updateUserTitle(view);
 
 
 //        reference = FirebaseDatabase.getInstance().getReference().child("task");
@@ -106,6 +106,7 @@ public class TasksByLocationFragment extends Fragment {
         tasksRecList.setAdapter(tasksAdapter);
         tasksAdapter.notifyDataSetChanged();
 
+        updateUserTitle(user);
     }
     private void loadUserFromDBAndUpdateUI() {
         String userEmail = LogicHandler.getCurrentUserEmail();
@@ -128,10 +129,12 @@ public class TasksByLocationFragment extends Fragment {
 
     }
 
-    private void updateUserTitle(View view) {
-        String username = ((HomeActivity)getActivity()).getUserName();
+    private void updateUserTitle(User user) {
+        String userName = user.getName();
 
         TextView title = view.findViewById(R.id.tasksListMainTitle);
-        title.setText("Hello "+ username + "! \n Here are your tasks at Work");
+        title.setText("Hello "+ userName + "! \n Here are your tasks at Work");
     }
+
+
 }
