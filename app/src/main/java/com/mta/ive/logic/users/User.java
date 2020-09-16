@@ -33,6 +33,7 @@ public class User {
         this.name = name;
         this.email = email;
         tasks = new HashMap<>();
+        locations = new HashMap<>();
     }
 
     public Map<String, UserLocation> getLocations() {
@@ -76,11 +77,29 @@ public class User {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public ArrayList<Task> getArrayOfTasks(){
-        return new ArrayList<>(this.tasks.values());
+    public ArrayList<Task> getArrayOfTasks()
+    {
+        if(this.tasks == null || this.tasks.size() < 1)
+        {
+            return new ArrayList<>();
+        }
+
+        else
+        {
+            return new ArrayList<>(this.tasks.values());
+        }
     }
 
-    public ArrayList<UserLocation> getArrayOfLocations(){
-        return new ArrayList<>(this.locations.values());
+    public ArrayList<UserLocation> getArrayOfLocations()
+    {
+        if(this.locations == null || this.locations.size() < 1)
+        {
+            return new ArrayList<>();
+        }
+
+        else
+        {
+            return new ArrayList<>(this.locations.values());
+        }
     }
 }
