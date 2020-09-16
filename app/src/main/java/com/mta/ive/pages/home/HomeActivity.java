@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
+import com.mta.ive.logic.location.ActivityManageLocations;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.pages.home.addtask.EditExistingTaskActivity;
 import com.mta.ive.pages.home.home.AddLocationFragment;
@@ -167,6 +168,13 @@ public class HomeActivity extends AppCompatActivity {
         startActivityForResult(addLocationPage, LAUNCH_SECOND_ACTIVITY);
     }
 
+    public void openManageLocationsPage(Bundle bundle){
+        int LAUNCH_SECOND_ACTIVITY = 1;
+        Intent addLocationPage = new Intent(this, ActivityManageLocations.class);
+        addLocationPage.putExtras(bundle);
+        startActivityForResult(addLocationPage, LAUNCH_SECOND_ACTIVITY);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -180,12 +188,9 @@ public class HomeActivity extends AppCompatActivity {
                     findViewById(R.id.navigation_location).callOnClick();
                     break;
                 case 2:
-                    findViewById(R.id.navigation_home).callOnClick();
-                    break;
-                case 3:
                     findViewById(R.id.navigation_add).callOnClick();
                     break;
-                case 4:
+                case 3:
                     findViewById(R.id.navigation_user).callOnClick();
                     break;
             }
@@ -203,12 +208,9 @@ public class HomeActivity extends AppCompatActivity {
                 findViewById(R.id.navigation_location).callOnClick();
                 break;
             case 2:
-                findViewById(R.id.navigation_home).callOnClick();
-                break;
-            case 3:
                 findViewById(R.id.navigation_add).callOnClick();
                 break;
-            case 4:
+            case 3:
                 findViewById(R.id.navigation_user).callOnClick();
                 break;
         }

@@ -104,7 +104,7 @@ public class AddLocationFragment extends AppCompatActivity {
     }
 
     private void setNavigationButtons() {
-        ((BottomNavigationView)findViewById(R.id.nav_view)).setSelectedItemId(R.id.navigation_home);
+        ((BottomNavigationView)findViewById(R.id.nav_view)).setSelectedItemId(R.id.navigation_user);
 
         findViewById(R.id.navigation_location).setOnClickListener( t -> {
             Intent returnIntent = new Intent();
@@ -112,22 +112,16 @@ public class AddLocationFragment extends AppCompatActivity {
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         });
-        findViewById(R.id.navigation_home).setOnClickListener( t -> {
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("selection", "2");
-            setResult(Activity.RESULT_OK, returnIntent);
-            finish();
-        });
         findViewById(R.id.navigation_add).setOnClickListener( t -> {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("selection", "3");
+            returnIntent.putExtra("selection", "2");
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         });
 
         findViewById(R.id.navigation_user).setOnClickListener( t -> {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("selection", "4");
+            returnIntent.putExtra("selection", "3");
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         });

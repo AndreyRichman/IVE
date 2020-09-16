@@ -10,6 +10,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class UsersHandler {
     private static UsersHandler instance;
+    private User currentUser;
 
     public static UsersHandler getInstance(){
         if (instance == null){
@@ -30,6 +31,14 @@ public class UsersHandler {
 
     public User getUser(String email){
         return null;
+    }
+
+    public User getCurrentUser(){
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 
     public void createUserIfNotExist(String email, String userName) {
