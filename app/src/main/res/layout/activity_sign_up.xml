@@ -8,9 +8,9 @@
 
     <TextView
         android:id="@+id/slogan2"
-        android:layout_width="235dp"
-        android:layout_height="40dp"
-        android:fontFamily="@font/calibri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/raleway_medium"
         android:text="Time to be productIVE"
         android:textColor="#333333"
         android:textSize="25dp"
@@ -34,7 +34,7 @@
         android:layout_height="40dp"
         android:layout_marginBottom="150dp"
         android:background="@drawable/rounded_corners"
-        android:fontFamily="@font/calibri"
+        android:fontFamily="@font/raleway_medium"
         android:text="Sign Up"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
@@ -55,7 +55,9 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        android:fontFamily="@font/raleway_medium"
+        />
 
     <EditText
         android:id="@+id/editTextTextPassword"
@@ -67,7 +69,9 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress"
+        android:fontFamily="@font/raleway_medium"
+        />
 
     <EditText
         android:id="@+id/editTextTextPersonName"

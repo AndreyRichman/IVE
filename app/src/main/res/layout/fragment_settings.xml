@@ -33,6 +33,8 @@
         android:text="Settings"
         android:textColor="#333333"
         android:textSize="25dp"
+        android:fontFamily="@font/raleway_medium"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +60,8 @@
             android:background="@drawable/rounded_corners"
             android:text="Manage Locations"
             android:textColor="#FFFFFF"
+            android:fontFamily="@font/raleway_medium"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/app_settings" />
@@ -70,6 +74,8 @@
             android:background="@drawable/rounded_corners"
             android:text="App Settings"
             android:textColor="#FFFFFF"
+            android:fontFamily="@font/raleway_medium"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -82,6 +88,8 @@
             android:layout_marginTop="32dp"
             android:background="@drawable/rounded_corners"
             android:text="Personal Settings"
+            android:fontFamily="@font/raleway_medium"
+
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -113,6 +121,8 @@
             android:layout_height="40dp"
             android:background="@drawable/rounded_corners"
             android:text="Log out"
+            android:fontFamily="@font/raleway_medium"
+
             android:textColor="#FFFFFF"
             android:layout_gravity="center"
             tools:layout_editor_absoluteY="554dp" />

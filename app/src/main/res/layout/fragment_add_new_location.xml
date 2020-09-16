@@ -35,7 +35,9 @@
         android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/linear_logo"
+        android:fontFamily="@font/raleway_medium"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/page_fields"
@@ -56,6 +58,8 @@
             android:hint="Location Name"
             android:inputType="textPersonName"
             android:textSize="15dp"
+            android:fontFamily="@font/raleway_medium"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,6 +73,8 @@
             android:hint="Location Address"
             android:inputType="textPersonName"
             android:textSize="15dp"
+            android:fontFamily="@font/raleway_medium"
+
             android:focusableInTouchMode="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -98,6 +104,8 @@
             android:background="@drawable/rounded_corners"
             android:text="Save"
             android:textColor="#FFFFFF"
+            android:fontFamily="@font/raleway_medium"
+
             app:layout_constraintEnd_toStartOf="@+id/delete_button"
             tools:layout_editor_absoluteY="554dp" />
 
@@ -112,7 +120,9 @@
             android:layout_height="40dp"
             android:background="@drawable/rounded_corners"
             android:text="Delete"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/raleway_medium"
+            />
 
         <Space
             android:layout_width="0dp"

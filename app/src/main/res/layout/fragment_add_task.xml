@@ -34,6 +34,7 @@
         android:text="Add Task"
         android:textColor="#333333"
         android:textSize="25dp"
+        android:fontFamily="@font/raleway_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_logo" />
@@ -46,7 +47,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_edit_header">
+        app:layout_constraintTop_toBottomOf="@+id/text_edit_header"
+        android:fontFamily="@font/nexa_light">
 
         <EditText
             android:id="@+id/task_name"
@@ -57,6 +59,8 @@
             android:hint="Task Name"
             android:inputType="textPersonName"
             android:textSize="15dp"
+            android:fontFamily="@font/raleway_medium"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -85,6 +89,8 @@
             android:hint="Est. Duration (in min)"
             android:inputType="number"
             android:textSize="15dp"
+            android:fontFamily="@font/raleway_medium"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinner_locations" />
@@ -110,6 +116,8 @@
             android:hint="Description (op)"
             android:inputType="textPersonName"
             android:textSize="15dp"
+            android:fontFamily="@font/raleway_medium"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/urgency" />
@@ -123,6 +131,8 @@
             android:hint="Due Date (op)"
             android:inputType="date"
             android:textSize="15dp"
+            android:fontFamily="@font/raleway_medium"
+
             android:focusableInTouchMode="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -135,6 +145,8 @@
             android:layout_marginTop="10dp"
             android:text="Mark Task as Done"
             android:textSize="14dp"
+            android:fontFamily="@font/raleway_medium"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +174,9 @@
             android:layout_gravity="center"
             android:background="@drawable/rounded_corners"
             android:text="Save"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/raleway_medium"
+            />
 
     </LinearLayout>
 
