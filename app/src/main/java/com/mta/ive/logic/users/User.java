@@ -1,10 +1,18 @@
 package com.mta.ive.logic.users;
 
+import android.location.Location;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class User {
 
@@ -13,6 +21,9 @@ public class User {
 
 //    List<Task> tasks;
     Map<String, Task> tasks;
+    Map<String, UserLocation> locations;
+
+
     List<Task> tasksList;
 
     public User() {
@@ -22,6 +33,14 @@ public class User {
         this.name = name;
         this.email = email;
         tasks = new HashMap<>();
+    }
+
+    public Map<String, UserLocation> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(Map<String, UserLocation> locations) {
+        this.locations = locations;
     }
 
     public List<Task> getTasksList() {
@@ -54,5 +73,14 @@ public class User {
 
     public void setTasks(Map<String, Task> tasks) {
         this.tasks = tasks;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Task> getArrayOfTasks(){
+        return new ArrayList<>(this.tasks.values());
+    }
+
+    public ArrayList<UserLocation> getArrayOfLocations(){
+        return new ArrayList<>(this.locations.values());
     }
 }

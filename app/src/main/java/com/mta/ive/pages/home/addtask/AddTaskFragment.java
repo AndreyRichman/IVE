@@ -26,6 +26,7 @@ import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
+import com.mta.ive.logic.users.User;
 import com.mta.ive.vm.adapter.multiselect.Item;
 import com.mta.ive.vm.adapter.multiselect.MultiSelectionSpinner;
 
@@ -53,6 +54,7 @@ public class AddTaskFragment extends Fragment {
     int year;
     String dateString;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -160,29 +162,39 @@ public class AddTaskFragment extends Fragment {
                 }, year, month, day);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateLocations() {
-        DatabaseReference reference = LogicHandler.getAllLocationsDBReference();
+        ArrayList<Item> items = new ArrayList<>();
+        User user = LogicHandler.getCurrentUser();
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                ArrayList<Item> items = new ArrayList<>();
-                for(DataSnapshot data: snapshot.getChildren()){
-                    UserLocation location = data.getValue(UserLocation.class);
-
-                    Item spinnerItem = new Item(location.getName(), location.getId(), location);
-                    items.add(spinnerItem);
-                }
-                locationMultiSpinner.setItems(items);
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+        user.getArrayOfLocations().forEach(location -> {
+            Item spinnerItem = new Item(location.getName(), location.getId(), location);
+            items.add(spinnerItem);
+            locationMultiSpinner.setItems(items);
         });
+
+//        DatabaseReference reference = LogicHandler.getAllLocationsDBReference();
+//
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                ArrayList<Item> items = new ArrayList<>();
+//                for(DataSnapshot data: snapshot.getChildren()){
+//                    UserLocation location = data.getValue(UserLocation.class);
+//
+//                    Item spinnerItem = new Item(location.getName(), location.getId(), location);
+//                    items.add(spinnerItem);
+//                }
+//                locationMultiSpinner.setItems(items);
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 }

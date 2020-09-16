@@ -5,10 +5,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
+import com.mta.ive.logic.users.User;
 import com.mta.ive.logic.users.UsersHandler;
 
 public class LogicHandler {
     private static DatabaseReference reference;
+    private static String currentUserEmail;
 
 //    public static void saveUser(User user){
 //
@@ -77,6 +79,14 @@ public class LogicHandler {
 
     }
 
+    public static User getCurrentUser(){
+        return UsersHandler.getInstance().getCurrentUser();
+    }
+
+    public static void setCurrentUser(User user){
+        UsersHandler.getInstance().setCurrentUser(user);
+    }
+
     public static DatabaseReference getAllTasksDBReference(){
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
@@ -108,6 +118,17 @@ public class LogicHandler {
 
     }
 
+    public static String getCurrentUserEmail() {
+        return currentUserEmail;
+    }
+
+    public static DatabaseReference getCurrentUserDBReferenceById(String userEmail){
+//        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        return FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(String.valueOf(userEmail.hashCode()));
+    }
     public static void deleteTaskById(String taskId){
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
@@ -120,6 +141,7 @@ public class LogicHandler {
 
     public static void createUserIfNotExist(String email, String userName) {
 
+        currentUserEmail = email;
         UsersHandler.getInstance().createUserIfNotExist(email, userName);
     }
 
