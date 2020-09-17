@@ -121,7 +121,7 @@
             android:layout_weight="1"></Space>
 
         <Button
-            android:id="@+id/save_button"
+            android:id="@+id/save_personal_settings_button"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:background="@drawable/rounded_corners"
@@ -129,7 +129,6 @@
             android:fontFamily="@font/raleway_medium"
 
             android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toStartOf="@+id/delete_button"
             tools:layout_editor_absoluteY="554dp" />
 
         <Space
@@ -138,5 +137,17 @@
             android:layout_weight="1"></Space>
 
     </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemIconSize="26dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

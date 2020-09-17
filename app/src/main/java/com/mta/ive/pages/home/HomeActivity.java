@@ -18,6 +18,8 @@ import com.mta.ive.logic.location.ActivityManageLocations;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.pages.home.addtask.EditExistingTaskActivity;
 import com.mta.ive.pages.home.home.AddLocationFragment;
+import com.mta.ive.pages.settings.AppSettings;
+import com.mta.ive.pages.settings.UserSettings;
 import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
@@ -158,6 +160,20 @@ public class HomeActivity extends AppCompatActivity {
         Intent addLocationPage = new Intent(this, AddLocationFragment.class);
         addLocationPage.putExtras(bundle);
         startActivityForResult(addLocationPage, LAUNCH_SECOND_ACTIVITY);
+    }
+
+    public void openManageAppSettings(Bundle bundle){
+        int LAUNCH_SECOND_ACTIVITY = 1;
+        Intent modifyAppSettings = new Intent(this, AppSettings.class);
+        modifyAppSettings.putExtras(bundle);
+        startActivityForResult(modifyAppSettings, LAUNCH_SECOND_ACTIVITY);
+    }
+
+    public void openManagePersonalSettings(Bundle bundle){
+        int LAUNCH_SECOND_ACTIVITY = 1;
+        Intent modifyUserSettings = new Intent(this, UserSettings.class);
+        modifyUserSettings.putExtras(bundle);
+        startActivityForResult(modifyUserSettings, LAUNCH_SECOND_ACTIVITY);
     }
 
     public void openManageLocationsPage(Bundle bundle){
