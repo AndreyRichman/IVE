@@ -20,6 +20,7 @@ import com.mta.ive.pages.home.home.AddLocationFragment;
 import com.mta.ive.pages.home.home.HomeFragment;
 import com.mta.ive.pages.login.LoginActivity;
 import com.mta.ive.pages.login.SignUpInActivity;
+import com.mta.ive.pages.settings.AppSettings;
 
 
 public class UserFragment extends Fragment {
@@ -37,6 +38,17 @@ public class UserFragment extends Fragment {
         manageLocationBtn = (Button)view.findViewById(R.id.manage_locations);
         personalSettingBtn = (Button)view.findViewById(R.id.personal_settings);
         logoutBtn = (Button)view.findViewById(R.id.logout_button);
+
+        appSettingBtn.setOnClickListener(click -> {
+            Bundle bundle = new Bundle();
+            ((HomeActivity)view.getContext()).openManageAppSettings(bundle);
+        });
+
+        personalSettingBtn.setOnClickListener(click -> {
+            Bundle bundle = new Bundle();
+            ((HomeActivity)view.getContext()).openManagePersonalSettings(bundle);
+        });
+
 
         logoutBtn.setOnClickListener( click -> {
             FirebaseAuth.getInstance().signOut();
