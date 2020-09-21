@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
+import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.User;
 import com.mta.ive.pages.home.HomeActivity;
@@ -131,9 +132,19 @@ public class TasksByLocationFragment extends Fragment {
 
     private void updateUserTitle(User user) {
         String userName = user.getName();
-
+        UserLocation location = LogicHandler.getCurrentLocation();
         TextView title = view.findViewById(R.id.tasksListMainTitle);
-        title.setText("Hello "+ userName + "! \n Here are your tasks at Work");
+
+        String userTitle = "Hello "+ userName + "!\n";
+        boolean hasLocations = user.getArrayOfLocations().size() > 0;
+        boolean foundLocation = location != null;
+
+
+
+        String locationTitle = foundLocation? "You are at " + location.getName() : hasLocations?
+                "Location not found" : "No locations defined";
+        title.setText(userTitle + locationTitle);
+//        title.setText("Hello "+ userName + "! \n You are at " + location.getName());
     }
 
 

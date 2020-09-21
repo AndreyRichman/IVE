@@ -8,6 +8,8 @@ import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.User;
 import com.mta.ive.logic.users.UsersHandler;
 
+import java.util.ArrayList;
+
 public class LogicHandler {
     private static DatabaseReference reference;
     private static String currentUserEmail;
@@ -88,6 +90,17 @@ public class LogicHandler {
 
     public static void setCurrentUser(User user){
         UsersHandler.getInstance().setCurrentUser(user);
+    }
+
+    public static UserLocation getCurrentLocation(){
+        ArrayList<UserLocation> allLocations = UsersHandler.getInstance().getCurrentUser().getArrayOfLocations();
+        UserLocation currentLocation = null;
+
+        //temp implementation
+        if (allLocations.size() > 0)
+            currentLocation = allLocations.get(0);
+
+        return currentLocation;
     }
 
 //    public static DatabaseReference getAllTasksDBReference(){
