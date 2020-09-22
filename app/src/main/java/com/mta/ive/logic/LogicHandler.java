@@ -1,5 +1,9 @@
 package com.mta.ive.logic;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -7,6 +11,9 @@ import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.User;
 import com.mta.ive.logic.users.UsersHandler;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class LogicHandler {
     private static DatabaseReference reference;
@@ -86,8 +93,30 @@ public class LogicHandler {
         return UsersHandler.getInstance().getCurrentUser();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<Task> getAllRelevantTasksOfCurrentUser(UserLocation currentLocation){
+        ArrayList<Task> allTasks = getCurrentUser().getArrayOfTasks();
+//        UserLocation currentLocation = getCurrentLocation();
+        ArrayList<Task> filteredByLocationTasks = (ArrayList<Task>) allTasks.stream()
+                .filter(task -> task.isRelevantForLocation(currentLocation))// -> task.getLocations().contains(currentLocation))
+                .collect(Collectors.toList());
+
+        return filteredByLocationTasks;
+    }
+
     public static void setCurrentUser(User user){
         UsersHandler.getInstance().setCurrentUser(user);
+    }
+
+    public static UserLocation getCurrentLocation(){
+        ArrayList<UserLocation> allLocations = UsersHandler.getInstance().getCurrentUser().getArrayOfLocations();
+        UserLocation currentLocation = null;
+
+        //temp implementation
+        if (allLocations.size() > 0)
+            currentLocation = allLocations.get(0);
+
+        return currentLocation;
     }
 
 //    public static DatabaseReference getAllTasksDBReference(){

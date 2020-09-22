@@ -1,5 +1,9 @@
 package com.mta.ive.logic.task;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.mta.ive.logic.location.UserLocation;
 
 import java.time.LocalDate;
@@ -67,6 +71,17 @@ public class Task {
 
     public List<UserLocation> getLocations() {
         return locations;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public boolean isRelevantForLocation(UserLocation specificLocation){
+        boolean contains = false;
+        return this.locations.stream().map(UserLocation::getName).anyMatch(name -> name.equals(specificLocation.getName()));
+//        this.locations.forEach(location -> {
+//            if (location.getName() == specificLocation.getName())
+//                contains = true;
+//        } );
+        //return this.locations.contains(location);
     }
 
     public void setLocations(List<UserLocation> locations) {
