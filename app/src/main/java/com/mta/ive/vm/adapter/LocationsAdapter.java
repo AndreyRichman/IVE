@@ -1,6 +1,7 @@
 package com.mta.ive.vm.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mta.ive.R;
 import com.mta.ive.logic.location.UserLocation;
+import com.mta.ive.pages.home.addtask.EditExistingTaskActivity;
+import com.mta.ive.pages.home.home.AddLocationFragment;
 
 import java.util.List;
 
@@ -46,6 +49,11 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationViewHolder> {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("locationId", locationId);
+
+                Intent editLocationPage = new Intent(context, AddLocationFragment.class);
+                editLocationPage.putExtras(bundle);
+                context.startActivity(editLocationPage);
+
 //                ((HomeActivity)context).openEditTaskPage(bundle);
             }
         });

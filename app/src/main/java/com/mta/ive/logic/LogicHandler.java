@@ -4,6 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -89,6 +90,27 @@ public class LogicHandler {
         getCurrentUser().getTasks().put(task.getId(), task);
     }
 
+    public static void updateExistingLocation(UserLocation location){
+        String email = getCurrentUserEmail();
+
+        //optional without thread
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+
+                FirebaseDatabase.getInstance().getReference()
+                        .child("users")
+                        .child(String.valueOf(email.hashCode()))
+                        .child("locations")
+                        .child(location.getId())
+                        .setValue(location);
+                getCurrentUser().getLocations().put(location.getId(), location);
+            }
+        };
+        thread.start();
+
+    }
+
     public static User getCurrentUser(){
         return UsersHandler.getInstance().getCurrentUser();
     }
@@ -163,6 +185,10 @@ public class LogicHandler {
 
     public static Task getTaskById(String id){
         return getCurrentUser().getTasks().get(id);
+    }
+
+    public static UserLocation getLocationById(String id){
+        return getCurrentUser().getLocations().get(id);
     }
 
     public static void deleteTaskById(String taskId){
