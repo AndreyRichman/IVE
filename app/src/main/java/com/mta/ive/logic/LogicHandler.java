@@ -1,5 +1,9 @@
 package com.mta.ive.logic;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -9,6 +13,7 @@ import com.mta.ive.logic.users.User;
 import com.mta.ive.logic.users.UsersHandler;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class LogicHandler {
     private static DatabaseReference reference;
@@ -86,6 +91,17 @@ public class LogicHandler {
 
     public static User getCurrentUser(){
         return UsersHandler.getInstance().getCurrentUser();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<Task> getAllRelevantTasksOfCurrentUser(UserLocation currentLocation){
+        ArrayList<Task> allTasks = getCurrentUser().getArrayOfTasks();
+//        UserLocation currentLocation = getCurrentLocation();
+        ArrayList<Task> filteredByLocationTasks = (ArrayList<Task>) allTasks.stream()
+                .filter(task -> task.isRelevantForLocation(currentLocation))// -> task.getLocations().contains(currentLocation))
+                .collect(Collectors.toList());
+
+        return filteredByLocationTasks;
     }
 
     public static void setCurrentUser(User user){

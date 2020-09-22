@@ -72,7 +72,7 @@ public class TasksByLocationFragment extends Fragment {
             alertBuilder.setTitle("Switch Location");
 
             locations = LogicHandler.getCurrentUser().getArrayOfLocations();
-            int selectedIndex = locations.indexOf(LogicHandler.getCurrentLocation());
+            int selectedIndex = locations.indexOf(currentLocation);
             List<String> names = locations.stream().map(UserLocation::getName).collect(Collectors.toCollection(ArrayList::new));
             String[] locationsNames = new String[names.size()];
             locationsNames = names.toArray(locationsNames);
@@ -131,7 +131,9 @@ public class TasksByLocationFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateAllUserFieldsByUser(User user) {
-        tasksAdapter = new TasksAdapter(view.getContext(), user.getArrayOfTasks()); //TODO: originally: MainActivity.this
+        ArrayList<Task> tasks = LogicHandler.getAllRelevantTasksOfCurrentUser(currentLocation);
+
+        tasksAdapter = new TasksAdapter(view.getContext(), tasks); //TODO: originally: MainActivity.this
         tasksRecList.setAdapter(tasksAdapter);
         tasksAdapter.notifyDataSetChanged();
 
