@@ -23,6 +23,7 @@ public class Task {
 
 
 
+
     public enum Status { ACTIVE, ARCHIVED, DONE}
 
 //    private int urgency;
@@ -38,6 +39,20 @@ public class Task {
         this.name = name;
         this.description = description;
         this.duration = duration;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void removeLocation(UserLocation locationToDelete) {
+//        int indexOfLocation;
+//        int index = 0;
+//        for (UserLocation location: locations){
+//            if(location.getId().equals(locationToDelete.getId())){
+//                indexOfLocation = index;
+//                break;
+//            }
+//            index++;
+//        }
+        locations.removeIf(location -> location.getId().equals(locationToDelete.getId()));
     }
 
     public Status getStatus() {

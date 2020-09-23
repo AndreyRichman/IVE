@@ -120,6 +120,7 @@
             android:layout_height="40dp"
             android:background="@drawable/rounded_corners"
             android:text="Delete"
+            android:enabled="false"
             android:textColor="#FFFFFF"
             android:fontFamily="@font/raleway_medium"
             />

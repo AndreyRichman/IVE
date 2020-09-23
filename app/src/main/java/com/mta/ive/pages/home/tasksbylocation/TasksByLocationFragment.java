@@ -1,12 +1,14 @@
 package com.mta.ive.pages.home.tasksbylocation;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -24,6 +26,7 @@ import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.User;
+import com.mta.ive.pages.home.home.AddLocationFragment;
 import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
@@ -68,8 +71,24 @@ public class TasksByLocationFragment extends Fragment {
         switchLocationButton = view.findViewById(R.id.fab);
 
         switchLocationButton.setOnClickListener(click -> {
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            updateAllUserFields();
+                            boolean hasTasks = LogicHandler.getRelevantTasksOfCurrentUser(currentLocation).size() > 0;
+                            String msg = hasTasks? "Showing tasks for selected location": "No tasks found in selected location";
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+            };
+
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
             alertBuilder.setTitle("Switch Location");
+            alertBuilder.setPositiveButton ("Switch", dialogClickListener);
+            alertBuilder.setNegativeButton("Cancel", dialogClickListener);
 
             locations = LogicHandler.getCurrentUser().getArrayOfLocations();
             int selectedIndex = locations.indexOf(currentLocation);
@@ -78,9 +97,9 @@ public class TasksByLocationFragment extends Fragment {
             locationsNames = names.toArray(locationsNames);
 
             alertBuilder.setSingleChoiceItems(locationsNames, selectedIndex, (dialogInterface, i) -> currentLocation = locations.get(i));
-            alertBuilder.setOnCancelListener(quit -> {
-                updateAllUserFields();
-            });
+//            alertBuilder.setOnCancelListener(quit -> {
+//                updateAllUserFields();
+//            });
             alertBuilder.show();
         });
 
@@ -131,7 +150,7 @@ public class TasksByLocationFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateAllUserFieldsByUser(User user) {
-        ArrayList<Task> tasks = LogicHandler.getAllRelevantTasksOfCurrentUser(currentLocation);
+        ArrayList<Task> tasks = LogicHandler.getRelevantTasksOfCurrentUser(currentLocation);
 
         tasksAdapter = new TasksAdapter(view.getContext(), tasks); //TODO: originally: MainActivity.this
         tasksRecList.setAdapter(tasksAdapter);

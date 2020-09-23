@@ -1,7 +1,10 @@
 package com.mta.ive.pages.home.home;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 
@@ -11,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -19,13 +23,23 @@ import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.GoogleMapActivity;
 import com.mta.ive.logic.location.UserLocation;
+import com.mta.ive.logic.task.Task;
+
+import java.util.ArrayList;
 
 public class AddLocationFragment extends AppCompatActivity {
 
     Button saveLocationButton, deleteButton;
-    TextView locationName, locationAddress;
+    TextView locationName, locationAddress, title;
+
     LatLng locationLatLng;
 
+    boolean existingLocation = false;
+    UserLocation currentLocation = null;
+//    ArrayList<Task> tasksUnderLocation = null;
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +50,18 @@ public class AddLocationFragment extends AppCompatActivity {
 
         locationName = findViewById(R.id.location_name);
         locationAddress = findViewById(R.id.location_address);
+        title = findViewById(R.id.add_location_header);
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            title.setText("Edit Location");
+            deleteButton.setEnabled(true);
+            //show/enable Delete Button
+            //move save button
+            existingLocation = true;
+            String locationId = bundle.getString("locationId");
+            updateWindowWithLocation(locationId);
+        }
 
         saveLocationButton.setOnClickListener(new View.OnClickListener() {
 
@@ -49,9 +74,17 @@ public class AddLocationFragment extends AppCompatActivity {
                     Toast.makeText(btn.getRootView().getContext(),"Address is missing", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    addNewLocation();
+
+
                     finish();
-                    Toast.makeText(btn.getRootView().getContext(),"Location added", Toast.LENGTH_SHORT).show();
+                    if(existingLocation){
+                        updateExistingLocationIfNeeded();
+                        Toast.makeText(btn.getContext(), "Location updated", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        addNewLocation();
+                        Toast.makeText(btn.getContext(), "Location added", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
 
@@ -59,7 +92,46 @@ public class AddLocationFragment extends AppCompatActivity {
         });
 
         deleteButton.setOnClickListener( click -> {
-            finish();
+
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Toast.makeText(AddLocationFragment.this, "Location deleted", Toast.LENGTH_SHORT).show();
+
+                            deleteLocationAndAllItsTasks(currentLocation);
+                            finish();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+
+
+            ArrayList<Task> tasksUnderLocation = LogicHandler.getAllTasksUnderOnlyThisLocation(currentLocation);
+            int numberOfTasks = tasksUnderLocation.size();
+            String deleteTitle = "Are you sure?";
+            String yesOptionText = "Yes";
+            String noOptionText = "Cancel";
+
+            if (numberOfTasks > 0) {
+                String taskText = numberOfTasks > 1? "tasks": "task";
+                deleteTitle = numberOfTasks + " active " + taskText + " in this location will be deleted, are you sure?";
+                String itThem = numberOfTasks > 1?  "them": "it";
+                yesOptionText = "Yes delete " + itThem;
+            }
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+            alertBuilder.setMessage(deleteTitle)
+                .setPositiveButton(yesOptionText, dialogClickListener)
+                .setNegativeButton(noOptionText, dialogClickListener)
+                .show();
+
+
+//            finish();
         });
 
 
@@ -74,6 +146,20 @@ public class AddLocationFragment extends AppCompatActivity {
             startActivityForResult(googleMapPage, LAUNCH_SECOND_ACTIVITY);
 
         });
+    }
+
+    private void updateWindowWithLocation(String locationId) {
+        currentLocation = LogicHandler.getLocationById(locationId);
+
+        locationName.setText(currentLocation.getName());
+        locationAddress.setText(currentLocation.getAddress());
+        locationLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void deleteLocationAndAllItsTasks(UserLocation locationToDelete){
+        LogicHandler.deleteLocationById(locationToDelete.getId());
     }
 
     @Override
@@ -101,6 +187,19 @@ public class AddLocationFragment extends AppCompatActivity {
         userLocation.setLongitude(this.locationLatLng.longitude);
 
         LogicHandler.saveLocation(userLocation);
+    }
+
+    private void updateExistingLocationIfNeeded(){
+        boolean nameWasChanged = !locationName.getText().equals(currentLocation.getName());
+        boolean locationWasChanged = !locationAddress.getText().equals(currentLocation.getAddress());
+
+        if (nameWasChanged || locationWasChanged){
+            currentLocation.setName(locationName.getText().toString());
+            currentLocation.setAddress(locationAddress.getText().toString());
+            currentLocation.setLatitude(this.locationLatLng.latitude);
+            currentLocation.setLongitude(this.locationLatLng.longitude);
+            LogicHandler.updateExistingLocation(currentLocation);
+        }
     }
 
     private void setNavigationButtons() {
