@@ -93,7 +93,7 @@
 
         android:id="@+id/tasksRecycleList"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="390dp"
         android:layout_marginTop="24dp"
         app:layout_constraintTop_toBottomOf="@+id/click_on_task"
         tools:layout_editor_absoluteX="0dp">
@@ -108,16 +108,15 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="176dp"
         android:fontFamily="@font/raleway_medium"
-        android:text="That's it!"
+        android:text="Total Task time: X minutes"
         android:textAlignment="center"
         android:textColor="#333333"
 
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tasksRecycleList"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,7 +53,7 @@
             android:id="@+id/taskDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="0dp"
             android:text="Sadna project"
             android:textColor="#ADADAD"
             android:textSize="18sp"
@@ -63,10 +63,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="125dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="35dp"
         >
 
         <TextView

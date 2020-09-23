@@ -3,18 +3,18 @@
 
     <item
         android:id="@+id/navigation_location"
-        android:icon="@drawable/icon_location"
+        android:icon="@drawable/home_icon_70_fill"
         android:title="" />
 
     <item
         android:id="@+id/navigation_add"
-        android:icon="@drawable/icon_add"
+        android:icon="@drawable/add_icon_70_fill"
         android:title="" />
 
 
     <item
         android:id="@+id/navigation_user"
-        android:icon="@drawable/icon_profile"
+        android:icon="@drawable/settings_icon_70_fill"
         android:title="" />
 
 </menu>
