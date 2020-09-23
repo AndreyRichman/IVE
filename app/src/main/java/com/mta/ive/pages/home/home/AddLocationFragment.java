@@ -1,7 +1,10 @@
 package com.mta.ive.pages.home.home;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 
@@ -11,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -19,6 +23,9 @@ import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.GoogleMapActivity;
 import com.mta.ive.logic.location.UserLocation;
+import com.mta.ive.logic.task.Task;
+
+import java.util.ArrayList;
 
 public class AddLocationFragment extends AppCompatActivity {
 
@@ -29,8 +36,10 @@ public class AddLocationFragment extends AppCompatActivity {
 
     boolean existingLocation = false;
     UserLocation currentLocation = null;
+//    ArrayList<Task> tasksUnderLocation = null;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +92,46 @@ public class AddLocationFragment extends AppCompatActivity {
         });
 
         deleteButton.setOnClickListener( click -> {
-            finish();
+
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Toast.makeText(AddLocationFragment.this, "Location deleted", Toast.LENGTH_SHORT).show();
+
+                            deleteLocationAndAllItsTasks(currentLocation);
+                            finish();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+
+
+            ArrayList<Task> tasksUnderLocation = LogicHandler.getAllTasksUnderOnlyThisLocation(currentLocation);
+            int numberOfTasks = tasksUnderLocation.size();
+            String deleteTitle = "Are you sure?";
+            String yesOptionText = "Yes";
+            String noOptionText = "Cancel";
+
+            if (numberOfTasks > 0) {
+                String taskText = numberOfTasks > 1? "tasks": "task";
+                deleteTitle = numberOfTasks + " active " + taskText + " in this location will be deleted, are you sure?";
+                String itThem = numberOfTasks > 1?  "them": "it";
+                yesOptionText = "Yes delete " + itThem;
+            }
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+            alertBuilder.setMessage(deleteTitle)
+                .setPositiveButton(yesOptionText, dialogClickListener)
+                .setNegativeButton(noOptionText, dialogClickListener)
+                .show();
+
+
+//            finish();
         });
 
 
@@ -107,6 +155,11 @@ public class AddLocationFragment extends AppCompatActivity {
         locationAddress.setText(currentLocation.getAddress());
         locationLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void deleteLocationAndAllItsTasks(UserLocation locationToDelete){
+        LogicHandler.deleteLocationById(locationToDelete.getId());
     }
 
     @Override

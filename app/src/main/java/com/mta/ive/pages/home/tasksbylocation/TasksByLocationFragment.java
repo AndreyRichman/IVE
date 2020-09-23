@@ -131,7 +131,7 @@ public class TasksByLocationFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateAllUserFieldsByUser(User user) {
-        ArrayList<Task> tasks = LogicHandler.getAllRelevantTasksOfCurrentUser(currentLocation);
+        ArrayList<Task> tasks = LogicHandler.getRelevantTasksOfCurrentUser(currentLocation);
 
         tasksAdapter = new TasksAdapter(view.getContext(), tasks); //TODO: originally: MainActivity.this
         tasksRecList.setAdapter(tasksAdapter);

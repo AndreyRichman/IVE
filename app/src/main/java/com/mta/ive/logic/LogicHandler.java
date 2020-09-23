@@ -4,7 +4,6 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -14,6 +13,8 @@ import com.mta.ive.logic.users.User;
 import com.mta.ive.logic.users.UsersHandler;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class LogicHandler {
@@ -116,7 +117,7 @@ public class LogicHandler {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static ArrayList<Task> getAllRelevantTasksOfCurrentUser(UserLocation currentLocation){
+    public static ArrayList<Task> getRelevantTasksOfCurrentUser(UserLocation currentLocation){
         ArrayList<Task> allTasks = getCurrentUser().getArrayOfTasks();
 //        UserLocation currentLocation = getCurrentLocation();
         ArrayList<Task> filteredByLocationTasks = (ArrayList<Task>) allTasks.stream()
@@ -124,6 +125,17 @@ public class LogicHandler {
                 .collect(Collectors.toList());
 
         return filteredByLocationTasks;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<Task> getAllTasksUnderOnlyThisLocation(UserLocation location){
+        ArrayList<Task> allTasks = getCurrentUser().getArrayOfTasks();
+        ArrayList<Task> relevantOnlyForThisLocationTasks = (ArrayList<Task>) allTasks.stream()
+                .filter(task -> task.isRelevantForLocation(location))
+                .filter(task -> task.getLocations().size() == 1)
+                .collect(Collectors.toList());
+
+        return relevantOnlyForThisLocationTasks;
     }
 
     public static void setCurrentUser(User user){
@@ -204,6 +216,47 @@ public class LogicHandler {
 //                .child(String.valueOf(email.hashCode()))
 //                .child("tasks")
 //                .child(String.valueOf(taskId)).removeValue();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void deleteLocationById(String locationId){
+        UserLocation locationToDelete = getLocationById(locationId);
+
+        String email = getCurrentUserEmail();
+
+        FirebaseDatabase.getInstance().getReference()
+            .child("users")
+            .child(String.valueOf(email.hashCode()))
+            .child("locations")
+            .child(String.valueOf(locationId)).removeValue();
+
+
+        deleteTasksAssociatedWithLocation(locationToDelete);
+        getCurrentUser().getLocations().remove(locationId);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private static void deleteTasksAssociatedWithLocation(UserLocation locationToDelete) {
+        ArrayList<Task> allTasks = getCurrentUser().getArrayOfTasks();
+
+        ArrayList<Task> tasksInLocation = (ArrayList<Task>) allTasks.stream()
+                .filter(task -> task.isRelevantForLocation(locationToDelete))
+                .collect(Collectors.toList());
+
+//        List<Task> tasksToDelete = filteredByLocationTasks.stream()
+//                .filter(task -> task.getLocations().size() == 1).collect(Collectors.toList());
+
+//        List<Task> tasksToUpdate =
+        tasksInLocation.forEach(task -> {
+            if (task.getLocations().size() == 1 ){
+                task.setStatus(Task.Status.ARCHIVED);
+            }
+            else {
+                task.removeLocation(locationToDelete);
+            }
+            updateExistingTask(task);
+        });
+
     }
 
     public static void markDoneTask(String taskId) {
