@@ -43,13 +43,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/page_fields"
         android:layout_width="404dp"
-        android:layout_height="400dp"
+        android:layout_height="380dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_header">
-
 
         <Spinner
             android:id="@+id/SchedulingPolicy"
@@ -62,6 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/endTime" />
+
 
         <EditText
             android:id="@+id/startTime"
@@ -142,10 +142,12 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         app:itemHorizontalTranslationEnabled="false"
-        app:itemIconSize="26dp"
+        app:itemIconSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="unlabeled"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

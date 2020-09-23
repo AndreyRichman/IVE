@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="click on location to see tasks in locations"
+        android:text="click on location to edit"
         android:textAlignment="center"
         android:textColor="#333333"
         android:textSize="14dp"
@@ -63,7 +63,7 @@
 
         android:id="@+id/locationsRecycleList"
         android:layout_width="match_parent"
-        android:layout_height="380dp"
+        android:layout_height="355dp"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -80,7 +80,8 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintTop_toBottomOf="@+id/locationsRecycleList"
-        tools:layout_editor_absoluteX="16dp">
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
 
         <Space
             android:layout_width="0dp"
@@ -90,19 +91,18 @@
         <Button
             android:id="@+id/add_location_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@drawable/rounded_corners"
-            android:text="  Add location  "
             android:fontFamily="@font/raleway_medium"
-            android:textSize="16dp"
+            android:text="  Add location  "
             android:textColor="#FFFFFF"
+            android:textSize="14dp"
             tools:layout_editor_absoluteY="554dp" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"></Space>
-
 
 
     </LinearLayout>
@@ -113,10 +113,12 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         app:itemHorizontalTranslationEnabled="false"
-        app:itemIconSize="26dp"
+        app:itemIconSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="unlabeled"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

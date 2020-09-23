@@ -43,7 +43,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/page_fields"
         android:layout_width="404dp"
-        android:layout_height="400dp"
+        android:layout_height="380dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
@@ -58,9 +58,9 @@
 
             android:layout_marginTop="32dp"
             android:background="@drawable/rounded_corners"
+            android:fontFamily="@font/raleway_medium"
             android:text="Manage Locations"
             android:textColor="#FFFFFF"
-            android:fontFamily="@font/raleway_medium"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,9 +72,9 @@
             android:layout_height="41dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/rounded_corners"
+            android:fontFamily="@font/raleway_medium"
             android:text="App Settings"
             android:textColor="#FFFFFF"
-            android:fontFamily="@font/raleway_medium"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,8 +87,8 @@
 
             android:layout_marginTop="32dp"
             android:background="@drawable/rounded_corners"
-            android:text="Personal Settings"
             android:fontFamily="@font/raleway_medium"
+            android:text="Personal Settings"
 
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
