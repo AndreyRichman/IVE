@@ -25,8 +25,13 @@ public class User {
 
 
     List<Task> tasksList;
+    private UserSettings userSettings;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public User() {
+        tasks = new HashMap<>();
+        locations = new HashMap<>();
+        userSettings = new UserSettings();
     }
 
     public User(String name, String email) {
@@ -34,6 +39,15 @@ public class User {
         this.email = email;
         tasks = new HashMap<>();
         locations = new HashMap<>();
+        userSettings = new UserSettings();
+    }
+
+    public UserSettings getUserSettings() {
+        return userSettings;
+    }
+
+    public void setUserSettings(UserSettings userSettings) {
+        this.userSettings = userSettings;
     }
 
     public Map<String, UserLocation> getLocations() {
