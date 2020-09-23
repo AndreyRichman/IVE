@@ -51,30 +51,17 @@
         app:layout_constraintTop_toBottomOf="@+id/settings_header">
 
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="170dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="32dp"
-            android:text="Consider Due Dates in Task Scheduling"
-            android:textSize="14dp"
-            android:fontFamily="@font/raleway_medium"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/endTime" />
-
         <Spinner
             android:id="@+id/SchedulingPolicy"
             android:layout_width="160dp"
             android:layout_height="40dp"
             android:layout_marginTop="32dp"
             android:background="@android:drawable/btn_dropdown"
+            android:entries="@array/scheduling_policy"
             android:spinnerMode="dropdown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox"
-            android:entries="@array/scheduling_policy" />
+            app:layout_constraintTop_toBottomOf="@+id/endTime" />
 
         <EditText
             android:id="@+id/startTime"
