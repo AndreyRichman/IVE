@@ -62,7 +62,7 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTime2" />
+            app:layout_constraintTop_toBottomOf="@+id/endTime" />
 
         <Spinner
             android:id="@+id/SchedulingPolicy"
@@ -77,34 +77,38 @@
             android:entries="@array/scheduling_policy" />
 
         <EditText
-            android:id="@+id/editTextTime"
+            android:id="@+id/startTime"
             android:layout_width="170dp"
             android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:ems="10"
-            android:hint="Beginning of day (hour)"
+            android:hint="Your day stars at"
+            android:textAlignment="center"
             android:inputType="time"
             android:textSize="15dp"
             android:fontFamily="@font/raleway_medium"
+            android:focusableInTouchMode="false"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTime2"
+            android:id="@+id/endTime"
             android:layout_width="170dp"
             android:layout_height="40dp"
             android:layout_marginTop="32dp"
             android:ems="10"
-            android:hint="End of day (hour)"
+            android:hint="Your day ends at"
+            android:textAlignment="center"
             android:inputType="time"
             android:textSize="15dp"
             android:fontFamily="@font/raleway_medium"
+            android:focusableInTouchMode="false"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTime" />
+            app:layout_constraintTop_toBottomOf="@+id/startTime" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
