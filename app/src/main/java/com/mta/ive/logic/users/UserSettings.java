@@ -10,10 +10,11 @@ public class UserSettings {
     private int dayEndMinutes = 0;
     private PRIORITY_TYPE priorityType = PRIORITY_TYPE.URGENCY;
 
-    enum PRIORITY_TYPE { QUANTITY, URGENCY};
+    public enum PRIORITY_TYPE {EFFICIENCY, URGENCY};
 
     public UserSettings() {
     }
+
 
     public int getDayStartHour() {
         return dayStartHour;

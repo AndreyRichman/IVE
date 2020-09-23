@@ -10,6 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.User;
+import com.mta.ive.logic.users.UserSettings;
 import com.mta.ive.logic.users.UsersHandler;
 
 import java.util.ArrayList;
@@ -110,6 +111,24 @@ public class LogicHandler {
         };
         thread.start();
 
+    }
+
+    public static void updateExistingUserSettings(UserSettings userSettings){
+        String email = getCurrentUserEmail();
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                FirebaseDatabase.getInstance().getReference()
+                        .child("users")
+                        .child(String.valueOf(email.hashCode()))
+                        .child("settings")
+                        .setValue(userSettings);
+
+                getCurrentUser().setSettings(userSettings);
+            }
+        };
+        thread.start();
     }
 
     public static User getCurrentUser(){
