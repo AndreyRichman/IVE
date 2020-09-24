@@ -14,7 +14,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.Date;
 
@@ -23,6 +22,14 @@ import static androidx.core.app.ActivityCompat.shouldShowRequestPermissionRation
 
 public class DeviceManager extends android.app.Service {
     private FusedLocationProviderClient fusedLocationClient;
+    private static DeviceManager instance;
+
+    public static DeviceManager getInstance() {
+        if (instance == null) {
+            instance = new DeviceManager();
+        }
+        return instance;
+    }
 
     public Date getTime() {
         return null;
@@ -78,4 +85,5 @@ public class DeviceManager extends android.app.Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+}
 }
