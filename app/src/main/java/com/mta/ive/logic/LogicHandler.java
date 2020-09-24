@@ -14,8 +14,6 @@ import com.mta.ive.logic.users.UserSettings;
 import com.mta.ive.logic.users.UsersHandler;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class LogicHandler {
@@ -136,7 +134,16 @@ public class LogicHandler {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static ArrayList<Task> getRelevantTasksOfCurrentUser(UserLocation currentLocation){
+    public static ArrayList<UserLocation> getAllLocationsWithTasks(){
+        ArrayList<UserLocation> locations = LogicHandler.getCurrentUser().getArrayOfLocations();
+        return locations.stream().filter(location -> location.getId().equals(getCurrentLocation().getId())
+                || getTasksOfCurrentUserInLocation(location).size() > 0)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<Task> getTasksOfCurrentUserInLocation(UserLocation currentLocation){
         ArrayList<Task> allTasks = getCurrentUser().getArrayOfTasks();
 //        UserLocation currentLocation = getCurrentLocation();
         ArrayList<Task> filteredByLocationTasks = (ArrayList<Task>) allTasks.stream()
