@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User currentUser = snapshot.getValue(User.class);
                 LogicHandler.setCurrentUser(currentUser);
+                LogicHandler.loadUsersLocationsToTasksMap();
 
                 Intent homePage = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(homePage);//, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());

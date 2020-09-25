@@ -14,11 +14,15 @@ import com.mta.ive.logic.users.UserSettings;
 import com.mta.ive.logic.users.UsersHandler;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LogicHandler {
     private static DatabaseReference reference;
     private static String currentUserEmail;
+
+//    private static Map<UserLocation, >
 
 //    public static void saveUser(User user){
 //
@@ -143,14 +147,22 @@ public class LogicHandler {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static ArrayList<Task> getTasksOfCurrentUserInLocation(UserLocation currentLocation){
-        ArrayList<Task> allTasks = getCurrentUser().getArrayOfTasks();
-//        UserLocation currentLocation = getCurrentLocation();
-        ArrayList<Task> filteredByLocationTasks = (ArrayList<Task>) allTasks.stream()
-                .filter(task -> task.isRelevantForLocation(currentLocation))// -> task.getLocations().contains(currentLocation))
-                .collect(Collectors.toList());
+    public static List<Task> getTasksOfCurrentUserInLocation(UserLocation currentLocation){
+//        ArrayList<Task> allTasks = getCurrentUser().getArrayOfTasks();
+//        ArrayList<Task> filteredByLocationTasks = (ArrayList<Task>) allTasks.stream()
+//                .filter(task -> task.isRelevantForLocation(currentLocation))// -> task.getLocations().contains(currentLocation))
+//                .collect(Collectors.toList());
 
-        return filteredByLocationTasks;
+        //return filteredByLocationTasks;
+//        return UsersHandler.getInstance(
+        return locationToTasksMap.get(currentLocation);
+    }
+
+    private static Map<UserLocation, List<Task>> locationToTasksMap;
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void loadUsersLocationsToTasksMap(){
+        locationToTasksMap = UsersHandler.getInstance().getLocationToTasksMap();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -169,6 +181,7 @@ public class LogicHandler {
     }
 
     public static UserLocation getCurrentLocation(){
+        //TODO: add logic to find what is our location
         ArrayList<UserLocation> allLocations = UsersHandler.getInstance().getCurrentUser().getArrayOfLocations();
         UserLocation currentLocation = null;
 

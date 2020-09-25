@@ -30,7 +30,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
         return allTasks;
     }
 
-    public void setAllTasks(ArrayList<Task> allTasks) {
+    public void setAllTasks(List<Task> allTasks) {
         this.allTasks = allTasks;
     }
 
