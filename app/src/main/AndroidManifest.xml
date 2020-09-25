@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mta.ive">
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    package="com.example.ive">
 
     <application
         android:allowBackup="true"
@@ -13,37 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/map_key"
-            />
-        <service
-            android:name="com.mta.ive.logic.device.DeviceManager"
-            android:foregroundServiceType="location" >
-        </service>
-        <activity android:name=".logic.location.GoogleMapActivity"></activity>
-        <activity android:name=".pages.login.SignUpInActivity">
-
-
+        <activity android:name=".pages.SignInActivity"></activity>
+        <activity android:name=".pages.AllTasksActivity" />
+        <activity android:name=".pages.HomeActivity" />
+        <activity android:name=".pages.NewTaskActivity" />
+        <activity android:name=".pages.LobbyActivity" />
+        <activity android:name=".pages.LoginActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".pages.home.addtask.EditExistingTaskActivity" />
-        <activity android:name=".pages.login.SignUpActivity" />
-        <activity android:name=".pages.delete.AllTasksActivity" />
-        <activity android:name=".pages.home.HomeActivity" />
-        <activity android:name=".pages.delete.NewTaskActivity" />
-        <activity android:name=".pages.delete.LobbyActivity" />
-        <activity android:name=".pages.settings.UserSettings" />
-        <activity android:name=".pages.settings.AppSettings" />
-        <activity android:name=".logic.location.ActivityManageLocations" />
-        <activity android:name=".logic.location.ActivityAddNewLocation" />
-        <activity android:name=".pages.login.LoginActivity" />
-        <activity android:name=".pages.home.home.AddLocationFragment" />
-        <activity android:name=".MainActivity"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
