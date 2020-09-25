@@ -41,6 +41,63 @@
             />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textview_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="27dp"
+        android:padding="8dp"
+        android:text="Switch Location"
+        android:textColor="#212121"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/fab_option_all_tasks"
+        app:layout_constraintEnd_toStartOf="@+id/fab_option_location" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_option_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="#27a1ac"
+        android:src="@drawable/switch_loc8"
+        app:layout_constraintBottom_toTopOf="@+id/fab_option_all_tasks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="32dp"
+        android:visibility="invisible"/>
+
+
+    <TextView
+        android:id="@+id/textview_all_tasks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="32dp"
+        android:padding="8dp"
+        android:text="Show All Tasks"
+        android:textColor="#212121"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/fab_option_all_tasks"
+        app:layout_constraintTop_toBottomOf="@+id/textview_location" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_option_all_tasks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="#27a1ac"
+        android:src="@drawable/switch_loc8"
+        app:layout_constraintBottom_toTopOf="@+id/fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="32dp"
+        android:visibility="invisible"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

@@ -1,5 +1,6 @@
 package com.mta.ive.pages.home.tasksbylocation;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
@@ -7,6 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +30,6 @@ import com.mta.ive.logic.users.User;
 import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,7 +42,8 @@ public class TasksByLocationFragment extends Fragment {
     ArrayList<Task> tasksList;
     TasksAdapter tasksAdapter;
     ViewGroup root;
-    FloatingActionButton switchLocationButton;
+    FloatingActionButton switchLocationButton, exposeOptionsButton, showAllTasksButton;
+    TextView switchLocationText, showAllTasksText;
     //Dialog locationsDialog;
 
     View view;
@@ -54,6 +57,9 @@ public class TasksByLocationFragment extends Fragment {
     int indexOfUserCurrentLocation;
     UserLocation currentLocation;
     List<Task> tasksToShowInList;
+
+    Boolean fabIsOpen = false;
+    private Animation fab_open, fab_close;
 //    UserLocation selectedLocation = null;
 
 //    int lastSelectedLocationIndex = -1;
@@ -75,7 +81,13 @@ public class TasksByLocationFragment extends Fragment {
         tasksRecList = view.findViewById(R.id.tasksRecycleList);
 //        tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
 //        tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
-        switchLocationButton = view.findViewById(R.id.fab);
+        switchLocationButton = view.findViewById(R.id.fab_option_location);
+        showAllTasksButton = view.findViewById(R.id.fab_option_all_tasks);
+        exposeOptionsButton = view.findViewById(R.id.fab);
+        switchLocationText = view.findViewById(R.id.textview_location);
+        showAllTasksText = view.findViewById(R.id.textview_all_tasks);
+
+
         bottomDurationText = view.findViewById(R.id.tasksListBottomText);
 
         currentLocation = LogicHandler.getCurrentLocation();
@@ -94,6 +106,7 @@ public class TasksByLocationFragment extends Fragment {
         updateAllUserFields();
 
         setSwitchLocationFunctionality();
+        setFabButtons();
 
 
 //        updateUserTitle(view);
@@ -127,6 +140,8 @@ public class TasksByLocationFragment extends Fragment {
         return view;
 
     }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private int getIndeOfCurrentUserLocationInList(List<LocationWithTasksWrapper> swichableLocations) {
@@ -177,6 +192,7 @@ public class TasksByLocationFragment extends Fragment {
 //                            String msg = hasTasks? "Showing tasks for selected location": "No tasks found in selected location";
                             String msg = "Showing tasks for selected location";
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                            hideFloating();
                             break;
                     }
                 }
@@ -360,6 +376,47 @@ public class TasksByLocationFragment extends Fragment {
 
         title.setText(userTitle + locationTitle);
 //        title.setText("Hello "+ userName + "! \n You are at " + location.getName());
+    }
+
+    private void setFabButtons() {
+        fab_close = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_close);
+        fab_open = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_open);
+
+        exposeOptionsButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onClick(View view) {
+
+                if (fabIsOpen) {
+                    hideFloating();
+                } else {
+                    showFloating();
+                }
+
+            }
+        });
+    }
+
+    private void hideFloating(){
+        switchLocationText.setVisibility(View.INVISIBLE);
+        showAllTasksText.setVisibility(View.INVISIBLE);
+        switchLocationButton.startAnimation(fab_close);
+        showAllTasksButton.startAnimation(fab_close);
+//                    fab_main.startAnimation(fab_anticlock);
+        switchLocationButton.setClickable(false);
+        showAllTasksButton.setClickable(false);
+        fabIsOpen = false;
+    }
+
+    private void showFloating(){
+        switchLocationText.setVisibility(View.VISIBLE);
+        showAllTasksText.setVisibility(View.VISIBLE);
+        switchLocationButton.startAnimation(fab_open);
+        showAllTasksButton.startAnimation(fab_open);
+//                    fab_main.startAnimation(fab_clock);
+        switchLocationButton.setClickable(true);
+        showAllTasksButton.setClickable(true);
+        fabIsOpen = true;
     }
 
 
