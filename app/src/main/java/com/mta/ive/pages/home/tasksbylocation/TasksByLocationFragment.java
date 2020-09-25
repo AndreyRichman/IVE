@@ -186,16 +186,26 @@ public class TasksByLocationFragment extends Fragment {
                 alertBuilder.setPositiveButton ("Switch", dialogClickListener);
                 alertBuilder.setNegativeButton("Cancel", dialogClickListener);
 
-                List<String> locationsNames = swichableLocations.stream()
-                        .map(LocationWithTasksWrapper::getLocation)
-                        .map(UserLocation::getName)
-                        .collect(Collectors.toList());
+                List<String> locationsNames = new ArrayList<>();
+                swichableLocations.forEach(locationWithTasks -> {
+                    String name = locationWithTasks.getLocation().getName();
+                    String locationId = locationWithTasks.getLocation().getId();
+
+                    if (locationId.equals(LogicHandler.getCurrentLocation().getId())){
+                        name += "(Current)";
+                    }
+                    locationsNames.add(name);
+                });
+//                .stream()
+//                        .map(LocationWithTasksWrapper::getLocation)
+//                        .map(UserLocation::getName)
+//                        .collect(Collectors.toList());
 
 //                locationsNames.set(indexOfUserCurrentLocation, locationsNames.get(indexOfUserCurrentLocation) + "(Current)");
                 String[] namesToShowInWindow = new String[locationsNames.size()];
                 locationsNames.toArray(namesToShowInWindow);
 
-                namesToShowInWindow[indexOfUserCurrentLocation] = locationsNames.get(indexOfUserCurrentLocation) + "(Current)";
+//                namesToShowInWindow[indexOfUserCurrentLocation] = locationsNames.get(indexOfUserCurrentLocation) + "(Current)";
 
                 alertBuilder.setSingleChoiceItems(namesToShowInWindow, indexOfCurrentlySelectedLocation, (dialogInterface, i) -> {
 //                    currentLocation = swichableLocations.get(i).getLocation();

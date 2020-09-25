@@ -371,7 +371,10 @@ public class LogicHandler {
                 });
 
         UserLocation currentLocation = getCurrentLocation();
-        boolean containsCurrentLocation = swichableLocations.stream().map(LocationWithTasksWrapper::getLocation).anyMatch(location -> location == currentLocation);
+        boolean containsCurrentLocation = swichableLocations.stream()
+                .map(LocationWithTasksWrapper::getLocation)
+                .map(UserLocation::getId)
+                .anyMatch(locationId -> locationId.equals(currentLocation.getId()));
 
         if (!containsCurrentLocation){
             LocationWithTasksWrapper locationToAdd = new LocationWithTasksWrapper(currentLocation, new ArrayList<>());
