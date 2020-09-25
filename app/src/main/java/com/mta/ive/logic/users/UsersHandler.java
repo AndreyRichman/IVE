@@ -53,7 +53,7 @@ public class UsersHandler {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void loadLocationsToTasksMap() {
+    public void loadLocationsToTasksMap() {
         idToLocationMap = new HashMap<>();
         locationToTasksMap = new HashMap<>();
 

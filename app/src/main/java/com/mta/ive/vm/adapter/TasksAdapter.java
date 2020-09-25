@@ -98,7 +98,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
 
     @Override
     public int getItemCount() {
-        return this.allTasks.size();
+        int count = 0;
+        if (this.allTasks != null){
+            count = this.allTasks.size();
+        }
+
+        return count;
     }
 
 

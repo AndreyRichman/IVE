@@ -45,11 +45,14 @@ public class TasksByLocationFragment extends Fragment {
     View view;
     String selected;
 
-    Map<UserLocation, List<Task>> locationToTasksMap;
+//    Map<UserLocation, List<Task>> locationToTasksMap;
+    Map<String, List<Task>> locationIdToTasksMap;
+    Map<String, UserLocation> locationIdToUserLocationMap;
     List<LocationWithTasksWrapper> swichableLocations;
     int indexOfCurrentlySelectedLocation;
     int indexOfUserCurrentLocation;
     UserLocation currentLocation;
+    List<Task> tasksToShowInList;
 //    UserLocation selectedLocation = null;
 
 //    int lastSelectedLocationIndex = -1;
@@ -69,15 +72,22 @@ public class TasksByLocationFragment extends Fragment {
         tasksList = new ArrayList<>();
         view = inflater.inflate(R.layout.fragment_tasks_by_location, container, false);
         tasksRecList = view.findViewById(R.id.tasksRecycleList);
-        tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
+//        tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+//        tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
         switchLocationButton = view.findViewById(R.id.fab);
 
         currentLocation = LogicHandler.getCurrentLocation();
-        locationToTasksMap = LogicHandler.getCurrentUserLocationToTasksMap();
+        locationIdToUserLocationMap = LogicHandler.getIdToUserLocationMap();
+//        locationToTasksMap = LogicHandler.getCurrentUserLocationToTasksMap();
+        locationIdToTasksMap = LogicHandler.getLocationIdToTasksMap();
         swichableLocations = LogicHandler.getSwichableLocations();
         indexOfUserCurrentLocation = getIndeOfCurrentUserLocationInList(swichableLocations);
         indexOfCurrentlySelectedLocation = indexOfUserCurrentLocation;
+
+        tasksToShowInList = new ArrayList<>();
+        tasksAdapter = new TasksAdapter(view.getContext(), tasksToShowInList); //TODO: originally: MainActivity.this
+        tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        tasksRecList.setAdapter(tasksAdapter);
 
         updateAllUserFields();
 
@@ -193,10 +203,10 @@ public class TasksByLocationFragment extends Fragment {
                 });
                 alertBuilder.show();
             } else {
-                boolean moreTasksExist = locationToTasksMap.keySet().size() > 1;
+                boolean moreLocationsExist = locationIdToTasksMap.keySet().size() > 1;
                 String alertMessage;
 
-                if (moreTasksExist){
+                if (moreLocationsExist){
                     alertMessage = "No tasks found in other locations";
                 } else {
                     alertMessage = "No more locations defined..";
@@ -254,8 +264,8 @@ public class TasksByLocationFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateAllUserFields() {
         User user = LogicHandler.getCurrentUser();
-        List<Task> tasks = this.locationToTasksMap.get(currentLocation); //LogicHandler.getTasksOfCurrentUserInLocation(currentLocation);
-
+//        List<Task> tasks = this.locationToTasksMap.get(currentLocation); //LogicHandler.getTasksOfCurrentUserInLocation(currentLocation);
+        List<Task> tasks = this.locationIdToTasksMap.get(currentLocation.getId());
         if (user != null) {
             updateUserTasksList(tasks);
             updateUserTitle(user, false);
@@ -267,12 +277,18 @@ public class TasksByLocationFragment extends Fragment {
     }
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateUserTasksList(List<Task> tasksToShow) {
 //        List<Task> tasks = this.locationToTasksMap.get(currentLocation); //LogicHandler.getTasksOfCurrentUserInLocation(currentLocation);
 
-        tasksAdapter = new TasksAdapter(view.getContext(), tasksToShow); //TODO: originally: MainActivity.this
-        tasksRecList.setAdapter(tasksAdapter);
+//        tasksAdapter = new TasksAdapter(view.getContext(), tasksToShow); //TODO: originally: MainActivity.this
+        tasksAdapter.setAllTasks(tasksToShow);
+
+//        tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+//        tasksRecList.setAdapter(tasksAdapter);
+//        tasksToShowInList = tasksToShow;
+//        tasksRecList.setAdapter(tasksAdapter);
         tasksAdapter.notifyDataSetChanged();
     }
 //    private void loadUserFromDBAndUpdateUI() {

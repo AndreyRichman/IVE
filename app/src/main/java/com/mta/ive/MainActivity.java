@@ -1,11 +1,8 @@
 package com.mta.ive;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -17,13 +14,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.users.User;
-import com.mta.ive.pages.login.SignUpInActivity;
-import com.mta.ive.pages.delete.AllTasksActivity;
+//import com.mta.ive.pages.delete.AllTasksActivity;
 import com.mta.ive.pages.home.HomeActivity;
-import com.mta.ive.pages.delete.LobbyActivity;
-import com.mta.ive.pages.login.LoginActivity;
-import com.mta.ive.pages.delete.NewTaskActivity;
-import com.mta.ive.pages.login.SignUpActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -53,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User currentUser = snapshot.getValue(User.class);
                 LogicHandler.setCurrentUser(currentUser);
-                LogicHandler.loadUsersLocationsToTasksMap();
+                LogicHandler.loadUserLocationsAndTasksMaps();
 
                 Intent homePage = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(homePage);//, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());

@@ -15,6 +15,7 @@ import com.mta.ive.logic.users.UserSettings;
 import com.mta.ive.logic.users.UsersHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,6 +24,8 @@ public class LogicHandler {
 //    private static DatabaseReference reference;
     private static String currentUserEmail;
     private static Map<UserLocation, List<Task>> locationToTasksMap;
+    private static Map<String, UserLocation> idToUserLocationMap;
+    private static Map<String, List<Task>> locationIdToTasksMap;
 
 
 //    private static Map<UserLocation, >
@@ -39,6 +42,7 @@ public class LogicHandler {
 //        return null;
 //    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void saveTask(Task task){
 //        int id = task.getId();
 //        reference = FirebaseDatabase.getInstance().getReference()
@@ -64,10 +68,12 @@ public class LogicHandler {
         String taskId = ref.getKey();
         task.setId(taskId);
         getCurrentUser().addTask(task);
+        reloadUserData();
 //        task.setTaskID(taskId);
         ref.setValue(task);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void saveLocation(UserLocation userLocation){
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
@@ -80,6 +86,7 @@ public class LogicHandler {
         String locationId = ref.getKey();
         userLocation.setId(locationId);
         getCurrentUser().addLocation(userLocation);
+        reloadUserData();
 
         ref.setValue(userLocation);
     }
@@ -149,9 +156,23 @@ public class LogicHandler {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static Map<UserLocation, List<Task>> getCurrentUserLocationToTasksMap() {
+
         return locationToTasksMap;
     }
+
+    public static Map<String, List<Task>> getLocationIdToTasksMap(){
+
+        return locationIdToTasksMap;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static Map<String, UserLocation> getIdToUserLocationMap() {
+
+        return idToUserLocationMap;
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<Task> getTasksOfCurrentUserInLocation(UserLocation currentLocation){
@@ -169,8 +190,23 @@ public class LogicHandler {
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void loadUsersLocationsToTasksMap(){
+    public static void loadUserLocationsAndTasksMaps() {
         locationToTasksMap = UsersHandler.getInstance().getLocationToTasksMap();
+
+        idToUserLocationMap = new HashMap<>();
+        locationIdToTasksMap = new HashMap<>();
+        locationToTasksMap.forEach((location, tasks) -> {
+            idToUserLocationMap.put(location.getId(), location);
+            locationIdToTasksMap.put(location.getId(), tasks);
+        });
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void reloadUserData(){
+        UsersHandler.getInstance().loadLocationsToTasksMap();
+        loadUserLocationsAndTasksMaps();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
