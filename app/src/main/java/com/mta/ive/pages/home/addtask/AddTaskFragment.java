@@ -96,7 +96,6 @@ public class AddTaskFragment extends Fragment {
 
                 if (mandatoryFieldsAreFilled) {
 
-                    Toast.makeText(getContext(), "Task was added", Toast.LENGTH_SHORT).show();
 
                     Task task = new Task();
 
@@ -112,7 +111,9 @@ public class AddTaskFragment extends Fragment {
 
                     LogicHandler.saveTask(task);
 
-                    btn.getRootView().findViewById(R.id.navigation_location).callOnClick();
+                    //TODO: deside if this part is really irrelevant
+//                    btn.getRootView().findViewById(R.id.navigation_location).callOnClick();
+                    Toast.makeText(getContext(), "Task was added", Toast.LENGTH_SHORT).show();
 
                 }
             }

@@ -26,6 +26,7 @@ import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddLocationFragment extends AppCompatActivity {
 
@@ -112,7 +113,7 @@ public class AddLocationFragment extends AppCompatActivity {
             };
 
 
-            ArrayList<Task> tasksUnderLocation = LogicHandler.getAllTasksUnderOnlyThisLocation(currentLocation);
+            List<Task> tasksUnderLocation = LogicHandler.getAllTasksUnderOnlyThisLocation(currentLocation);
             int numberOfTasks = tasksUnderLocation.size();
             String deleteTitle = "Are you sure?";
             String yesOptionText = "Yes";

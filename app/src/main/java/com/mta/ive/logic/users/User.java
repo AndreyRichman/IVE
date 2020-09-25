@@ -1,6 +1,5 @@
 package com.mta.ive.logic.users;
 
-import android.location.Location;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -25,8 +24,13 @@ public class User {
 
 
     List<Task> tasksList;
+    private UserSettings settings;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public User() {
+        tasks = new HashMap<>();
+        locations = new HashMap<>();
+        settings = new UserSettings();
     }
 
     public User(String name, String email) {
@@ -34,6 +38,15 @@ public class User {
         this.email = email;
         tasks = new HashMap<>();
         locations = new HashMap<>();
+        settings = new UserSettings();
+    }
+
+    public UserSettings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(UserSettings settings) {
+        this.settings = settings;
     }
 
     public Map<String, UserLocation> getLocations() {
