@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 
 public class TasksByLocationFragment extends Fragment {
 
-    private TextView mainTitle, subTitle, bottomText;
+    private TextView mainTitle, subTitle, bottomDurationText;
     DatabaseReference reference;
     RecyclerView tasksRecList;
     ArrayList<Task> tasksList;
@@ -76,6 +76,7 @@ public class TasksByLocationFragment extends Fragment {
 //        tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
 //        tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
         switchLocationButton = view.findViewById(R.id.fab);
+        bottomDurationText = view.findViewById(R.id.tasksListBottomText);
 
         currentLocation = LogicHandler.getCurrentLocation();
         locationIdToUserLocationMap = LogicHandler.getIdToUserLocationMap();
@@ -304,6 +305,17 @@ public class TasksByLocationFragment extends Fragment {
 //        tasksToShowInList = tasksToShow;
 //        tasksRecList.setAdapter(tasksAdapter);
         tasksAdapter.notifyDataSetChanged();
+
+        String durationMessage;
+        int minutes = tasksToShow.stream().mapToInt(Task::getDuration).sum();
+        if (minutes >= 60){
+            int hours = minutes / 60;
+            minutes = minutes % 60;
+            durationMessage = "Total Task time: "+ hours + " hours, " + minutes + " minutes";
+        } else {
+            durationMessage = "Total Task time: "+ minutes + " minutes";
+        }
+        bottomDurationText.setText(durationMessage);
     }
 //    private void loadUserFromDBAndUpdateUI() {
 //        String userEmail = LogicHandler.getCurrentUserEmail();
