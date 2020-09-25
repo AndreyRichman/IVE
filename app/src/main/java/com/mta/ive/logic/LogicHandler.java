@@ -91,6 +91,7 @@ public class LogicHandler {
         ref.setValue(userLocation);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void updateExistingTask(Task task){
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
@@ -102,6 +103,7 @@ public class LogicHandler {
                 .setValue(task);
 
         getCurrentUser().getTasks().put(task.getId(), task);
+        reloadUserData();
     }
 
     public static void updateExistingLocation(UserLocation location){
@@ -109,6 +111,7 @@ public class LogicHandler {
 
         //optional without thread
         Thread thread = new Thread() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void run() {
 
@@ -119,6 +122,7 @@ public class LogicHandler {
                         .child(location.getId())
                         .setValue(location);
                 getCurrentUser().getLocations().put(location.getId(), location);
+                reloadUserData();
             }
         };
         thread.start();
