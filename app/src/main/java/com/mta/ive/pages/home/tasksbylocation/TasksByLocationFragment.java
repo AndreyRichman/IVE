@@ -27,6 +27,7 @@ import com.mta.ive.logic.users.User;
 import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -132,6 +133,7 @@ public class TasksByLocationFragment extends Fragment {
         List<UserLocation> locationsInList = swichableLocations.stream()
                 .map(LocationWithTasksWrapper::getLocation).collect(Collectors.toList());
 
+        locationsInList.sort((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
         return locationsInList.indexOf(this.currentLocation);
     }
 
@@ -196,6 +198,8 @@ public class TasksByLocationFragment extends Fragment {
                     }
                     locationsNames.add(name);
                 });
+
+                locationsNames.sort(String::compareToIgnoreCase);
 //                .stream()
 //                        .map(LocationWithTasksWrapper::getLocation)
 //                        .map(UserLocation::getName)
