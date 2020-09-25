@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.logic.LogicHandler;
+import com.mta.ive.logic.device.DeviceManager;
 import com.mta.ive.logic.users.User;
 import com.mta.ive.pages.login.SignUpInActivity;
 import com.mta.ive.pages.delete.AllTasksActivity;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         homeAcivity = HomeActivity.class;
         LogicHandler.createUserIfNotExist(email, userName);
+        DeviceManager.getInstance().getLocationFromDevice(this);
         loadUserFromDB();
     }
 

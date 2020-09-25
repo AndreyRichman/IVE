@@ -16,27 +16,21 @@
 
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/map_key"
             />
-
+        <service
+            android:name="com.mta.ive.logic.device.DeviceManager"
+            android:foregroundServiceType="location" >
+        </service>
         <activity android:name=".logic.location.GoogleMapActivity"></activity>
         <activity android:name=".pages.login.SignUpInActivity">
-              <service
-            android:name="com.example.ive.deviceManager.DeviceManager"
-            android:foregroundServiceType="location" >
-        <!-- Any inner elements would go here. -->
-    </service>
-        <activity android:name=".pages.SignInActivity"></activity>
-        <activity android:name=".pages.AllTasksActivity" />
-        <activity android:name=".pages.HomeActivity" />
-        <activity android:name=".pages.NewTaskActivity" />
-        <activity android:name=".pages.LobbyActivity" />
-        <activity android:name=".pages.LoginActivity" />
-        <activity android:name=".MainActivity">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".pages.home.addtask.EditExistingTaskActivity" />
         <activity android:name=".pages.login.SignUpActivity" />
         <activity android:name=".pages.delete.AllTasksActivity" />
