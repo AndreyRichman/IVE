@@ -105,7 +105,6 @@ public class TasksByLocationFragment extends Fragment {
 
         updateAllUserFields();
 
-        setSwitchLocationFunctionality();
         setFabButtons();
 
 
@@ -378,6 +377,7 @@ public class TasksByLocationFragment extends Fragment {
 //        title.setText("Hello "+ userName + "! \n You are at " + location.getName());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setFabButtons() {
         fab_close = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_close);
         fab_open = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_open);
@@ -395,6 +395,22 @@ public class TasksByLocationFragment extends Fragment {
 
             }
         });
+
+        showAllTasksButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<Task> tasksToShow = swichableLocations.get(indexOfCurrentlySelectedLocation).getTasks();
+                updateUserTasksList(tasksToShow);
+                String msg = "Showing all tasks";
+                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                hideFloating();
+
+            }
+        });
+
+        setSwitchLocationFunctionality();
+
+
     }
 
     private void hideFloating(){
