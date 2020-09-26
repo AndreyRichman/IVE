@@ -1,5 +1,7 @@
 package com.mta.ive.logic;
 
+import android.app.Activity;
+import android.location.Location;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -7,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mta.ive.logic.device.DeviceManager;
 import com.mta.ive.logic.location.LocationWithTasksWrapper;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
@@ -26,6 +29,8 @@ public class LogicHandler {
     private static Map<UserLocation, List<Task>> locationToTasksMap;
     private static Map<String, UserLocation> idToUserLocationMap;
     private static Map<String, List<Task>> locationIdToTasksMap;
+
+    private static Location deviceLocation;
 
 
 //    private static Map<UserLocation, >
@@ -292,6 +297,7 @@ public class LogicHandler {
         return getCurrentUser().getLocations().get(id);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void deleteTaskById(String taskId){
 
         Task taskToArchive = getTaskById(taskId);
@@ -348,6 +354,7 @@ public class LogicHandler {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void markDoneTask(String taskId) {
         Task taskToArchive = getTaskById(taskId);
         taskToArchive.setStatus(Task.Status.DONE);
@@ -388,5 +395,26 @@ public class LogicHandler {
         return swichableLocations;
 
 
+    }
+
+    public static void loadDeviceLocation(Activity context){
+        DeviceManager.getInstance().getLocationFromDevice(context);
+    }
+
+    public static Location getDeviceLocation(){
+        Location location = DeviceManager.getInstance().getLocation();
+
+        return location;
+    }
+
+
+    public static void setCurrentDeviceLocation(Location location) {
+        //TODO: find closest Userlocation to this location and decide if he is in valid radius(15)
+        deviceLocation = location;
+        //this will make the difference between device with & without location
+    }
+
+    public static Location getCurrentDeviceLocation(){
+        return deviceLocation;
     }
 }
