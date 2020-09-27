@@ -1,13 +1,40 @@
 package com.mta.ive;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     Class<HomeActivity> homeAcivity;
+    private FusedLocationProviderClient fusedLocationClient;
+    private final int REQUEST_CHECK_SETTINGS = 79;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,58 +77,237 @@ public class MainActivity extends AppCompatActivity {
                 LogicHandler.setCurrentUser(currentUser);
                 LogicHandler.loadUserLocationsAndTasksMaps();
 
-                Intent homePage = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(homePage);//, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                finish();
+                checkForLocationAndRequestIfNeeded();
+//                fetchLocationAndGoToHomePage();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
 
     }
 
-//    public void openSignUpInPage(View btn) {
-//        Intent loginPage = new Intent(this, SignUpInActivity.class);
-//        startActivity(loginPage);
-//    }
-//
-//    public void openLoginPage(View btn) {
-//        Intent loginPage = new Intent(this, LoginActivity.class);
-//        loginPage.putExtra("PAGE_NAME", "LOGIN PAGE");
-//        startActivity(loginPage);
-//    }
-//
-//    public void openSignUpPage(View btn) {
-//        Intent signupPage = new Intent(this, SignUpActivity.class);
-//        signupPage.putExtra("PAGE_NAME", "SIGNUP PAGE");
-//        startActivity(signupPage);
-//    }
-//
-//    public void openLobbyPage(View btn) {
-//        Intent lobbyPage = new Intent(this, LobbyActivity.class);
-//        lobbyPage.putExtra("PAGE_NAME", "LOBBY PAGE");
-//        startActivity(lobbyPage);
-//    }
-//
-//    public void openNewTask(View btn) {
-//        Intent newTaskPage = new Intent(this, NewTaskActivity.class);
-//        newTaskPage.putExtra("PAGE_NAME", "NEW TASK PAGE");
-//        startActivity(newTaskPage);
-//    }
-//
-//    public void openAllTasks(View btn) {
-//        Intent allTasksPage = new Intent(this, AllTasksActivity.class);
-//        allTasksPage.putExtra("PAGE_NAME", "ALL TASKS PAGE");
-//        startActivity(allTasksPage);
-//    }
-//
-//    public void goMainPage(View btn){
-//        Intent homePage = new Intent(this, HomeActivity.class);
-//        startActivity(homePage);
-//    }
+    public void goToHomePage(){
+        Intent homePage = new Intent(MainActivity.this, HomeActivity.class);
+        startActivity(homePage);//, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        finish();
+    }
+
+
+    private void fetchLocationAndGoToHomePage(){
+        boolean hasPermissionsToLocations = hasPermissionsToLocations();
+
+        if (hasPermissionsToLocations){
+            requestLocationWithGooglePermissions();
+        }
+        else {  //don't have permissions -> request them!
+            requestForPermissions();
+        }
+
+    }
+
+
+    private void requestLocationWithGooglePermissions() {
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true); //this is the key ingredient
+
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+
+
+        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                boolean locationUsable = locationSettingsResponse.getLocationSettingsStates().isLocationUsable();
+
+                if (locationUsable){
+                    retryGettingDeviceLocationAfterEnablingSettings();
+                }
+                else {
+                    goHomePageWithoutLocation("Location is not available");
+                }
+
+
+
+            }
+        });
+
+        task.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+                    // Location settings are not satisfied, but this can be fixed
+                    // by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(MainActivity.this,
+                                REQUEST_CHECK_SETTINGS);
+                    } catch (IntentSender.SendIntentException sendEx) {
+                        // Ignore the error.
+                    }
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        requestLocationWithGooglePermissions();
+                        break;
+                    case Activity.RESULT_CANCELED:
+
+                        goHomePageWithoutLocation("Location is not available");
+                        break;
+                }
+                break;
+        }
+    }
+
+
+    private boolean locationWasFound = false;
+
+    @SuppressLint("MissingPermission")
+    private void retryGettingDeviceLocationAfterEnablingSettings() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        Task<Location> task = fusedLocationClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location == null) {
+
+                            generateFusedGPSLocationAndProceedToHomePage();
+                        }
+                        else {
+                            goHomePageWithLocation(location);
+                        }
+                    }
+                });
+        task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                goHomePageWithoutLocation("Location is not available");
+            }
+        });
+
+    }
+
+    private void checkForLocationAndRequestIfNeeded(){
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        @SuppressLint("MissingPermission") Task<Location> task = fusedLocationClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location == null) {
+                    fetchLocationAndGoToHomePage();
+                }
+                else {
+                    goHomePageWithLocation(location);
+                }
+            }
+        });
+        task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                fetchLocationAndGoToHomePage();
+            }
+        });
+    }
+
+    private void goHomePageWithoutLocation(String no_location_available) {
+        //TODO: show TOAS of no location available
+        Toast.makeText(this, no_location_available, Toast.LENGTH_SHORT).show();
+        goToHomePage();
+    }
+
+    FusedLocationProviderClient locationClient;
+    LocationCallback mLocationCallbackListener;
+
+    @SuppressLint("MissingPermission")
+    private void generateFusedGPSLocationAndProceedToHomePage() {
+        LocationRequest mLocationRequest = LocationRequest.create();
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationCallbackListener = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    if (location != null) {
+                        locationClient.removeLocationUpdates(mLocationCallbackListener);
+                        mLocationCallbackListener = null;
+                        goHomePageWithLocation(location);
+                        break;
+
+                    }
+                }
+            }
+        };
+        locationClient = LocationServices.getFusedLocationProviderClient(this);
+        locationClient.requestLocationUpdates(mLocationRequest, mLocationCallbackListener, null);
+    }
+
+    private void goHomePageWithLocation(Location location) {
+        if (!locationWasFound) {
+            locationWasFound = true;
+            LogicHandler.setCurrentDeviceLocation(location);
+            Toast.makeText(this, "Location found", Toast.LENGTH_SHORT).show();
+            goToHomePage();
+        }
+
+    }
+
+    private boolean shouldRequestForPermissions(){
+        return ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION);
+    }
+
+    private boolean hasPermissionsToLocations(){
+
+        return ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestForPermissions(){
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case 1:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //GOT LOCATION PERMISSIONS -> let's ask for location
+                    requestLocationWithGooglePermissions();
+//                    getDeviceLocationAndGoToHomePage();
+                }  else {
+                    // Permissions denied -> go to come location without location feature
+                    goHomePageWithoutLocation("No Permissions for location");
+                }
+                return;
+        }
+    }
 
 }

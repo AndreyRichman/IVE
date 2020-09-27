@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".pages.home.addtask.EditExistingTaskActivity" />
         <activity android:name=".pages.login.SignUpActivity" />
-        <activity android:name=".pages.delete.AllTasksActivity" />
+<!--        <activity android:name=".pages.delete.AllTasksActivity" />-->
         <activity android:name=".pages.home.HomeActivity" />
         <activity android:name=".pages.delete.NewTaskActivity" />
         <activity android:name=".pages.delete.LobbyActivity" />
