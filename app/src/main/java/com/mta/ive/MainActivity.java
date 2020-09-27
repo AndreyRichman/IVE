@@ -2,10 +2,12 @@ package com.mta.ive;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -17,17 +19,22 @@ import android.provider.Settings;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -86,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void loadDeviceLocation(){
-        LogicHandler.loadDeviceLocation(this);
-    }
+//    public void loadDeviceLocation(){
+//        LogicHandler.loadDeviceLocation(this);
+//    }
 
     public void goToHomePage(){
         Intent homePage = new Intent(MainActivity.this, HomeActivity.class);
@@ -102,19 +109,151 @@ public class MainActivity extends AppCompatActivity {
         boolean hasPermissionsToLocations = hasPermissionsToLocations();
 
         if (hasPermissionsToLocations){
-            getDeviceLocationAndGoToHomePage();
+//            getDeviceLocationAndGoToHomePage();
+            requestLocationWithGooglePermissions();
         }
         else {  //don't have permissions -> request them!
             if (shouldRequestForPermissions()){
                 //request for permissions
                 requestForPermissions();
             }
-            else {
-                //proceed to app without location
-                goHomePageWithoutLocation("No Location available");
-            }
+             requestLocationWithGooglePermissions();
+//            else if (true){
+//                requestGooglePermissions();
+//            }
+//            else {
+//                //proceed to app without location
+//                goHomePageWithoutLocation("No Location available");
+//            }
         }
 
+    }
+
+    private final int LOCATION_SETTINGS_REQUEST_CODE = 77;
+    private final int REQUEST_CHECK_SETTINGS = 79;
+    private void requestLocationWithGooglePermissions() {
+//        System.out.println("Test running setting request" );
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true); //this is the key ingredient
+
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+
+
+        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                boolean usable = locationSettingsResponse.getLocationSettingsStates().isGpsUsable();
+                // All location settings are satisfied. The client can initialize
+                // location requests here.
+                // ...
+//                getDeviceLocation();
+//                createLocationRequest();
+                boolean locationUsable = locationSettingsResponse.getLocationSettingsStates().isLocationUsable();
+
+                if (locationUsable){
+//                    getDeviceLocationAndGoToHomePage();
+                    retryGettingDeviceLocationAfterEnablingSettings();
+//                    getLocation();
+                }
+                else {
+                    goHomePageWithoutLocation("Location is not available");
+//                    try {
+//                        // Show the dialog by calling startResolutionForResult(),
+//                        // and check the result in onActivityResult().
+////                            status.startResolutionForResult(this, LOCATION_SETTINGS_REQUEST_CODE);
+//                        startIntentSenderForResult( status.getResolution().getIntentSender(), LOCATION_SETTINGS_REQUEST_CODE, null, 0, 0, 0, null);
+//                        System.out.println("Test setting not met starting dialog to prompt user" );
+//                    } catch (IntentSender.SendIntentException e) {
+//                        // Ignore the error.
+//                    }
+                }
+
+
+
+            }
+        });
+
+        task.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+                    // Location settings are not satisfied, but this can be fixed
+                    // by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(MainActivity.this,
+                                REQUEST_CHECK_SETTINGS);
+                    } catch (IntentSender.SendIntentException sendEx) {
+                        // Ignore the error.
+                    }
+                }
+            }
+        });
+
+//        PendingResult<LocationSettingsResult> result = LocationServices.getS
+//                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, builder.build());
+//        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+//            @Override
+//            public void onResult(LocationSettingsResult result) {
+//                final Status status = result.getStatus();
+//                final LocationSettingsStates state = result.getLocationSettingsStates();
+//                switch (status.getStatusCode()) {
+//                    case LocationSettingsStatusCodes.SUCCESS:
+//                        // All location settings are satisfied.
+//                        System.out.println("Test setting all fine starting location request" );
+//                        getLocation();
+//                        break;
+//                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+//                        // Location settings are not satisfied. But could be fixed by showing the user
+//                        // a dialog.
+//                        try {
+//                            // Show the dialog by calling startResolutionForResult(),
+//                            // and check the result in onActivityResult().
+////                            status.startResolutionForResult(this, LOCATION_SETTINGS_REQUEST_CODE);
+//                            startIntentSenderForResult(status.getResolution().getIntentSender(), LOCATION_SETTINGS_REQUEST_CODE, null, 0, 0, 0, null);
+//                            System.out.println("Test setting not met starting dialog to prompt user" );
+//                        } catch (IntentSender.SendIntentException e) {
+//                            // Ignore the error.
+//                        }
+//                        break;
+//                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+//                        // Location settings are not satisfied. However, we have no way to fix the
+//                        // settings so we won't show the dialog.
+//                        break;
+//                }
+//            }
+//        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+//                        System.out.println("test user has turned the gps back on");
+//                        getLocation();
+                        requestLocationWithGooglePermissions();
+//                        getDeviceLocationAndGoToHomePage();
+                        break;
+                    case Activity.RESULT_CANCELED:
+
+                        goHomePageWithoutLocation("Location is not available");
+
+                        System.out.println("test user has denied the gps to be turned on");
+                        Toast.makeText(this, "Location is required to order stations", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                break;
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -140,6 +279,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("MissingPermission")
+    private void retryGettingDeviceLocationAfterEnablingSettings() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        Task<Location> task = fusedLocationClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location == null) {
+
+//                            pullLocationManually();
+                            generateFusedGPSLocationAndProceedToHomePage();
+//                            initLocationListener();
+//                            ListenToLocationFromGPS();
+//                            goHomePageWithoutLocation("Error getting Location");
+                        }
+                        else {
+                            currentLocation = location;
+                            goHomePageWithLocation(location);
+                        }
+                    }
+                });
+        task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                goHomePageWithoutLocation("Location is not available");
+            }
+        });
+
+//        Location l = task.getResult();
+    }
+
     private boolean gpsIsOn(){
         return locationManager
                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -157,8 +328,9 @@ public class MainActivity extends AppCompatActivity {
             ListenToLocationFromGPS();
         }
         else {
-            ListenToLocationFromGPS();
-            requestToEnableLocationAndGetLocation();
+            goHomePageWithoutLocation("Error Pulling Location Data");
+//            ListenToLocationFromGPS();
+//            requestToEnableLocationAndGetLocation();
         }
 
 
@@ -201,19 +373,19 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(settingsIntent, 1);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1) {
-            if (!gpsIsOn()){
-//                goHomePageWithoutLocation("Locations is not enabled");
-            } else {
-
-//                getDeviceLocationAndGoToHomePage();
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == 1) {
+//            if (!gpsIsOn()){
+////                goHomePageWithoutLocation("Locations is not enabled");
+//            } else {
+//
+////                getDeviceLocationAndGoToHomePage();
+//            }
+//        }
+//    }
 
     private void goHomePageWithoutLocation(String no_location_available) {
         //TODO: show TOAS of no location available
@@ -265,13 +437,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    FusedLocationProviderClient locationClient;
+    LocationCallback mLocationCallbackListener;
+
     @SuppressLint("MissingPermission")
     private void generateFusedGPSLocationAndProceedToHomePage() {
         LocationRequest mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(60000);
-        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        LocationCallback mLocationCallback = new LocationCallback() {
+        mLocationCallbackListener = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult == null) {
@@ -279,13 +454,16 @@ public class MainActivity extends AppCompatActivity {
                 }
                 for (Location location : locationResult.getLocations()) {
                     if (location != null) {
-                        boolean finally_ = true;
-                        //TODO: UI updates.
+                        locationClient.removeLocationUpdates(mLocationCallbackListener);
+                        goHomePageWithLocation(location);
+                        break;
+
                     }
                 }
             }
         };
-        LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+        locationClient = LocationServices.getFusedLocationProviderClient(this);
+        locationClient.requestLocationUpdates(mLocationRequest, mLocationCallbackListener, null);
     }
 
     private void stopListeningToGps() {
@@ -295,6 +473,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void goHomePageWithLocation(Location location) {
         LogicHandler.setCurrentDeviceLocation(location);
+        Toast.makeText(this, "Location found", Toast.LENGTH_SHORT).show();
         goToHomePage();
 
     }
@@ -331,45 +510,5 @@ public class MainActivity extends AppCompatActivity {
                 return;
         }
     }
-
-    //    public void openSignUpInPage(View btn) {
-//        Intent loginPage = new Intent(this, SignUpInActivity.class);
-//        startActivity(loginPage);
-//    }
-//
-//    public void openLoginPage(View btn) {
-//        Intent loginPage = new Intent(this, LoginActivity.class);
-//        loginPage.putExtra("PAGE_NAME", "LOGIN PAGE");
-//        startActivity(loginPage);
-//    }
-//
-//    public void openSignUpPage(View btn) {
-//        Intent signupPage = new Intent(this, SignUpActivity.class);
-//        signupPage.putExtra("PAGE_NAME", "SIGNUP PAGE");
-//        startActivity(signupPage);
-//    }
-//
-//    public void openLobbyPage(View btn) {
-//        Intent lobbyPage = new Intent(this, LobbyActivity.class);
-//        lobbyPage.putExtra("PAGE_NAME", "LOBBY PAGE");
-//        startActivity(lobbyPage);
-//    }
-//
-//    public void openNewTask(View btn) {
-//        Intent newTaskPage = new Intent(this, NewTaskActivity.class);
-//        newTaskPage.putExtra("PAGE_NAME", "NEW TASK PAGE");
-//        startActivity(newTaskPage);
-//    }
-//
-//    public void openAllTasks(View btn) {
-//        Intent allTasksPage = new Intent(this, AllTasksActivity.class);
-//        allTasksPage.putExtra("PAGE_NAME", "ALL TASKS PAGE");
-//        startActivity(allTasksPage);
-//    }
-//
-//    public void goMainPage(View btn){
-//        Intent homePage = new Intent(this, HomeActivity.class);
-//        startActivity(homePage);
-//    }
 
 }
