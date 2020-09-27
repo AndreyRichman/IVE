@@ -41,6 +41,10 @@
             />
     </LinearLayout>
 
+
+
+
+
     <TextView
         android:id="@+id/textview_location"
         android:layout_width="wrap_content"
@@ -50,7 +54,8 @@
         android:layout_marginBottom="27dp"
         android:padding="8dp"
         android:text="Switch Location"
-        android:textColor="#212121"
+        android:textColor="#333333"
+        android:background="#EAEAEA"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/fab_option_all_tasks"
         app:layout_constraintEnd_toStartOf="@+id/fab_option_location" />
@@ -62,12 +67,15 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:layout_marginBottom="40dp"
-        android:backgroundTint="#27a1ac"
-        android:src="@drawable/switch_loc8"
+        android:backgroundTint="#333333"
+        android:src="@drawable/switch_location_white5_icon"
         app:layout_constraintBottom_toTopOf="@+id/fab_option_all_tasks"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="32dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        />
+
+
 
 
     <TextView
@@ -78,8 +86,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="32dp"
         android:padding="8dp"
-        android:text="Show All Tasks"
-        android:textColor="#212121"
+        android:text="Show all Tasks in location"
+        android:background="#EAEAEA"
+        android:textColor="#333333"
         android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/fab_option_all_tasks"
         app:layout_constraintTop_toBottomOf="@+id/textview_location" />
@@ -91,12 +100,17 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:layout_marginBottom="40dp"
-        android:backgroundTint="#27a1ac"
-        android:src="@drawable/switch_loc8"
+        android:backgroundTint="#333333"
+        android:src="@drawable/show_all_tasks_white3_icon"
         app:layout_constraintBottom_toTopOf="@+id/fab"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="32dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        />
+
+
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -105,14 +119,19 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:backgroundTint="#27a1ac"
-        android:src="@drawable/switch_loc8"
-        app:maxImageSize="32dp"
+        android:src="@drawable/more_options_white_icon"
+        app:maxImageSize="26dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tasksRecycleList"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        />
+
+
+
+
 
     <TextView
         android:id="@+id/showing_tasks_by"

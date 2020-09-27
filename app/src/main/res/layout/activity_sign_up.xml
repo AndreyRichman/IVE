@@ -32,7 +32,7 @@
         android:id="@+id/sign_up"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/rounded_corners"
         android:fontFamily="@font/raleway_medium"
         android:text="Sign Up"
@@ -43,7 +43,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.991" />
 
     <EditText
         android:id="@+id/editTextTextEmailAddress"
