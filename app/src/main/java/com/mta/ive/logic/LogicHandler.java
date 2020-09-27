@@ -1,6 +1,5 @@
 package com.mta.ive.logic;
 
-import android.app.Activity;
 import android.location.Location;
 import android.os.Build;
 
@@ -395,10 +394,6 @@ public class LogicHandler {
         return swichableLocations;
 
 
-    }
-
-    public static void loadDeviceLocation(Activity context){
-        DeviceManager.getInstance().getLocationFromDevice(context);
     }
 
     public static Location getDeviceLocation(){
