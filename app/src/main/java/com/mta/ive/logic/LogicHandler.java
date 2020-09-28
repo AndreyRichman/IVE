@@ -30,6 +30,7 @@ public class LogicHandler {
     private static Map<String, UserLocation> idToUserLocationMap;
     private static Map<String, List<Task>> locationIdToTasksMap;
 
+    private static boolean showingAllTasksInLocation = false;
 //    private static Location deviceLocation;
 
 
@@ -75,6 +76,7 @@ public class LogicHandler {
         task.setId(taskId);
         getCurrentUser().addTask(task);
         reloadUserData();
+        loadSwichableLocations();
 //        task.setTaskID(taskId);
         ref.setValue(task);
     }
@@ -93,6 +95,7 @@ public class LogicHandler {
         userLocation.setId(locationId);
         getCurrentUser().addLocation(userLocation);
         reloadUserData();
+        loadSwichableLocations();
 
         ref.setValue(userLocation);
     }
@@ -110,6 +113,7 @@ public class LogicHandler {
 
         getCurrentUser().getTasks().put(task.getId(), task);
         reloadUserData();
+        loadSwichableLocations();
     }
 
     public static void updateExistingLocation(UserLocation location){
@@ -129,6 +133,7 @@ public class LogicHandler {
                         .setValue(location);
                 getCurrentUser().getLocations().put(location.getId(), location);
                 reloadUserData();
+                loadSwichableLocations();
             }
         };
         thread.start();
@@ -231,7 +236,8 @@ public class LogicHandler {
 //                .filter(task -> task.getLocations().size() == 1)
 //                .collect(Collectors.toList());
 
-        return locationToTasksMap.get(location).stream().filter(task -> task.getLocations().size() == 1).collect(Collectors.toList());
+        return locationIdToTasksMap.get(location.getId()).stream().filter(task -> task.getLocations().size() == 1).collect(Collectors.toList());
+//        return locationToTasksMap.get(location).stream().filter(task -> task.getLocations().size() == 1).collect(Collectors.toList());
 
 //        return relevantOnlyForThisLocationTasks;
     }
@@ -284,6 +290,7 @@ public class LogicHandler {
 
         deleteTasksAssociatedWithLocation(locationToDelete);
         getCurrentUser().getLocations().remove(locationId);
+        loadSwichableLocations();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -473,5 +480,31 @@ public class LogicHandler {
         return currentLocation;*/
 
         return currentUserLocationByDevice;
+    }
+
+    private static int lastSelectedIndex = -1;
+
+    public static void updateLastSelectedLocationIndex(int newIndex){
+        lastSelectedIndex = newIndex;
+    }
+
+    public static int getLastSelectedLocationIndex(int defaultIndex) {
+        int indexToReturn;
+
+        if (lastSelectedIndex != -1){
+            indexToReturn = lastSelectedIndex;
+        } else{
+            indexToReturn = defaultIndex;
+        }
+
+        return indexToReturn;
+    }
+
+    public static boolean isShowingAllLocations(){
+        return showingAllTasksInLocation;
+    }
+
+    public static void setIsShowingAllLocations(boolean newValue){
+        showingAllTasksInLocation = newValue;
     }
 }

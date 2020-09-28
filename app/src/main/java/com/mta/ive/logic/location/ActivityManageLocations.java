@@ -3,28 +3,17 @@ package com.mta.ive.logic.location;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.pages.home.home.AddLocationFragment;
-import com.mta.ive.pages.login.SignUpInActivity;
 import com.mta.ive.vm.adapter.LocationsAdapter;
 
 import java.util.ArrayList;
@@ -36,7 +25,7 @@ public class ActivityManageLocations extends AppCompatActivity
 
     RecyclerView locationsRecList;
     DatabaseReference reference;
-    LocationsAdapter tasksAdapter;
+    LocationsAdapter locationsAdapter;
     List<UserLocation> userLocations;
     Button addLocationBtn;
 
@@ -63,10 +52,11 @@ public class ActivityManageLocations extends AppCompatActivity
 //            startActivity(addLocationIntent);
         });
 
-        userLocations = LogicHandler.getCurrentUser().getArrayOfLocations();
-        tasksAdapter = new LocationsAdapter(ActivityManageLocations.this, userLocations); //TODO: originally: MainActivity.this
-        locationsRecList.setAdapter(tasksAdapter);
-        tasksAdapter.notifyDataSetChanged();
+        updateLocationList();
+//        userLocations = LogicHandler.getCurrentUser().getArrayOfLocations();
+//        locationsAdapter = new LocationsAdapter(ActivityManageLocations.this, userLocations); //TODO: originally: MainActivity.this
+//        locationsRecList.setAdapter(locationsAdapter);
+//        locationsAdapter.notifyDataSetChanged();
 
 //        reference = LogicHandler.getAllLocationsDBReference();
 //
@@ -96,10 +86,18 @@ public class ActivityManageLocations extends AppCompatActivity
 
     }
 
+    private void updateLocationList(){
+        userLocations = LogicHandler.getCurrentUser().getArrayOfLocations();
+        locationsAdapter = new LocationsAdapter(ActivityManageLocations.this, userLocations); //TODO: originally: MainActivity.this
+        locationsRecList.setAdapter(locationsAdapter);
+        locationsAdapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        updateLocationList();
         if(resultCode == Activity.RESULT_OK){
             String selection = data.getStringExtra("selection");
 
@@ -123,6 +121,8 @@ public class ActivityManageLocations extends AppCompatActivity
                     returnIntent.putExtra("selection", "3");
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
+                    break;
+                default:
                     break;
             }
         }

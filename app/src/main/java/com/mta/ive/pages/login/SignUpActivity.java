@@ -19,7 +19,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mta.ive.MainActivity;
 import com.mta.ive.R;
-import com.mta.ive.pages.home.HomeActivity;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -65,16 +64,16 @@ public class SignUpActivity extends AppCompatActivity {
         this.password = passwordEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(userName)) {
-            Toast.makeText(SignUpActivity.this, "Missing Name", Toast.LENGTH_SHORT);
+            Toast.makeText(SignUpActivity.this, "Missing Name", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (TextUtils.isEmpty(email)){
-            Toast.makeText(SignUpActivity.this, "Missing Email", Toast.LENGTH_SHORT);
+            Toast.makeText(SignUpActivity.this, "Missing Email", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(password) || password.length() < 6){
-            Toast.makeText(SignUpActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT);
+            Toast.makeText(SignUpActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -89,9 +88,13 @@ public class SignUpActivity extends AppCompatActivity {
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+//                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+//                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+                            String errorMessage;
+                            errorMessage = task.getException().getLocalizedMessage();
+                            Toast.makeText(SignUpActivity.this, errorMessage,
+                                    Toast.LENGTH_LONG).show();
                             updateUI(null);
                         }
                     }

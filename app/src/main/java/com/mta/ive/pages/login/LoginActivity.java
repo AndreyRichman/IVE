@@ -19,7 +19,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mta.ive.MainActivity;
 import com.mta.ive.R;
-import com.mta.ive.pages.home.HomeActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -67,11 +66,11 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)){
-            Toast.makeText(LoginActivity.this, "Missing Email", Toast.LENGTH_SHORT);
+            Toast.makeText(LoginActivity.this, "Missing Email", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(password)){
-            Toast.makeText(LoginActivity.this, "Missing Password", Toast.LENGTH_SHORT);
+            Toast.makeText(LoginActivity.this, "Missing Password", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -89,8 +88,10 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
 
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            String errorMessage;
+                            errorMessage = task.getException().getLocalizedMessage();
+                            Toast.makeText(LoginActivity.this, errorMessage,
+                                    Toast.LENGTH_LONG).show();
                             updateUI(null);
                         }
                     }

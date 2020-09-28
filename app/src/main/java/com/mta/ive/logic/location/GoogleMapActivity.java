@@ -1,17 +1,19 @@
 package com.mta.ive.logic.location;
 
 
-import androidx.fragment.app.FragmentActivity;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,11 +21,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import com.mta.ive.R;
+import com.mta.ive.logic.LogicHandler;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -33,12 +36,14 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
     Button selectButton;
     LatLng latLng;
     String location;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_map);
 
+        context = this;
         searchView = findViewById(R.id.sv_location);
         selectButton = (Button) findViewById(R.id.select_map_location);
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -54,15 +59,23 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
                     Geocoder geocoder = new Geocoder(GoogleMapActivity.this);
                     try {
                         addressList = geocoder.getFromLocationName(location, 1);
+                        if (addressList.size() > 0){
+                        Address address = addressList.get(0);
+
+                        latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                        map.addMarker(new MarkerOptions().position(latLng).title(location));
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+                        selectButton.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            String message = "Unable to find location";
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
+                        String message = "Unable to find location";
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                     }
-                    Address address = addressList.get(0);
-
-                    latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                    map.addMarker(new MarkerOptions().position(latLng).title(location));
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                    selectButton.setVisibility(View.VISIBLE);
                 }
                 return false;
             }
@@ -93,5 +106,34 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+
+        updateMapWIthUserLocation();
+    }
+
+    private void updateMapWIthUserLocation() {
+        Location deviceLocation = LogicHandler.getDeviceLocation();
+        if (deviceLocation != null) {
+
+
+            try {
+                String title;
+                List<Address> addressList = null;
+                Geocoder geocoder = new Geocoder(GoogleMapActivity.this, Locale.getDefault());
+                addressList = geocoder.getFromLocation(deviceLocation.getLatitude(), deviceLocation.getLongitude(), 1);
+
+                location = "";
+                if(addressList.size() > 0){
+                    location = addressList.get(0).getAddressLine(0);
+                    searchView.setQuery(location, false);
+                    latLng = new LatLng(deviceLocation.getLatitude(), deviceLocation.getLongitude());
+                    map.addMarker(new MarkerOptions().position(latLng).title(location));
+                    selectButton.setVisibility(View.VISIBLE);
+                }
+
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+
+            }
+            catch (Exception ignore){}
+        }
     }
 }

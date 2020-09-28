@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,7 +23,6 @@ import com.mta.ive.logic.location.GoogleMapActivity;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddLocationFragment extends AppCompatActivity {
@@ -66,6 +63,7 @@ public class AddLocationFragment extends AppCompatActivity {
 
         saveLocationButton.setOnClickListener(new View.OnClickListener() {
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick (View btn){
                 if(locationName.getText().toString().matches("")) {
@@ -95,6 +93,7 @@ public class AddLocationFragment extends AppCompatActivity {
         deleteButton.setOnClickListener( click -> {
 
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which){
@@ -102,6 +101,10 @@ public class AddLocationFragment extends AppCompatActivity {
                             Toast.makeText(AddLocationFragment.this, "Location deleted", Toast.LENGTH_SHORT).show();
 
                             deleteLocationAndAllItsTasks(currentLocation);
+
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("selection", "79");
+                            setResult(Activity.RESULT_OK, returnIntent);
                             finish();
                             break;
 
@@ -158,7 +161,7 @@ public class AddLocationFragment extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void deleteLocationAndAllItsTasks(UserLocation locationToDelete){
         LogicHandler.deleteLocationById(locationToDelete.getId());
     }
@@ -179,6 +182,7 @@ public class AddLocationFragment extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void addNewLocation(){
         UserLocation userLocation = new UserLocation();
 

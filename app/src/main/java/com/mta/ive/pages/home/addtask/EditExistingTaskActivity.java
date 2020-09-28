@@ -14,14 +14,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.UserLocation;
@@ -92,6 +88,10 @@ public class EditExistingTaskActivity extends AppCompatActivity {
                 boolean mandatoryFieldsAreFilled = mandatoryFieldsAreFilled();
                 if (mandatoryFieldsAreFilled) {
                     updateTaskByFields(taskId);
+
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("selection", "1");
+                    setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                     Toast.makeText(btn.getRootView().getContext(), "Task saved", Toast.LENGTH_SHORT).show();
                 }
@@ -104,6 +104,11 @@ public class EditExistingTaskActivity extends AppCompatActivity {
             @Override
             public void onClick (View btn){
                 deleteTaskById(taskId);
+
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("selection", "1");
+                setResult(Activity.RESULT_OK, returnIntent);
+
                 finish();
                 Toast.makeText(btn.getRootView().getContext(),"Task deleted", Toast.LENGTH_SHORT).show();
             }
