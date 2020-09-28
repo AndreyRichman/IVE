@@ -27,6 +27,7 @@ import com.mta.ive.logic.location.LocationWithTasksWrapper;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.User;
+import com.mta.ive.logic.users.UserSettings;
 import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class TasksByLocationFragment extends Fragment {
     TasksAdapter tasksAdapter;
     ViewGroup root;
     FloatingActionButton switchLocationButton, exposeOptionsButton, showAllTasksButton;
-    TextView switchLocationText, showAllTasksText;
+    TextView switchLocationText, showAllTasksText, tasksTitle;
     //Dialog locationsDialog;
 
     View view;
@@ -61,7 +62,7 @@ public class TasksByLocationFragment extends Fragment {
     Boolean fabIsOpen = false;
     private Animation fab_open, fab_close;
 
-    private boolean showingAllTasksInLocation = false;
+//    private boolean showingAllTasksInLocation = false;
 //    UserLocation selectedLocation = null;
 
 //    int lastSelectedLocationIndex = -1;
@@ -88,6 +89,7 @@ public class TasksByLocationFragment extends Fragment {
         exposeOptionsButton = view.findViewById(R.id.fab);
         switchLocationText = view.findViewById(R.id.textview_location);
         showAllTasksText = view.findViewById(R.id.textview_all_tasks);
+        tasksTitle = view.findViewById(R.id.showing_tasks_by);
 
 
         bottomDurationText = view.findViewById(R.id.tasksListBottomText);
@@ -189,14 +191,24 @@ public class TasksByLocationFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which){
                         case DialogInterface.BUTTON_POSITIVE:
-                            List<Task> tasksToShow = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();
+
+                            List<Task> tasksToShow;
+                            if (LogicHandler.isShowingAllLocations()) {
+                                tasksToShow = swichableLocationsWithAll.get(indexOfCurrentlySelectedLocation).getTasks();
+                            }
+                            else
+                            {
+                                tasksToShow = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();//this.locationIdToTasksMap.get(currentLocation.getId());
+                            }
+//                            = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();
                             updateUserTasksList(tasksToShow);
-                            updateUserTitle(LogicHandler.getCurrentUser(), true);
+                            updateTitles();
+//                            updateUserTitle(LogicHandler.getCurrentUser());
 
 //                            updateAllUserFields();
 //                            boolean hasTasks = LogicHandler.getTasksOfCurrentUserInLocation(currentLocation).size() > 0;
 //                            String msg = hasTasks? "Showing tasks for selected location": "No tasks found in selected location";
-                            String msg = "Showing tasks for selected location";
+                            String msg = "Location switched";
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                             hideFloating();
                             break;
@@ -303,11 +315,25 @@ public class TasksByLocationFragment extends Fragment {
     private void updateAllUserFields() {
         User user = LogicHandler.getCurrentUser();
 //        List<Task> tasks = this.locationToTasksMap.get(currentLocation); //LogicHandler.getTasksOfCurrentUserInLocation(currentLocation);
-        List<Task> tasks = this.swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();//this.locationIdToTasksMap.get(currentLocation.getId());
-        if (user != null) {
-            updateUserTasksList(tasks);
-            updateUserTitle(user, false);
+        boolean showAllLocations = LogicHandler.isShowingAllLocations();
+
+        List<Task> tasks;
+        if (showAllLocations) {
+            tasks = this.swichableLocationsWithAll.get(indexOfCurrentlySelectedLocation).getTasks();
         }
+        else
+        {
+            tasks = this.swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();//this.locationIdToTasksMap.get(currentLocation.getId());
+        }
+
+        updateUserTasksList(tasks);
+        updateTitles();
+//        updateUserTitle(user);
+
+//        if (user != null) {
+//            updateUserTasksList(tasks);
+//            updateUserTitle(user, false);
+//        }
 //        else {
 //            LogicHandler.
 //            loadUserFromDBAndUpdateUI();
@@ -361,14 +387,18 @@ public class TasksByLocationFragment extends Fragment {
 //
 //    }
 
-    private void updateUserTitle(User user, boolean chosenLocation) {
-        String userName = user.getName();
+    private void updateTitles(){
+        updateUserTitle();
+        updateTasksTitles();
+    }
+    private void updateUserTitle() {
+        String userName = LogicHandler.getCurrentUser().getName();// user.getName();
         //UserLocation location = LogicHandler.getCurrentLocation();
         TextView title = view.findViewById(R.id.tasksListMainTitle);
 
         String userTitle = "Hello "+ userName + "!\n";
 
-        boolean hasLocations = user.getArrayOfLocations().size() > 0;
+        boolean hasLocations = LogicHandler.getCurrentUser().getArrayOfLocations().size() > 0;
         boolean foundLocation = LogicHandler.userIsInOfOfHisLocations();// currentLocation != null;
 
         String locationTitle;
@@ -392,7 +422,23 @@ public class TasksByLocationFragment extends Fragment {
 //        }
 
         title.setText(userTitle + locationTitle);
+        updateTasksTitles();
+        //"Showing tasks by urgency"
+
 //        title.setText("Hello "+ userName + "! \n You are at " + location.getName());
+    }
+
+    private void updateTasksTitles(){
+        String tasksTitleText;
+        if (LogicHandler.isShowingAllLocations()){
+            tasksTitleText = "Showing all tasks in location";
+        }
+        else {
+            String userPreference = LogicHandler.getCurrentUser().getSettings().getPriorityType() == UserSettings.PRIORITY_TYPE.URGENCY?
+                    "urgency": "efficiency";
+            tasksTitleText = "Showing tasks by " + userPreference;
+        }
+        tasksTitle.setText(tasksTitleText);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -420,6 +466,7 @@ public class TasksByLocationFragment extends Fragment {
                 List<Task> tasksToShow;
                 String msg;
 
+                boolean showingAllTasksInLocation = LogicHandler.isShowingAllLocations();
                 if (showingAllTasksInLocation){
                     tasksToShow = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();
                     msg = "Showing relevant tasks";
@@ -429,9 +476,10 @@ public class TasksByLocationFragment extends Fragment {
                     msg = "Showing all tasks";
                 }
 
-                showingAllTasksInLocation = !showingAllTasksInLocation;
+                LogicHandler.setIsShowingAllLocations(!showingAllTasksInLocation);
 
                 updateUserTasksList(tasksToShow);
+                updateTitles();
                 Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                 hideFloating();
 
@@ -455,6 +503,8 @@ public class TasksByLocationFragment extends Fragment {
     }
 
     private void showFloating(){
+        boolean showingAllTasksInLocation = LogicHandler.isShowingAllLocations();
+
         if(showingAllTasksInLocation){
             showAllTasksText.setText("Show relevant tasks in location");
         } else {

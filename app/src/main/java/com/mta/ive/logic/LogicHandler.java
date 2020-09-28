@@ -30,6 +30,7 @@ public class LogicHandler {
     private static Map<String, UserLocation> idToUserLocationMap;
     private static Map<String, List<Task>> locationIdToTasksMap;
 
+    private static boolean showingAllTasksInLocation = false;
 //    private static Location deviceLocation;
 
 
@@ -491,5 +492,13 @@ public class LogicHandler {
         }
 
         return indexToReturn;
+    }
+
+    public static boolean isShowingAllLocations(){
+        return showingAllTasksInLocation;
+    }
+
+    public static void setIsShowingAllLocations(boolean newValue){
+        showingAllTasksInLocation = newValue;
     }
 }
