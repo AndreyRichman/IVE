@@ -154,23 +154,44 @@ public class AddTaskFragment extends Fragment {
         boolean locationNotSelected = locationMultiSpinner.getSelectedItems().size() == 0;
         boolean durationIsEmpty = durationTextField.getText().toString().matches("");
 
+        boolean isValid = true;
+        String errorMessage = "";
+        String taskName = nameTextField.getText().toString();
+
         if (nameIsEmpty){
-            notifyMissingField("Name");
-            return false;
+            isValid = false;
+            errorMessage = "Name is missing";
+        }
+
+        if (!taskName.matches("[a-zA-Z0-9]+")){
+            isValid = false;
+            errorMessage = "Name cannot contain special characters";
+        }
+        if (taskName.matches("[0-9]+")){
+            isValid = false;
+            errorMessage = "Name must contain characters";
+        }
+        if (taskName.length() > 20){
+            isValid = false;
+            errorMessage = "Name exceeded the limit (20)";
         }
         if (locationNotSelected) {
-            notifyMissingField("Location");
-            return false;
+            isValid = false;
+            errorMessage = "Location is missing";
         }
         if (durationIsEmpty){
-            notifyMissingField("Duration");
-            return false;
+            isValid = false;
+            errorMessage = "Duration is missing";
         }
-        return true;
+
+        if(!isValid){
+            notifyError(errorMessage);
+        }
+        return isValid;
     }
 
-    private void notifyMissingField(String fieldName){
-        Toast.makeText(getContext(), fieldName + " is missing", Toast.LENGTH_SHORT).show();
+    private void notifyError(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void initDatePickerDialog() {
