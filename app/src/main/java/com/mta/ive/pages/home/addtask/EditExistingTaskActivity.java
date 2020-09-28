@@ -85,6 +85,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick (View btn){
 
@@ -99,6 +100,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick (View btn){
                 deleteTaskById(taskId);
@@ -187,6 +189,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         taskDuration.setText(String.valueOf(task.getDuration()));
         taskDescription.setText(task.getDescription());
         dateTextField.setText(task.getDeadLineDate());
+        prioritySpinner.setSelection(task.getPriority());
 
         List<UserLocation> taskLocations = task.getLocations();
         ArrayList<Item> locationItems = null;
@@ -230,7 +233,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 //            }
 //        });
     }
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateTaskByFields(String taskId){
 
         if (doneCheckBox.isChecked()){
@@ -279,6 +282,7 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 //        });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void deleteTaskById(String idToDelete){
         LogicHandler.deleteTaskById(idToDelete);
 //        FirebaseDatabase.getInstance().getReference()
