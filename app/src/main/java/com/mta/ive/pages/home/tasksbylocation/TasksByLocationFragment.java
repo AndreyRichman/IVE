@@ -60,7 +60,7 @@ public class TasksByLocationFragment extends Fragment {
     List<Task> tasksToShowInList;
 
     Boolean fabIsOpen = false;
-    private Animation fab_open, fab_close;
+    private Animation fab_open, fab_close, fab_clock, fab_anticlock;
 
 //    private boolean showingAllTasksInLocation = false;
 //    UserLocation selectedLocation = null;
@@ -449,6 +449,8 @@ public class TasksByLocationFragment extends Fragment {
     private void setFabButtons() {
         fab_close = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_close);
         fab_open = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_open);
+        fab_clock = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_rotate_clock);
+        fab_anticlock = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_rotate_anticlock);
 
         exposeOptionsButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("RestrictedApi")
@@ -505,7 +507,7 @@ public class TasksByLocationFragment extends Fragment {
         showAllTasksText.setVisibility(View.INVISIBLE);
         switchLocationButton.startAnimation(fab_close);
         showAllTasksButton.startAnimation(fab_close);
-//                    fab_main.startAnimation(fab_anticlock);
+        exposeOptionsButton.startAnimation(fab_anticlock);
         switchLocationButton.setClickable(false);
         showAllTasksButton.setClickable(false);
         fabIsOpen = false;
@@ -524,7 +526,7 @@ public class TasksByLocationFragment extends Fragment {
         showAllTasksText.setVisibility(View.VISIBLE);
         switchLocationButton.startAnimation(fab_open);
         showAllTasksButton.startAnimation(fab_open);
-//                    fab_main.startAnimation(fab_clock);
+        exposeOptionsButton.startAnimation(fab_clock);
         switchLocationButton.setClickable(true);
         showAllTasksButton.setClickable(true);
         fabIsOpen = true;
