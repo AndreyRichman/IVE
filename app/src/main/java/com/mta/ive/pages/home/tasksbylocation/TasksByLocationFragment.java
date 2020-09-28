@@ -158,7 +158,8 @@ public class TasksByLocationFragment extends Fragment {
                 //.map(LocationWithTasksWrapper::getLocation).collect(Collectors.toList());
 
         //locationsInList.sort((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
-        return locationsInList.indexOf(this.currentLocation);
+        return getIndexOfCurrentLocationInList(locationsInList);
+//        return locationsInList.indexOf(this.currentLocation);
     }
 
 //    @RequiresApi(api = Build.VERSION_CODES.N)
@@ -299,17 +300,17 @@ public class TasksByLocationFragment extends Fragment {
         });
     }
 
-//    private int getIndexOfCurrentLocationInList(List<UserLocation> locationsWithTasksPlusCurrent) {
-//        int index = 0;
-//        int indexOfCurrent = 0;
-//        for (UserLocation location: locationsWithTasksPlusCurrent){
-//            if(location.getId().equals(LogicHandler.getCurrentLocation().getId())){
-//                indexOfCurrent = index;
-//            }
-//            index++;
-//        }
-//        return indexOfCurrent;
-//    }
+    private int getIndexOfCurrentLocationInList(List<UserLocation> locationsWithTasksPlusCurrent) {
+        int index = 0;
+        int indexOfCurrent = 0;
+        for (UserLocation location: locationsWithTasksPlusCurrent){
+            if(location.getId().equals(LogicHandler.getCurrentLocation().getId())){
+                indexOfCurrent = index;
+            }
+            index++;
+        }
+        return indexOfCurrent;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateAllUserFields() {
