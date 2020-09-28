@@ -202,7 +202,8 @@ public class LogicHandler {
 
         //return filteredByLocationTasks;
 //        return UsersHandler.getInstance(
-        return locationToTasksMap.get(currentLocation);
+        return locationIdToTasksMap.get(currentLocation.getId());
+//        return locationToTasksMap.get(currentLocation);
     }
 
 
@@ -364,8 +365,13 @@ public class LogicHandler {
                 LocationWithTasksWrapper locationToAdd = new LocationWithTasksWrapper(currentLocation, new ArrayList<>());
                 swichableLocationsWithAll.add(0, locationToAdd);
             }
+            swichableLocationsWithAll.sort((a,b) -> a.getLocation().getName()
+                    .compareToIgnoreCase(b.getLocation().getName()));
 
             swichableLocationsWithRelevant = generateSwitchableWithRelevantOnly(swichableLocationsWithAll);
+
+//            swichableLocationsWithAll.sort((a,b) -> a.getLocation().getName()
+//                    .compareToIgnoreCase(b.getLocation().getName()));
         }
 //
 //        return swichableLocations;
@@ -488,16 +494,27 @@ public class LogicHandler {
         lastSelectedIndex = newIndex;
     }
 
-    public static int getLastSelectedLocationIndex(int defaultIndex) {
-        int indexToReturn;
 
-        if (lastSelectedIndex != -1){
-            indexToReturn = lastSelectedIndex;
-        } else{
-            indexToReturn = defaultIndex;
+    public static int getLastSelectedLocationIndex(int defaultIndex) {
+
+        if(lastSelectedIndex == -1){
+            lastSelectedIndex = defaultIndex;
         }
 
-        return indexToReturn;
+        return lastSelectedIndex;
+//
+//        int indexToReturn;
+//        if (lastSelectedIndex != -1){
+//            indexToReturn = lastSelectedIndex;
+//        } else{
+//            indexToReturn = defaultIndex;
+//        }
+
+//        return indexToReturn;
+    }
+
+    public static int getLastSelectedIndex() {
+        return lastSelectedIndex;
     }
 
     public static boolean isShowingAllLocations(){
@@ -506,5 +523,9 @@ public class LogicHandler {
 
     public static void setIsShowingAllLocations(boolean newValue){
         showingAllTasksInLocation = newValue;
+    }
+
+    public static String getCurrentSelectedLocationId() {
+        return null;
     }
 }

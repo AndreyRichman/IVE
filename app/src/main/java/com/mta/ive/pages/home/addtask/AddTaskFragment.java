@@ -23,6 +23,8 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.database.DatabaseReference;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
+import com.mta.ive.logic.location.LocationWithTasksWrapper;
+import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.User;
 import com.mta.ive.pages.home.HomeActivity;
@@ -107,7 +109,22 @@ public class AddTaskFragment extends Fragment {
 
                     task.setDeadLineDate(dateString);
 
+                    boolean needToUpdateLocationIndex = needToUpdateLocationIndex(task);
+
+                    String idOfLastSelectedLocation = "";
+                    if (needToUpdateLocationIndex){
+                        int lastSelectedIndex = LogicHandler.getLastSelectedIndex();
+                        idOfLastSelectedLocation = LogicHandler.getSwichableLocationsWithAll()
+                                .get(lastSelectedIndex).getLocation().getId();
+                    }
+
                     LogicHandler.saveTask(task);
+
+                    if (needToUpdateLocationIndex){
+                        int newIndex = getNewIndexByLocationId(idOfLastSelectedLocation);
+                        LogicHandler.updateLastSelectedLocationIndex(newIndex);
+                    }
+
 
 
                     //TODO: deside if this part is really irrelevant
@@ -120,6 +137,34 @@ public class AddTaskFragment extends Fragment {
 
 
         return view;//inflater.inflate(R.layout.fragment_add_task, container, false);
+    }
+
+    private int getNewIndexByLocationId(String idOfLastSelectedLocation) {
+        int newIndex = 0;
+        int index = 0;
+        for (LocationWithTasksWrapper location: LogicHandler.getSwichableLocationsWithAll()){
+            if (location.getLocation().getId().equals(idOfLastSelectedLocation)){
+                newIndex = index;
+                break;
+            }
+            index++;
+        }
+        return newIndex;
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private boolean needToUpdateLocationIndex(Task task) {
+        boolean needToUpdateSelectedIndex = false;
+        for (UserLocation location: task.getLocations()) {
+            boolean locationIsEmpty = LogicHandler.getTasksOfCurrentUserInLocation(location).size() == 0;
+
+            if (locationIsEmpty){
+                needToUpdateSelectedIndex = true;
+            }
+        }
+
+        return needToUpdateSelectedIndex;
     }
 
     private void validateLocationsExist() {
