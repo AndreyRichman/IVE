@@ -1,6 +1,8 @@
 package com.mta.ive.pages.home.addtask;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -23,6 +25,7 @@ import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.User;
+import com.mta.ive.pages.home.HomeActivity;
 import com.mta.ive.vm.adapter.multiselect.Item;
 import com.mta.ive.vm.adapter.multiselect.MultiSelectionSpinner;
 
@@ -69,7 +72,7 @@ public class AddTaskFragment extends Fragment {
         deleteBtn = view.findViewById(R.id.delete_button);
 //        Toast.makeText(view.getContext(),"New Task Page", Toast.LENGTH_SHORT).show();
 
-
+        validateLocationsExist();
         updateLocations();
 
 
@@ -119,6 +122,33 @@ public class AddTaskFragment extends Fragment {
         return view;//inflater.inflate(R.layout.fragment_add_task, container, false);
     }
 
+    private void validateLocationsExist() {
+        int numberOfLocation = LogicHandler.getCurrentUser().getLocations().size();
+
+        if (numberOfLocation == 0){
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Bundle bundle = new Bundle();
+                            ((HomeActivity)view.getContext()).openManageLocationsPage(bundle);
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+//                            ((HomeActivity)view.getContext());
+//                            view.findViewById(R.id.navigation_location).callOnClick();
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("Let's add  some locations first?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
+    }
+
     private boolean mandatoryFieldsAreFilled(){
         boolean nameIsEmpty = nameTextField.getText().toString().matches("");
         boolean locationNotSelected = locationMultiSpinner.getSelectedItems().size() == 0;
@@ -164,11 +194,14 @@ public class AddTaskFragment extends Fragment {
         ArrayList<Item> items = new ArrayList<>();
         User user = LogicHandler.getCurrentUser();
 
-        user.getArrayOfLocations().forEach(location -> {
-            Item spinnerItem = new Item(location.getName(), location.getId(), location);
-            items.add(spinnerItem);
-            locationMultiSpinner.setItems(items);
-        });
+        if (user.getArrayOfLocations().size() > 0) {
+            user.getArrayOfLocations().forEach(location -> {
+                Item spinnerItem = new Item(location.getName(), location.getId(), location);
+                items.add(spinnerItem);
+            });
+        }
+        locationMultiSpinner.setItems(items);
+
 
 //        DatabaseReference reference = LogicHandler.getAllLocationsDBReference();
 //
