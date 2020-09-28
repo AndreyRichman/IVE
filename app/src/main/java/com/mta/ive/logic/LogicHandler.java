@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mta.ive.logic.device.DeviceManager;
+import com.mta.ive.logic.filter.TasksFilterer;
 import com.mta.ive.logic.location.LocationWithTasksWrapper;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
@@ -47,7 +48,7 @@ public class LogicHandler {
 //        return null;
 //    }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void saveTask(Task task){
 //        int id = task.getId();
 //        reference = FirebaseDatabase.getInstance().getReference()
@@ -78,7 +79,7 @@ public class LogicHandler {
         ref.setValue(task);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void saveLocation(UserLocation userLocation){
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
@@ -96,7 +97,7 @@ public class LogicHandler {
         ref.setValue(userLocation);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void updateExistingTask(Task task){
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
@@ -116,7 +117,7 @@ public class LogicHandler {
 
         //optional without thread
         Thread thread = new Thread() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
 
@@ -138,6 +139,7 @@ public class LogicHandler {
         String email = getCurrentUserEmail();
 
         Thread thread = new Thread() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
                 FirebaseDatabase.getInstance().getReference()
@@ -147,6 +149,9 @@ public class LogicHandler {
                         .setValue(userSettings);
 
                 getCurrentUser().setSettings(userSettings);
+                reloadUserData();
+                loadSwichableLocations();
+
             }
         };
         thread.start();
@@ -156,14 +161,14 @@ public class LogicHandler {
         return UsersHandler.getInstance().getCurrentUser();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static ArrayList<UserLocation> getAllLocationsWithTasks(){
-        ArrayList<UserLocation> locations = LogicHandler.getCurrentUser().getArrayOfLocations();
-        return locations.stream().filter(location -> location.getId().equals(getCurrentLocation().getId())
-                || getTasksOfCurrentUserInLocation(location).size() > 0)
-                .collect(Collectors.toCollection(ArrayList::new));
-
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    public static ArrayList<UserLocation> getAllLocationsWithTasks(){
+//        ArrayList<UserLocation> locations = LogicHandler.getCurrentUser().getArrayOfLocations();
+//        return locations.stream().filter(location -> location.getId().equals(getCurrentLocation().getId())
+//                || getTasksOfCurrentUserInLocation(location).size() > 0)
+//                .collect(Collectors.toCollection(ArrayList::new));
+//
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static Map<UserLocation, List<Task>> getCurrentUserLocationToTasksMap() {
@@ -198,7 +203,7 @@ public class LogicHandler {
 
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void loadUserLocationsAndTasksMaps() {
         locationToTasksMap = UsersHandler.getInstance().getLocationToTasksMap();
 
@@ -208,14 +213,14 @@ public class LogicHandler {
             idToUserLocationMap.put(location.getId(), location);
             locationIdToTasksMap.put(location.getId(), tasks);
         });
-
+//        loadSwichableLocations();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void reloadUserData(){
         UsersHandler.getInstance().loadLocationsToTasksMap();
         loadUserLocationsAndTasksMaps();
-
+        //loadSwichableLocations();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -256,7 +261,7 @@ public class LogicHandler {
         return getCurrentUser().getLocations().get(id);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void deleteTaskById(String taskId){
 
         Task taskToArchive = getTaskById(taskId);
@@ -264,7 +269,7 @@ public class LogicHandler {
         updateExistingTask(taskToArchive);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void deleteLocationById(String locationId){
         UserLocation locationToDelete = getLocationById(locationId);
 
@@ -281,7 +286,7 @@ public class LogicHandler {
         getCurrentUser().getLocations().remove(locationId);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private static void deleteTasksAssociatedWithLocation(UserLocation locationToDelete) {
         ArrayList<Task> allTasks = getCurrentUser().getArrayOfTasks();
 
@@ -301,7 +306,7 @@ public class LogicHandler {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void markDoneTask(String taskId) {
         Task taskToArchive = getTaskById(taskId);
         taskToArchive.setStatus(Task.Status.DONE);
@@ -314,35 +319,69 @@ public class LogicHandler {
         UsersHandler.getInstance().createUserIfNotExist(email, userName);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static List<LocationWithTasksWrapper> getSwichableLocations() {
-        List<LocationWithTasksWrapper> swichableLocations = new ArrayList<>();
+    private static List<LocationWithTasksWrapper> swichableLocationsWithAll;
+    private static List<LocationWithTasksWrapper> swichableLocationsWithRelevant;
 
-        locationToTasksMap.entrySet()
-                .forEach(locationToTasksEntry -> {
-                    UserLocation location = locationToTasksEntry.getKey();
-                    List<Task> tasksInLocation = locationToTasksEntry.getValue();
+    public static List<LocationWithTasksWrapper> getSwichableLocationsWithRelevant() {
+        return swichableLocationsWithRelevant;
+    }
 
-                    if (tasksInLocation.size() > 0){
-                        swichableLocations.add(new LocationWithTasksWrapper(location, tasksInLocation));
-                    }
-                });
+    public static List<LocationWithTasksWrapper> getSwichableLocationsWithAll() {
+        return swichableLocationsWithAll;
+    }
 
-        UserLocation currentLocation = getCurrentLocation();
-        boolean containsCurrentLocation = swichableLocations.stream()
-                .map(LocationWithTasksWrapper::getLocation)
-                .map(UserLocation::getId)
-                .anyMatch(locationId -> locationId.equals(currentLocation.getId()));
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void loadSwichableLocations(){
+        swichableLocationsWithAll = new ArrayList<>();
+        swichableLocationsWithRelevant = new ArrayList<>();
 
-        if (!containsCurrentLocation){
-            LocationWithTasksWrapper locationToAdd = new LocationWithTasksWrapper(currentLocation, new ArrayList<>());
-            swichableLocations.add(0,  locationToAdd);
+        if(locationToTasksMap.size() > 0) {
+
+            locationToTasksMap.entrySet()
+                    .forEach(locationToTasksEntry -> {
+                        UserLocation location = locationToTasksEntry.getKey();
+                        List<Task> tasksInLocation = locationToTasksEntry.getValue();
+
+                        if (tasksInLocation.size() > 0) {
+                            swichableLocationsWithAll.add(new LocationWithTasksWrapper(location, tasksInLocation));
+                        }
+                    });
+
+            UserLocation currentLocation = getCurrentLocation();
+            boolean containsCurrentLocation = swichableLocationsWithAll.stream()
+                    .map(LocationWithTasksWrapper::getLocation)
+                    .map(UserLocation::getId)
+                    .anyMatch(locationId -> locationId.equals(currentLocation.getId()));
+
+            if (!containsCurrentLocation) {
+                LocationWithTasksWrapper locationToAdd = new LocationWithTasksWrapper(currentLocation, new ArrayList<>());
+                swichableLocationsWithAll.add(0, locationToAdd);
+            }
+
+            swichableLocationsWithRelevant = generateSwitchableWithRelevantOnly(swichableLocationsWithAll);
+        }
+//
+//        return swichableLocations;
+//
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static List<LocationWithTasksWrapper> generateSwitchableWithRelevantOnly(List<LocationWithTasksWrapper> swichableLocationsWithAll) {
+        List<LocationWithTasksWrapper> relevant = new ArrayList<>();
+
+        UserSettings userSettings = UsersHandler.getInstance().getCurrentUser().getSettings();
+//        swichableLocationsWithAll.forEach(locationWithAllTasksWrapper ->
+        for (LocationWithTasksWrapper locationWithAllTasksWrapper: swichableLocationsWithAll){
+            UserLocation location = locationWithAllTasksWrapper.getLocation();
+            List<Task> allTasksInLocation = locationWithAllTasksWrapper.getTasks();
+            List<Task> onlyRelevantTasks = TasksFilterer.getOnlyRelevantTasks(allTasksInLocation, userSettings);
+
+            relevant.add(new LocationWithTasksWrapper(location, onlyRelevantTasks));
         }
 
-        return swichableLocations;
-
-
+        return relevant;
     }
+
 
     public static boolean locationWasFound = false;
 
@@ -352,15 +391,21 @@ public class LogicHandler {
     }
 
 
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void setCurrentLocationOfDevice(Location location) {
+        DeviceManager.getInstance().setDeviceLocation(location);
+        //updateCurrentUserLocation();
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void updateCurrentUserLocation(){
         //TODO: find closest Userlocation to this location and decide if he is in valid radius(15)
 
-        if (location != null) {
-            DeviceManager.getInstance().setDeviceLocation(location);
+        ArrayList<UserLocation> allLocations = UsersHandler.getInstance().getCurrentUser().getArrayOfLocations();
 
-            ArrayList<UserLocation> allLocations = UsersHandler.getInstance().getCurrentUser().getArrayOfLocations();
+        Location location = DeviceManager.getInstance().getDeviceLocation();
+        if (location != null) {
 
             if (allLocations != null && allLocations.size() > 0) {
                 allLocations.sort((a, b) -> {
@@ -382,6 +427,13 @@ public class LogicHandler {
 
             }
         }
+        else {
+            if (allLocations.size() > 0){
+                currentUserLocationByDevice = allLocations.get(0);
+            }
+        }
+
+        //loadSwichableLocations();
     }
 
     final static int DISTANCE_THRESHOLD = 30;
@@ -410,7 +462,7 @@ public class LogicHandler {
     }
 
     public static UserLocation getCurrentLocation(){
-        //TODO: add logic to find what is our location
+        /*//TODO: add logic to find what is our location
         ArrayList<UserLocation> allLocations = UsersHandler.getInstance().getCurrentUser().getArrayOfLocations();
         UserLocation currentLocation = null;
 
@@ -418,6 +470,8 @@ public class LogicHandler {
         if (allLocations.size() > 0)
             currentLocation = allLocations.get(0);
 
-        return currentLocation;
+        return currentLocation;*/
+
+        return currentUserLocationByDevice;
     }
 }
