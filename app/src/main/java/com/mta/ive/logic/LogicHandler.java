@@ -474,4 +474,22 @@ public class LogicHandler {
 
         return currentUserLocationByDevice;
     }
+
+    private static int lastSelectedIndex = -1;
+
+    public static void updateLastSelectedLocationIndex(int newIndex){
+        lastSelectedIndex = newIndex;
+    }
+
+    public static int getLastSelectedLocationIndex(int defaultIndex) {
+        int indexToReturn;
+
+        if (lastSelectedIndex != -1){
+            indexToReturn = lastSelectedIndex;
+        } else{
+            indexToReturn = defaultIndex;
+        }
+
+        return indexToReturn;
+    }
 }

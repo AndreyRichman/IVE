@@ -18,19 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
-import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.User;
 import com.mta.ive.vm.adapter.multiselect.Item;
 import com.mta.ive.vm.adapter.multiselect.MultiSelectionSpinner;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.stream.Collectors;
@@ -111,8 +106,9 @@ public class AddTaskFragment extends Fragment {
 
                     LogicHandler.saveTask(task);
 
+
                     //TODO: deside if this part is really irrelevant
-//                    btn.getRootView().findViewById(R.id.navigation_location).callOnClick();
+                    btn.getRootView().findViewById(R.id.navigation_location).callOnClick();
                     Toast.makeText(getContext(), "Task was added", Toast.LENGTH_SHORT).show();
 
                 }

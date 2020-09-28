@@ -99,7 +99,7 @@ public class TasksByLocationFragment extends Fragment {
         swichableLocationsWithRelevant = LogicHandler.getSwichableLocationsWithRelevant();
         swichableLocationsWithAll = LogicHandler.getSwichableLocationsWithAll();
         indexOfUserCurrentLocation = getIndeOfCurrentUserLocationInList(swichableLocationsWithRelevant);
-        indexOfCurrentlySelectedLocation = indexOfUserCurrentLocation;
+        indexOfCurrentlySelectedLocation = LogicHandler.getLastSelectedLocationIndex(indexOfUserCurrentLocation);
 
         tasksToShowInList = new ArrayList<>();
         tasksAdapter = new TasksAdapter(view.getContext(), tasksToShowInList); //TODO: originally: MainActivity.this
@@ -222,7 +222,7 @@ public class TasksByLocationFragment extends Fragment {
                     locationsNames.add(name);
                 });
 
-                locationsNames.sort(String::compareToIgnoreCase);
+//                locationsNames.sort(String::compareToIgnoreCase);
 //                .stream()
 //                        .map(LocationWithTasksWrapper::getLocation)
 //                        .map(UserLocation::getName)
@@ -237,6 +237,7 @@ public class TasksByLocationFragment extends Fragment {
                 alertBuilder.setSingleChoiceItems(namesToShowInWindow, indexOfCurrentlySelectedLocation, (dialogInterface, i) -> {
 //                    currentLocation = swichableLocations.get(i).getLocation();
                     indexOfCurrentlySelectedLocation = i;
+                    LogicHandler.updateLastSelectedLocationIndex(indexOfCurrentlySelectedLocation);
                 });
                 alertBuilder.show();
             } else {
@@ -286,17 +287,17 @@ public class TasksByLocationFragment extends Fragment {
         });
     }
 
-    private int getIndexOfCurrentLocationInList(List<UserLocation> locationsWithTasksPlusCurrent) {
-        int index = 0;
-        int indexOfCurrent = 0;
-        for (UserLocation location: locationsWithTasksPlusCurrent){
-            if(location.getId().equals(LogicHandler.getCurrentLocation().getId())){
-                indexOfCurrent = index;
-            }
-            index++;
-        }
-        return indexOfCurrent;
-    }
+//    private int getIndexOfCurrentLocationInList(List<UserLocation> locationsWithTasksPlusCurrent) {
+//        int index = 0;
+//        int indexOfCurrent = 0;
+//        for (UserLocation location: locationsWithTasksPlusCurrent){
+//            if(location.getId().equals(LogicHandler.getCurrentLocation().getId())){
+//                indexOfCurrent = index;
+//            }
+//            index++;
+//        }
+//        return indexOfCurrent;
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateAllUserFields() {
@@ -366,19 +367,29 @@ public class TasksByLocationFragment extends Fragment {
         TextView title = view.findViewById(R.id.tasksListMainTitle);
 
         String userTitle = "Hello "+ userName + "!\n";
+
         boolean hasLocations = user.getArrayOfLocations().size() > 0;
-        boolean foundLocation = currentLocation != null;
+        boolean foundLocation = LogicHandler.userIsInOfOfHisLocations();// currentLocation != null;
 
         String locationTitle;
-
-        if (chosenLocation){
-            String locationName = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation)
-                    .getLocation().getName();
-            locationTitle = "Showing tasks at " + locationName;
-        } else {
-            locationTitle = foundLocation? "You are at " + currentLocation.getName() : hasLocations?
-                    "Location not found" : "No locations defined";
+        if (hasLocations){
+            locationTitle = indexOfCurrentlySelectedLocation == indexOfUserCurrentLocation  && foundLocation?
+                    "You are at ": "Showing tasks at ";
+            locationTitle += swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getLocation().getName();
         }
+        else {
+            locationTitle = "No Locations defined";
+        }
+//        String locationTitle;
+//
+//        if (chosenLocation){
+//            String locationName = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation)
+//                    .getLocation().getName();
+//            locationTitle = "Showing tasks at " + locationName;
+//        } else {
+//            locationTitle = foundLocation? "You are at " + currentLocation.getName() : hasLocations?
+//                    "Location not found" : "No locations defined";
+//        }
 
         title.setText(userTitle + locationTitle);
 //        title.setText("Hello "+ userName + "! \n You are at " + location.getName());
