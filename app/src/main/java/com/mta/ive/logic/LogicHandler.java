@@ -76,6 +76,7 @@ public class LogicHandler {
         task.setId(taskId);
         getCurrentUser().addTask(task);
         reloadUserData();
+        loadSwichableLocations();
 //        task.setTaskID(taskId);
         ref.setValue(task);
     }
@@ -94,6 +95,7 @@ public class LogicHandler {
         userLocation.setId(locationId);
         getCurrentUser().addLocation(userLocation);
         reloadUserData();
+        loadSwichableLocations();
 
         ref.setValue(userLocation);
     }
@@ -111,6 +113,7 @@ public class LogicHandler {
 
         getCurrentUser().getTasks().put(task.getId(), task);
         reloadUserData();
+        loadSwichableLocations();
     }
 
     public static void updateExistingLocation(UserLocation location){
@@ -130,6 +133,7 @@ public class LogicHandler {
                         .setValue(location);
                 getCurrentUser().getLocations().put(location.getId(), location);
                 reloadUserData();
+                loadSwichableLocations();
             }
         };
         thread.start();
@@ -285,6 +289,7 @@ public class LogicHandler {
 
         deleteTasksAssociatedWithLocation(locationToDelete);
         getCurrentUser().getLocations().remove(locationId);
+        loadSwichableLocations();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
