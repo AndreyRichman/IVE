@@ -29,7 +29,8 @@ public class LogicHandler {
     private static Map<String, UserLocation> idToUserLocationMap;
     private static Map<String, List<Task>> locationIdToTasksMap;
 
-    private static Location deviceLocation;
+//    private static Location deviceLocation;
+
 
 
 //    private static Map<UserLocation, >
@@ -234,47 +235,6 @@ public class LogicHandler {
         UsersHandler.getInstance().setCurrentUser(user);
     }
 
-    public static UserLocation getCurrentLocation(){
-        //TODO: add logic to find what is our location
-        ArrayList<UserLocation> allLocations = UsersHandler.getInstance().getCurrentUser().getArrayOfLocations();
-        UserLocation currentLocation = null;
-
-        //temp implementation
-        if (allLocations.size() > 0)
-            currentLocation = allLocations.get(0);
-
-        return currentLocation;
-    }
-
-//    public static DatabaseReference getAllTasksDBReference(){
-//        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-//
-//        return FirebaseDatabase.getInstance().getReference()
-//                .child("users")
-//                .child(String.valueOf(email.hashCode()))
-//                .child("tasks");
-//
-//    }
-
-//    public static DatabaseReference getAllLocationsDBReference(){
-//        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-//
-//        return FirebaseDatabase.getInstance().getReference()
-//                .child("users")
-//                .child(String.valueOf(email.hashCode()))
-//                .child("locations");
-//    }
-
-//    public static DatabaseReference getTaskDBReferenceById(String taskId){
-//        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-//
-//        return FirebaseDatabase.getInstance().getReference()
-//                .child("users")
-//                .child(String.valueOf(email.hashCode()))
-//                .child("tasks")
-//                .child(String.valueOf(taskId));
-//
-//    }
 
     public static String getCurrentUserEmail() {
         return currentUserEmail;
@@ -302,14 +262,6 @@ public class LogicHandler {
         Task taskToArchive = getTaskById(taskId);
         taskToArchive.setStatus(Task.Status.ARCHIVED);
         updateExistingTask(taskToArchive);
-//
-//        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-//
-//        FirebaseDatabase.getInstance().getReference()
-//                .child("users")
-//                .child(String.valueOf(email.hashCode()))
-//                .child("tasks")
-//                .child(String.valueOf(taskId)).removeValue();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -337,10 +289,6 @@ public class LogicHandler {
                 .filter(task -> task.isRelevantForLocation(locationToDelete))
                 .collect(Collectors.toList());
 
-//        List<Task> tasksToDelete = filteredByLocationTasks.stream()
-//                .filter(task -> task.getLocations().size() == 1).collect(Collectors.toList());
-
-//        List<Task> tasksToUpdate =
         tasksInLocation.forEach(task -> {
             if (task.getLocations().size() == 1 ){
                 task.setStatus(Task.Status.ARCHIVED);
@@ -396,20 +344,80 @@ public class LogicHandler {
 
     }
 
+    public static boolean locationWasFound = false;
+
     public static Location getDeviceLocation(){
-        Location location = DeviceManager.getInstance().getLocation();
 
-        return location;
+        return DeviceManager.getInstance().getDeviceLocation();
     }
 
 
-    public static void setCurrentDeviceLocation(Location location) {
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void setCurrentLocationOfDevice(Location location) {
         //TODO: find closest Userlocation to this location and decide if he is in valid radius(15)
-        deviceLocation = location;
-        //this will make the difference between device with & without location
+
+        if (location != null) {
+            DeviceManager.getInstance().setDeviceLocation(location);
+
+            ArrayList<UserLocation> allLocations = UsersHandler.getInstance().getCurrentUser().getArrayOfLocations();
+
+            if (allLocations != null && allLocations.size() > 0) {
+                allLocations.sort((a, b) -> {
+                    int distanceFromA = distanceBetweenLocations(a, location);
+
+                    int distanceFromB = distanceBetweenLocations(b, location);
+
+                    return distanceFromA - distanceFromB;
+                });
+
+                UserLocation closestUserLocation = allLocations.get(0);
+                currentUserLocationByDevice = closestUserLocation;
+
+                boolean closeEnough = deviceIsCloseEnoughToLocation(closestUserLocation, location);
+
+                if (closeEnough){
+                    locationWasFound = true;
+                }
+
+            }
+        }
     }
 
-    public static Location getCurrentDeviceLocation(){
-        return deviceLocation;
+    final static int DISTANCE_THRESHOLD = 30;
+
+    private static boolean deviceIsCloseEnoughToLocation(UserLocation closestUserLocation, Location deviceLocation) {
+        int distance = distanceBetweenLocations(closestUserLocation, deviceLocation);
+
+        return distance < DISTANCE_THRESHOLD;
+    }
+
+    private static int distanceBetweenLocations(UserLocation userLocation, Location deviceLocation){
+        float[] distanceResults = new float[3];
+        Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(),
+                deviceLocation.getLatitude(), deviceLocation.getLongitude(), distanceResults);
+
+        int distance = (int) distanceResults[0];
+
+        return distance;
+    }
+
+    private static boolean userNextToHisLocation = false;
+    private static UserLocation currentUserLocationByDevice = null;
+
+    public static boolean userIsInOfOfHisLocations(){
+        return userNextToHisLocation;
+    }
+
+    public static UserLocation getCurrentLocation(){
+        //TODO: add logic to find what is our location
+        ArrayList<UserLocation> allLocations = UsersHandler.getInstance().getCurrentUser().getArrayOfLocations();
+        UserLocation currentLocation = null;
+
+        //temp implementation
+        if (allLocations.size() > 0)
+            currentLocation = allLocations.get(0);
+
+        return currentLocation;
     }
 }

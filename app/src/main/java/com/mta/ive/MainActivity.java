@@ -3,19 +3,13 @@ package com.mta.ive;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -269,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
     private void goHomePageWithLocation(Location location) {
         if (!locationWasFound) {
             locationWasFound = true;
-            LogicHandler.setCurrentDeviceLocation(location);
+            LogicHandler.setCurrentLocationOfDevice(location);
             Toast.makeText(this, "Location found", Toast.LENGTH_SHORT).show();
             goToHomePage();
         }

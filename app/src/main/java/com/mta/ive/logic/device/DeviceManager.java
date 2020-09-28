@@ -2,17 +2,12 @@ package com.mta.ive.logic.device;
 
 
 import android.location.Location;
-import android.location.LocationManager;
-
-
 
 import java.util.Date;
 
 public class DeviceManager {
     private static DeviceManager instance;
-    private Location currLocation;
-
-    private LocationManager locationManager;
+    private Location deviceLocation;
 
     public static DeviceManager getInstance() {
         if (instance == null) {
@@ -26,12 +21,12 @@ public class DeviceManager {
     }
 
 
-    public void setCurrLocation(Location location) {
-        currLocation = location;
+    public void setDeviceLocation(Location location) {
+        deviceLocation = location;
     }
 
-    public Location getLocation() {
-        return currLocation;
+    public Location getDeviceLocation() {
+        return deviceLocation;
     }
 
 
