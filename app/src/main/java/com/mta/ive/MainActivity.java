@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference userReference = LogicHandler.getCurrentUserDBReferenceById(userEmail);
 
         userReference.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User currentUser = snapshot.getValue(User.class);
@@ -82,7 +82,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void goToHomePage(){
+        LogicHandler.updateCurrentUserLocation();
+        LogicHandler.loadSwichableLocations();
+
         Intent homePage = new Intent(MainActivity.this, HomeActivity.class);
         startActivity(homePage);//, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -239,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationCallbackListener = new LocationCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult == null) {
@@ -260,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
         locationClient.requestLocationUpdates(mLocationRequest, mLocationCallbackListener, null);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void goHomePageWithLocation(Location location) {
         if (!locationWasFound) {
             locationWasFound = true;

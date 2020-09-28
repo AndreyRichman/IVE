@@ -32,7 +32,6 @@ import com.mta.ive.vm.adapter.TasksAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TasksByLocationFragment extends Fragment {
 
@@ -52,7 +51,8 @@ public class TasksByLocationFragment extends Fragment {
 //    Map<UserLocation, List<Task>> locationToTasksMap;
     Map<String, List<Task>> locationIdToTasksMap;
     Map<String, UserLocation> locationIdToUserLocationMap;
-    List<LocationWithTasksWrapper> swichableLocations;
+    List<LocationWithTasksWrapper> swichableLocationsWithRelevant;
+    List<LocationWithTasksWrapper> swichableLocationsWithAll;
     int indexOfCurrentlySelectedLocation;
     int indexOfUserCurrentLocation;
     UserLocation currentLocation;
@@ -60,6 +60,8 @@ public class TasksByLocationFragment extends Fragment {
 
     Boolean fabIsOpen = false;
     private Animation fab_open, fab_close;
+
+    private boolean showingAllTasksInLocation = false;
 //    UserLocation selectedLocation = null;
 
 //    int lastSelectedLocationIndex = -1;
@@ -94,8 +96,9 @@ public class TasksByLocationFragment extends Fragment {
         locationIdToUserLocationMap = LogicHandler.getIdToUserLocationMap();
 //        locationToTasksMap = LogicHandler.getCurrentUserLocationToTasksMap();
         locationIdToTasksMap = LogicHandler.getLocationIdToTasksMap();
-        swichableLocations = LogicHandler.getSwichableLocations();
-        indexOfUserCurrentLocation = getIndeOfCurrentUserLocationInList(swichableLocations);
+        swichableLocationsWithRelevant = LogicHandler.getSwichableLocationsWithRelevant();
+        swichableLocationsWithAll = LogicHandler.getSwichableLocationsWithAll();
+        indexOfUserCurrentLocation = getIndeOfCurrentUserLocationInList(swichableLocationsWithRelevant);
         indexOfCurrentlySelectedLocation = indexOfUserCurrentLocation;
 
         tasksToShowInList = new ArrayList<>();
@@ -145,10 +148,14 @@ public class TasksByLocationFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private int getIndeOfCurrentUserLocationInList(List<LocationWithTasksWrapper> swichableLocations) {
 
-        List<UserLocation> locationsInList = swichableLocations.stream()
-                .map(LocationWithTasksWrapper::getLocation).collect(Collectors.toList());
+        List<UserLocation> locationsInList =  new ArrayList<>();
 
-        locationsInList.sort((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
+        swichableLocations.forEach(locationWithTasksWrapper -> {
+            locationsInList.add(locationWithTasksWrapper.getLocation());
+        });
+                //.map(LocationWithTasksWrapper::getLocation).collect(Collectors.toList());
+
+        //locationsInList.sort((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
         return locationsInList.indexOf(this.currentLocation);
     }
 
@@ -182,7 +189,7 @@ public class TasksByLocationFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which){
                         case DialogInterface.BUTTON_POSITIVE:
-                            List<Task> tasksToShow = swichableLocations.get(indexOfCurrentlySelectedLocation).getTasks();
+                            List<Task> tasksToShow = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();
                             updateUserTasksList(tasksToShow);
                             updateUserTitle(LogicHandler.getCurrentUser(), true);
 
@@ -198,14 +205,14 @@ public class TasksByLocationFragment extends Fragment {
             };
 
 
-            if (swichableLocations.size() > 1){
+            if (swichableLocationsWithRelevant.size() > 1){
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
                 alertBuilder.setTitle("Switch Location");
                 alertBuilder.setPositiveButton ("Switch", dialogClickListener);
                 alertBuilder.setNegativeButton("Cancel", dialogClickListener);
 
                 List<String> locationsNames = new ArrayList<>();
-                swichableLocations.forEach(locationWithTasks -> {
+                swichableLocationsWithRelevant.forEach(locationWithTasks -> {
                     String name = locationWithTasks.getLocation().getName();
                     String locationId = locationWithTasks.getLocation().getId();
 
@@ -312,11 +319,11 @@ public class TasksByLocationFragment extends Fragment {
     private void updateUserTasksList(List<Task> tasksToShow) {
 //        List<Task> tasks = this.locationToTasksMap.get(currentLocation); //LogicHandler.getTasksOfCurrentUserInLocation(currentLocation);
 
-//        tasksAdapter = new TasksAdapter(view.getContext(), tasksToShow); //TODO: originally: MainActivity.this
-        tasksAdapter.setAllTasks(tasksToShow);
+        tasksAdapter = new TasksAdapter(view.getContext(), tasksToShow); //TODO: originally: MainActivity.this
+//        tasksAdapter.setAllTasks(tasksToShow);
 
-//        tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//        tasksRecList.setAdapter(tasksAdapter);
+        tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        tasksRecList.setAdapter(tasksAdapter);
 //        tasksToShowInList = tasksToShow;
 //        tasksRecList.setAdapter(tasksAdapter);
         tasksAdapter.notifyDataSetChanged();
@@ -365,7 +372,7 @@ public class TasksByLocationFragment extends Fragment {
         String locationTitle;
 
         if (chosenLocation){
-            String locationName = swichableLocations.get(indexOfCurrentlySelectedLocation)
+            String locationName = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation)
                     .getLocation().getName();
             locationTitle = "Showing tasks at " + locationName;
         } else {
@@ -399,9 +406,21 @@ public class TasksByLocationFragment extends Fragment {
         showAllTasksButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<Task> tasksToShow = swichableLocations.get(indexOfCurrentlySelectedLocation).getTasks();
+                List<Task> tasksToShow;
+                String msg;
+
+                if (showingAllTasksInLocation){
+                    tasksToShow = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();
+                    msg = "Showing relevant tasks";
+
+                } else {
+                    tasksToShow = swichableLocationsWithAll.get(indexOfCurrentlySelectedLocation).getTasks();
+                    msg = "Showing all tasks";
+                }
+
+                showingAllTasksInLocation = !showingAllTasksInLocation;
+
                 updateUserTasksList(tasksToShow);
-                String msg = "Showing all tasks";
                 Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                 hideFloating();
 
@@ -425,6 +444,12 @@ public class TasksByLocationFragment extends Fragment {
     }
 
     private void showFloating(){
+        if(showingAllTasksInLocation){
+            showAllTasksText.setText("Show relevant tasks in location");
+        } else {
+            showAllTasksText.setText("Show all tasks in location");
+        }
+
         switchLocationText.setVisibility(View.VISIBLE);
         showAllTasksText.setVisibility(View.VISIBLE);
         switchLocationButton.startAnimation(fab_open);
