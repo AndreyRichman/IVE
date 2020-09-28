@@ -252,7 +252,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 for (Location location : locationResult.getLocations()) {
                     if (location != null) {
-                        locationClient.removeLocationUpdates(mLocationCallbackListener);
+                        if (mLocationCallbackListener != null) {
+                            locationClient.removeLocationUpdates(mLocationCallbackListener);
+                        }
                         mLocationCallbackListener = null;
                         goHomePageWithLocation(location);
                         break;

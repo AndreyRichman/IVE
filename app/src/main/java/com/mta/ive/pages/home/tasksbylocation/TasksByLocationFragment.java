@@ -318,13 +318,14 @@ public class TasksByLocationFragment extends Fragment {
 //        List<Task> tasks = this.locationToTasksMap.get(currentLocation); //LogicHandler.getTasksOfCurrentUserInLocation(currentLocation);
         boolean showAllLocations = LogicHandler.isShowingAllLocations();
 
-        List<Task> tasks;
-        if (showAllLocations) {
-            tasks = this.swichableLocationsWithAll.get(indexOfCurrentlySelectedLocation).getTasks();
-        }
-        else
-        {
-            tasks = this.swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();//this.locationIdToTasksMap.get(currentLocation.getId());
+        List<Task> tasks = new ArrayList<>();
+        if (this.swichableLocationsWithAll.size() > 0) {
+
+            if (showAllLocations) {
+                tasks = this.swichableLocationsWithAll.get(indexOfCurrentlySelectedLocation).getTasks();
+            } else {
+                tasks = this.swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();//this.locationIdToTasksMap.get(currentLocation.getId());
+            }
         }
 
         updateUserTasksList(tasks);
@@ -356,14 +357,16 @@ public class TasksByLocationFragment extends Fragment {
 //        tasksRecList.setAdapter(tasksAdapter);
         tasksAdapter.notifyDataSetChanged();
 
-        String durationMessage;
-        int minutes = tasksToShow.stream().mapToInt(Task::getDuration).sum();
-        if (minutes >= 60){
-            int hours = minutes / 60;
-            minutes = minutes % 60;
-            durationMessage = "Total Task time: "+ hours + " hours, " + minutes + " minutes";
-        } else {
-            durationMessage = "Total Task time: "+ minutes + " minutes";
+        String durationMessage = "";
+        if (tasksToShow.size() > 0) {
+            int minutes = tasksToShow.stream().mapToInt(Task::getDuration).sum();
+            if (minutes >= 60) {
+                int hours = minutes / 60;
+                minutes = minutes % 60;
+                durationMessage = "Total Task time: " + hours + " hours, " + minutes + " minutes";
+            } else {
+                durationMessage = "Total Task time: " + minutes + " minutes";
+            }
         }
         bottomDurationText.setText(durationMessage);
     }
@@ -466,6 +469,11 @@ public class TasksByLocationFragment extends Fragment {
             public void onClick(View view) {
                 List<Task> tasksToShow;
                 String msg;
+
+                if(swichableLocationsWithAll.size() == 0){
+                    Toast.makeText(getContext(), "No locations with tasks found..", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 boolean showingAllTasksInLocation = LogicHandler.isShowingAllLocations();
                 if (showingAllTasksInLocation){
