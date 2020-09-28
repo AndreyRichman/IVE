@@ -302,7 +302,7 @@ public class TasksByLocationFragment extends Fragment {
     private void updateAllUserFields() {
         User user = LogicHandler.getCurrentUser();
 //        List<Task> tasks = this.locationToTasksMap.get(currentLocation); //LogicHandler.getTasksOfCurrentUserInLocation(currentLocation);
-        List<Task> tasks = this.locationIdToTasksMap.get(currentLocation.getId());
+        List<Task> tasks = this.swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();//this.locationIdToTasksMap.get(currentLocation.getId());
         if (user != null) {
             updateUserTasksList(tasks);
             updateUserTitle(user, false);
