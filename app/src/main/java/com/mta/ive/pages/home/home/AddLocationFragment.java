@@ -101,6 +101,10 @@ public class AddLocationFragment extends AppCompatActivity {
                             Toast.makeText(AddLocationFragment.this, "Location deleted", Toast.LENGTH_SHORT).show();
 
                             deleteLocationAndAllItsTasks(currentLocation);
+
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("selection", "79");
+                            setResult(Activity.RESULT_OK, returnIntent);
                             finish();
                             break;
 

@@ -236,7 +236,8 @@ public class LogicHandler {
 //                .filter(task -> task.getLocations().size() == 1)
 //                .collect(Collectors.toList());
 
-        return locationToTasksMap.get(location).stream().filter(task -> task.getLocations().size() == 1).collect(Collectors.toList());
+        return locationIdToTasksMap.get(location.getId()).stream().filter(task -> task.getLocations().size() == 1).collect(Collectors.toList());
+//        return locationToTasksMap.get(location).stream().filter(task -> task.getLocations().size() == 1).collect(Collectors.toList());
 
 //        return relevantOnlyForThisLocationTasks;
     }
