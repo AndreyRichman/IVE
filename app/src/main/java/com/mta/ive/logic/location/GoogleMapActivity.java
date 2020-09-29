@@ -58,7 +58,7 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
                 location = searchView.getQuery().toString();
                 List<Address> addressList = null;
 
-                if (location != null || !location.equals("")){
+                if (location != null && !location.equals("")){
                     Geocoder geocoder = new Geocoder(GoogleMapActivity.this);
                     try {
                         addressList = geocoder.getFromLocationName(location, 1);
