@@ -208,11 +208,11 @@ public class AddTaskFragment extends Fragment {
             errorMessage = "Name is missing";
         }
 
-        if (!taskName.matches("[a-zA-Z0-9]+")){
+        if (!taskName.matches("[a-zA-Z0-9 ]+")){
             isValid = false;
             errorMessage = "Name cannot contain special characters";
         }
-        if (taskName.matches("[0-9]+")){
+        if (taskName.matches("[0-9 ]+")){
             isValid = false;
             errorMessage = "Name must contain characters";
         }

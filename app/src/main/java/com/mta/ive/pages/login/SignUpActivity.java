@@ -145,12 +145,12 @@ public class SignUpActivity extends AppCompatActivity {
             errorMessage = "Username exceeded the limit (20)";
         }
 
-        if (!userName.matches("[a-zA-Z0-9]+")){
+        if (!userName.matches("[a-zA-Z0-9 ]+")){
             isValid = false;
             errorMessage = "Username cannot contain special characters";
         }
 
-        if (userName.matches("[0-9]+")){
+        if (userName.matches("[0-9 ]+")){
             isValid = false;
             errorMessage = "Username must contain characters";
         }

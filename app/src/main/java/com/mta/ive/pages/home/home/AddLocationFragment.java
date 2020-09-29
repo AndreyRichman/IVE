@@ -176,12 +176,12 @@ public class AddLocationFragment extends AppCompatActivity {
             errorMessage = "Name exceeded the limit (20)";
         }
 
-        if (!name.matches("[a-zA-Z0-9]+")){
+        if (!name.matches("[a-zA-Z0-9 ]+")){
             isValid = false;
             errorMessage = "Name cannot contain special characters";
         }
 
-        if (name.matches("[0-9]+")){
+        if (name.matches("[0-9 ]+")){
             isValid = false;
             errorMessage = "Name must contain characters";
         }
