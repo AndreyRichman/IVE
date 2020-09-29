@@ -38,6 +38,7 @@ public class AddLocationFragment extends AppCompatActivity {
 //    ArrayList<Task> tasksUnderLocation = null;
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +143,13 @@ public class AddLocationFragment extends AppCompatActivity {
             int LAUNCH_SECOND_ACTIVITY = 1;
             Intent googleMapPage = new Intent(this, GoogleMapActivity.class);
 
+            if (existingLocation) {
+                Bundle bundleForMap = new Bundle();
+                bundleForMap.putString("Address", locationAddress.getText().toString());
+                bundleForMap.putDouble("Lat", locationLatLng.latitude);
+                bundleForMap.putDouble("Lng", locationLatLng.longitude);
+                googleMapPage.putExtras(bundleForMap);
+            }
             startActivityForResult(googleMapPage, LAUNCH_SECOND_ACTIVITY);
 
         });
