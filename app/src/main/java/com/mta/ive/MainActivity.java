@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -35,8 +34,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.users.User;
-//import com.mta.ive.pages.delete.AllTasksActivity;
 import com.mta.ive.pages.home.HomeActivity;
+
+//import com.mta.ive.pages.delete.AllTasksActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -55,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
         String userName = getIntent().getStringExtra("userName");
 
         homeAcivity = HomeActivity.class;
-        LogicHandler.createUserIfNotExist(email, userName);
-        loadUserFromDB();
+        LogicHandler.createUserIfNotExist(email, userName, this);
+//        loadUserFromDB();
     }
 
-    private void loadUserFromDB() {
+    public void loadUserFromDB() {
         String userEmail = LogicHandler.getCurrentUserEmail();
         DatabaseReference userReference = LogicHandler.getCurrentUserDBReferenceById(userEmail);
 

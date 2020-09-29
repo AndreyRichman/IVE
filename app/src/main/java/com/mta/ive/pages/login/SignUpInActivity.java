@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.mta.ive.MainActivity;
 import com.mta.ive.R;
-import com.mta.ive.pages.home.HomeActivity;
+import com.mta.ive.logic.LogicHandler;
 
 public class SignUpInActivity extends AppCompatActivity {
 
@@ -122,6 +122,7 @@ public class SignUpInActivity extends AppCompatActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
         if (account != null) {
+            LogicHandler.setGoogleClient(googleSignInClient);
             String personName = account.getGivenName();
             String personEmail = account.getEmail();
 

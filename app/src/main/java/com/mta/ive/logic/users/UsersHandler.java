@@ -7,15 +7,14 @@ import androidx.annotation.RequiresApi;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mta.ive.MainActivity;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -109,7 +108,13 @@ public class UsersHandler {
         this.currentUser = currentUser;
     }
 
-    public void createUserIfNotExist(String email, String userName) {
+//    boolean userValidationCompleted = false;
+//
+//    public boolean isUserValidationCompleted() {
+//        return userValidationCompleted;
+//    }
+
+    public void createUserIfNotExist(String email, String userName, MainActivity context) {
         /*
         * reference = FirebaseDatabase.getInstance().getReference()
                 .child("task").child(String.valueOf(id));
@@ -123,7 +128,10 @@ public class UsersHandler {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()){
                     createUser(email, userName);
+
                 }
+                context.loadUserFromDB();
+//                userValidationCompleted = true;
             }
 
             @Override
@@ -136,7 +144,9 @@ public class UsersHandler {
     private void createUser(String email, String userName){
         User userToAdd = new User(userName, email);
 
+
         FirebaseDatabase.getInstance().getReference().child("users").child(String.valueOf(email.hashCode())).setValue(userToAdd);
+        currentUser = userToAdd;
 
     }
 }
