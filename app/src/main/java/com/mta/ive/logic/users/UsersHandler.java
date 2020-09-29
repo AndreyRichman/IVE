@@ -33,15 +33,15 @@ public class UsersHandler {
         return instance;
     }
 
-    public boolean userExist(String email){
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("users");
-
-
-
-
-        return false;
-    }
+//    public boolean userExist(String email){
+//        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference ref = database.getReference("users");
+//
+//
+//
+//
+//        return false;
+//    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -52,15 +52,19 @@ public class UsersHandler {
         return locationToTasksMap;
     }
 
+    Map<String, List<Task>> idToAllCreatedTasks;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void loadLocationsToTasksMap() {
         idToLocationMap = new HashMap<>();
         locationToTasksMap = new HashMap<>();
+        idToAllCreatedTasks = new HashMap<>();
 
         getCurrentUser().getArrayOfLocations()
                 .forEach(location -> {
                     idToLocationMap.put(location.getId(), location);
                     locationToTasksMap.put(location, new ArrayList<>());
+                    idToAllCreatedTasks.put(location.getId(), new ArrayList<>());
                 });
 
         getCurrentUser().getArrayOfTasks().forEach(task -> {
@@ -70,11 +74,32 @@ public class UsersHandler {
                 locationToTasksMap.get(keyLocation).add(task);
             }
         });
+
+        getCurrentUser().getArrayOfAllCreatedTasks().forEach(task -> {
+            for (UserLocation relevantLocation: task.getLocations()) {
+                String locationId = relevantLocation.getId();
+                UserLocation keyLocation = idToLocationMap.get(locationId);
+                if (keyLocation != null) {
+                    idToAllCreatedTasks.get(keyLocation.getId()).add(task);
+                }
+            }
+        });
+//
+//        //getArrayOfAllCreatedTasks
     }
 
-    public User getUser(String email){
-        return null;
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Map<String, List<Task>> getIdToAllCreatedTasks(){
+        if (idToAllCreatedTasks == null){
+            loadLocationsToTasksMap();
+        }
+
+        return idToAllCreatedTasks;
     }
+
+//    public User getUser(String email){
+//        return null;
+//    }
 
     public User getCurrentUser(){
         return currentUser;
