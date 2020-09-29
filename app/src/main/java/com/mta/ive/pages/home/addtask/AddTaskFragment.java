@@ -244,15 +244,20 @@ public class AddTaskFragment extends Fragment {
         day = calendar.get(Calendar.DAY_OF_MONTH);
         month = calendar.get(Calendar.MONTH);
         year = calendar.get(Calendar.YEAR);
+//        calendar.set
 
         datePickerDialog = new DatePickerDialog(getContext(),
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        dateString = dayOfMonth + "/" + monthOfYear  + "/" + year;
+                        String monthStr = String.format("%02d", monthOfYear);
+                        String dayStr = String.format("%02d", dayOfMonth);
+                        dateString = dayStr + "/" + monthStr  + "/" + year;
                         dateTextField.setText(dateString);
                     }
                 }, year, month, day);
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
