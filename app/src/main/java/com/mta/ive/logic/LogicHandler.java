@@ -343,6 +343,7 @@ public class LogicHandler {
         swichableLocationsWithAll = new ArrayList<>();
         swichableLocationsWithRelevant = new ArrayList<>();
 
+
         if(locationToTasksMap.size() > 0) {
 
             locationToTasksMap.entrySet()
@@ -373,9 +374,15 @@ public class LogicHandler {
 //            swichableLocationsWithAll.sort((a,b) -> a.getLocation().getName()
 //                    .compareToIgnoreCase(b.getLocation().getName()));
         }
+//        loadLocationIdToAllTasksEverCreated();
 //
 //        return swichableLocations;
 //
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static Map<String, List<Task>> getLocationIdToAllTasksCreated(){
+        return UsersHandler.getInstance().getIdToAllCreatedTasks();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -120,4 +120,13 @@ public class User {
     public void addLocation(UserLocation userLocation){
         this.locations.put(userLocation.getId(), userLocation);
     }
+
+    public List<Task> getArrayOfAllCreatedTasks(){
+        List<Task> allTasks = new ArrayList<>();
+        if(this.tasks != null && this.tasks.size() > 0){
+            allTasks = new ArrayList<>(this.tasks.values());
+        }
+
+        return allTasks;
+    }
 }
