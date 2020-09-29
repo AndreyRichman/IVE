@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 
 public class EditExistingTaskActivity extends AppCompatActivity {
 
-    EditText taskName, taskDescription, taskDuration;
+    EditText nameTextField, taskDescription, durationTextField;
     EditText dateTextField;
     CheckBox doneCheckBox;
 
@@ -53,9 +53,9 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
 
-        taskName = findViewById(R.id.task_name);
+        nameTextField = findViewById(R.id.task_name);
         taskDescription = findViewById(R.id.description);
-        taskDuration = findViewById(R.id.duration);
+        durationTextField = findViewById(R.id.duration);
 
         prioritySpinner = findViewById(R.id.urgency);
         locationMultiSpinner = (MultiSelectionSpinner) findViewById(R.id.spinner_locations);
@@ -123,27 +123,48 @@ public class EditExistingTaskActivity extends AppCompatActivity {
     }
 
     private boolean mandatoryFieldsAreFilled(){
-        boolean nameIsEmpty = taskName.getText().toString().matches("");
+        boolean nameIsEmpty = nameTextField.getText().toString().matches("");
         boolean locationNotSelected = locationMultiSpinner.getSelectedItems().size() == 0;
-        boolean durationIsEmpty = taskDuration.getText().toString().matches("");
+        boolean durationIsEmpty = durationTextField.getText().toString().matches("");
+
+        boolean isValid = true;
+        String errorMessage = "";
+        String taskName = nameTextField.getText().toString();
 
         if (nameIsEmpty){
-            notifyMissingField("Name");
-            return false;
+            isValid = false;
+            errorMessage = "Name is missing";
+        }
+
+        if (!taskName.matches("[a-zA-Z0-9 ]+")){
+            isValid = false;
+            errorMessage = "Name cannot contain special characters";
+        }
+        if (taskName.matches("[0-9 ]+")){
+            isValid = false;
+            errorMessage = "Name must contain characters";
+        }
+        if (taskName.length() > 20){
+            isValid = false;
+            errorMessage = "Name exceeded the limit (20)";
         }
         if (locationNotSelected) {
-            notifyMissingField("Location");
-            return false;
+            isValid = false;
+            errorMessage = "Location is missing";
         }
         if (durationIsEmpty){
-            notifyMissingField("Duration");
-            return false;
+            isValid = false;
+            errorMessage = "Duration is missing";
         }
-        return true;
+
+        if(!isValid){
+            notifyError(errorMessage);
+        }
+        return isValid;
     }
 
-    private void notifyMissingField(String fieldName){
-        Toast.makeText(EditExistingTaskActivity.this, fieldName + " is missing", Toast.LENGTH_SHORT).show();
+    private void notifyError(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void initDatePickerDialog() {
@@ -190,8 +211,8 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         Task task = LogicHandler.getCurrentUser().getTasks().get(taskId);
 
 
-        taskName.setText(task.getName());
-        taskDuration.setText(String.valueOf(task.getDuration()));
+        nameTextField.setText(task.getName());
+        durationTextField.setText(String.valueOf(task.getDuration()));
         taskDescription.setText(task.getDescription());
         dateTextField.setText(task.getDeadLineDate());
         prioritySpinner.setSelection(task.getPriority());
@@ -249,9 +270,9 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 
             Task task = LogicHandler.getCurrentUser().getTasks().get(taskId);
 
-            task.setName(taskName.getText().toString());
+            task.setName(nameTextField.getText().toString());
             task.setDescription(taskDescription.getText().toString());
-            task.setDuration(Integer.parseInt(taskDuration.getText().toString()));
+            task.setDuration(Integer.parseInt(durationTextField.getText().toString()));
 
 
             task.setPriority(prioritySpinner.getSelectedItemPosition());

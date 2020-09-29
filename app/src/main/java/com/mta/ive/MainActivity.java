@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void goToHomePage(){
         LogicHandler.updateCurrentUserLocation();
+        LogicHandler.reloadUserData();
         LogicHandler.loadSwichableLocations();
 
         Intent homePage = new Intent(MainActivity.this, HomeActivity.class);
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
                 boolean locationUsable = locationSettingsResponse.getLocationSettingsStates().isLocationUsable();
@@ -156,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -184,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
         Task<Location> task = fusedLocationClient.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onSuccess(Location location) {
                         if (location == null) {
@@ -196,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         task.addOnFailureListener(new OnFailureListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onFailure(@NonNull Exception e) {
                 goHomePageWithoutLocation("Location is not available");
@@ -209,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
         @SuppressLint("MissingPermission") Task<Location> task = fusedLocationClient.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(Location location) {
                 if (location == null) {
@@ -227,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void goHomePageWithoutLocation(String no_location_available) {
         //TODO: show TOAS of no location available
         Toast.makeText(this, no_location_available, Toast.LENGTH_SHORT).show();
@@ -292,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

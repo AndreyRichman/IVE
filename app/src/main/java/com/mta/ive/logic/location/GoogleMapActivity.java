@@ -20,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
@@ -37,6 +38,7 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
     LatLng latLng;
     String location;
     Context context;
+    Marker currentMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +51,14 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.google_map);
 
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 location = searchView.getQuery().toString();
                 List<Address> addressList = null;
 
-                if (location != null || !location.equals("")){
+                if (location != null && !location.equals("")){
                     Geocoder geocoder = new Geocoder(GoogleMapActivity.this);
                     try {
                         addressList = geocoder.getFromLocationName(location, 1);
@@ -63,7 +66,9 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
                         Address address = addressList.get(0);
 
                         latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        map.addMarker(new MarkerOptions().position(latLng).title(location));
+                            if(currentMarker != null)
+                                currentMarker.remove();
+                        currentMarker = map.addMarker(new MarkerOptions().position(latLng).title(location));
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
                         selectButton.setVisibility(View.VISIBLE);
                         }
@@ -107,7 +112,20 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-        updateMapWIthUserLocation();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            String address = bundle.getString("Address");
+            double lat = bundle.getDouble("Lat");
+            double lng = bundle.getDouble("Lng");
+            if(address != null && !address.equals("")){
+                updateMapWIthExistingLocation(address, lat, lng);
+            } else {
+                updateMapWIthUserLocation();
+            }
+        }
+        else { //new location
+            updateMapWIthUserLocation();
+        }
     }
 
     private void updateMapWIthUserLocation() {
@@ -126,7 +144,9 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
                     location = addressList.get(0).getAddressLine(0);
                     searchView.setQuery(location, false);
                     latLng = new LatLng(deviceLocation.getLatitude(), deviceLocation.getLongitude());
-                    map.addMarker(new MarkerOptions().position(latLng).title(location));
+                    if(currentMarker != null)
+                        currentMarker.remove();
+                    currentMarker = map.addMarker(new MarkerOptions().position(latLng).title(location));
                     selectButton.setVisibility(View.VISIBLE);
                 }
 
@@ -135,5 +155,13 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
             }
             catch (Exception ignore){}
         }
+    }
+    private void updateMapWIthExistingLocation(String address, double lat, double lng) {
+
+        searchView.setQuery(address, false);
+        latLng = new LatLng(lat, lng);
+        currentMarker = map.addMarker(new MarkerOptions().position(latLng).title(address));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+
     }
 }

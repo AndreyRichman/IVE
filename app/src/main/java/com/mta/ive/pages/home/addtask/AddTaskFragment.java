@@ -23,6 +23,8 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.database.DatabaseReference;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
+import com.mta.ive.logic.location.LocationWithTasksWrapper;
+import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.User;
 import com.mta.ive.pages.home.HomeActivity;
@@ -107,7 +109,22 @@ public class AddTaskFragment extends Fragment {
 
                     task.setDeadLineDate(dateString);
 
+                    boolean needToUpdateLocationIndex = needToUpdateLocationIndex(task);
+
+                    String idOfLastSelectedLocation = "";
+                    if (needToUpdateLocationIndex){
+                        int lastSelectedIndex = LogicHandler.getLastSelectedIndex();
+                        idOfLastSelectedLocation = LogicHandler.getSwichableLocationsWithAll()
+                                .get(lastSelectedIndex).getLocation().getId();
+                    }
+
                     LogicHandler.saveTask(task);
+
+                    if (needToUpdateLocationIndex){
+                        int newIndex = getNewIndexByLocationId(idOfLastSelectedLocation);
+                        LogicHandler.updateLastSelectedLocationIndex(newIndex);
+                    }
+
 
 
                     //TODO: deside if this part is really irrelevant
@@ -120,6 +137,34 @@ public class AddTaskFragment extends Fragment {
 
 
         return view;//inflater.inflate(R.layout.fragment_add_task, container, false);
+    }
+
+    private int getNewIndexByLocationId(String idOfLastSelectedLocation) {
+        int newIndex = 0;
+        int index = 0;
+        for (LocationWithTasksWrapper location: LogicHandler.getSwichableLocationsWithAll()){
+            if (location.getLocation().getId().equals(idOfLastSelectedLocation)){
+                newIndex = index;
+                break;
+            }
+            index++;
+        }
+        return newIndex;
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private boolean needToUpdateLocationIndex(Task task) {
+        boolean needToUpdateSelectedIndex = false;
+        for (UserLocation location: task.getLocations()) {
+            boolean locationIsEmpty = LogicHandler.getTasksOfCurrentUserInLocation(location).size() == 0;
+
+            if (locationIsEmpty){
+                needToUpdateSelectedIndex = true;
+            }
+        }
+
+        return needToUpdateSelectedIndex;
     }
 
     private void validateLocationsExist() {
@@ -154,23 +199,44 @@ public class AddTaskFragment extends Fragment {
         boolean locationNotSelected = locationMultiSpinner.getSelectedItems().size() == 0;
         boolean durationIsEmpty = durationTextField.getText().toString().matches("");
 
+        boolean isValid = true;
+        String errorMessage = "";
+        String taskName = nameTextField.getText().toString();
+
         if (nameIsEmpty){
-            notifyMissingField("Name");
-            return false;
+            isValid = false;
+            errorMessage = "Name is missing";
+        }
+
+        if (!taskName.matches("[a-zA-Z0-9 ]+")){
+            isValid = false;
+            errorMessage = "Name cannot contain special characters";
+        }
+        if (taskName.matches("[0-9 ]+")){
+            isValid = false;
+            errorMessage = "Name must contain characters";
+        }
+        if (taskName.length() > 20){
+            isValid = false;
+            errorMessage = "Name exceeded the limit (20)";
         }
         if (locationNotSelected) {
-            notifyMissingField("Location");
-            return false;
+            isValid = false;
+            errorMessage = "Location is missing";
         }
         if (durationIsEmpty){
-            notifyMissingField("Duration");
-            return false;
+            isValid = false;
+            errorMessage = "Duration is missing";
         }
-        return true;
+
+        if(!isValid){
+            notifyError(errorMessage);
+        }
+        return isValid;
     }
 
-    private void notifyMissingField(String fieldName){
-        Toast.makeText(getContext(), fieldName + " is missing", Toast.LENGTH_SHORT).show();
+    private void notifyError(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void initDatePickerDialog() {
@@ -178,15 +244,20 @@ public class AddTaskFragment extends Fragment {
         day = calendar.get(Calendar.DAY_OF_MONTH);
         month = calendar.get(Calendar.MONTH);
         year = calendar.get(Calendar.YEAR);
+//        calendar.set
 
         datePickerDialog = new DatePickerDialog(getContext(),
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        dateString = dayOfMonth + "/" + monthOfYear  + "/" + year;
+                        String monthStr = String.format("%02d", monthOfYear);
+                        String dayStr = String.format("%02d", dayOfMonth);
+                        dateString = dayStr + "/" + monthStr  + "/" + year;
                         dateTextField.setText(dateString);
                     }
                 }, year, month, day);
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

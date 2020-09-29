@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class AddLocationFragment extends AppCompatActivity {
 //    ArrayList<Task> tasksUnderLocation = null;
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +68,8 @@ public class AddLocationFragment extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick (View btn){
-                if(locationName.getText().toString().matches("")) {
-                    Toast.makeText(btn.getRootView().getContext(),"Name is missing", Toast.LENGTH_SHORT).show();
-                }
-                else if (locationAddress.getText().toString().matches("")){
-                    Toast.makeText(btn.getRootView().getContext(),"Address is missing", Toast.LENGTH_SHORT).show();
-                }
-                else {
 
+                if (allFieldsAreValid()) {
 
                     finish();
                     if(existingLocation){
@@ -147,9 +143,64 @@ public class AddLocationFragment extends AppCompatActivity {
             int LAUNCH_SECOND_ACTIVITY = 1;
             Intent googleMapPage = new Intent(this, GoogleMapActivity.class);
 
+            if (existingLocation) {
+                Bundle bundleForMap = new Bundle();
+                bundleForMap.putString("Address", locationAddress.getText().toString());
+                bundleForMap.putDouble("Lat", locationLatLng.latitude);
+                bundleForMap.putDouble("Lng", locationLatLng.longitude);
+                googleMapPage.putExtras(bundleForMap);
+            }
             startActivityForResult(googleMapPage, LAUNCH_SECOND_ACTIVITY);
 
         });
+    }
+
+    private boolean allFieldsAreValid() {
+        boolean isValid = true;
+        String errorMessage = "";
+        String name = locationName.getText().toString();
+        String address = locationAddress.getText().toString();
+
+        if (TextUtils.isEmpty(name)) {
+            isValid = false;
+            errorMessage = "Name is missing";
+        }
+
+        if (TextUtils.isEmpty(address)) {
+            isValid = false;
+            errorMessage = "Address is missing";
+        }
+
+        if (name.length() > 20){
+            isValid = false;
+            errorMessage = "Name exceeded the limit (20)";
+        }
+
+        if (!name.matches("[a-zA-Z0-9 ]+")){
+            isValid = false;
+            errorMessage = "Name cannot contain special characters";
+        }
+
+        if (name.matches("[0-9 ]+")){
+            isValid = false;
+            errorMessage = "Name must contain characters";
+        }
+
+        if (!isValid){
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+
+        return isValid;
+
+
+//        if (allFieldsAreValid())
+//            if(locationName.getText().toString().matches("")) {
+//                Toast.makeText(btn.getRootView().getContext(),"Name is missing", Toast.LENGTH_SHORT).show();
+//            }
+//            else if (locationAddress.getText().toString().matches("")){
+//                Toast.makeText(btn.getRootView().getContext(),"Address is missing", Toast.LENGTH_SHORT).show();
+//            }
+//        return false;
     }
 
     private void updateWindowWithLocation(String locationId) {

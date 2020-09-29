@@ -63,43 +63,105 @@ public class SignUpActivity extends AppCompatActivity {
         this.email = emailEditText.getText().toString().trim();
         this.password = passwordEditText.getText().toString().trim();
 
-        if (TextUtils.isEmpty(userName)) {
-            Toast.makeText(SignUpActivity.this, "Missing Name", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        if (TextUtils.isEmpty(email)){
-            Toast.makeText(SignUpActivity.this, "Missing Email", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(password) || password.length() < 6){
-            Toast.makeText(SignUpActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        boolean allFieldsAreValid = validateAllFields();
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
+        if (allFieldsAreValid) {
+            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "createUserWithEmail:success");
+                                FirebaseUser user = firebaseAuth.getCurrentUser();
+                                updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
 //                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
 //                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
 //                                    Toast.LENGTH_SHORT).show();
-                            String errorMessage;
-                            errorMessage = task.getException().getLocalizedMessage();
-                            Toast.makeText(SignUpActivity.this, errorMessage,
-                                    Toast.LENGTH_LONG).show();
-                            updateUI(null);
+                                String errorMessage;
+                                errorMessage = task.getException().getLocalizedMessage();
+                                Toast.makeText(SignUpActivity.this, errorMessage,
+                                        Toast.LENGTH_LONG).show();
+                                updateUI(null);
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
+
+    private boolean validateAllFields() {
+        return userNameIsValid() && emailIsValid() && passwordIsValid();
+    }
+    private boolean passwordIsValid() {
+        boolean isValid = true;
+        String errorMessage = "";
+        if (TextUtils.isEmpty(password)) {
+            isValid = false;
+            errorMessage = "Password is mandatory";
+        }
+
+        if (password.length() < 8){
+            isValid = false;
+            errorMessage = "Password must be at least 8 characters";
+        }
+
+        if (!isValid){
+            Toast.makeText(SignUpActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+
+        return isValid;
+    }
+
+    private boolean emailIsValid() {
+        boolean isValid = true;
+        String errorMessage = "";
+
+        if (TextUtils.isEmpty(email)){
+            isValid = false;
+            errorMessage = "Email is mandatory";
+        }
+
+        if (!isValid){
+            Toast.makeText(SignUpActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+
+        return isValid;
+    }
+
+    private boolean userNameIsValid() {
+        boolean isValid = true;
+        String errorMessage = "";
+
+        if (TextUtils.isEmpty(userName)) {
+            isValid = false;
+            errorMessage = "Username is mandatory";
+        }
+
+        if (userName.length() > 20){
+            isValid = false;
+            errorMessage = "Username exceeded the limit (20)";
+        }
+
+        if (!userName.matches("[a-zA-Z0-9 ]+")){
+            isValid = false;
+            errorMessage = "Username cannot contain special characters";
+        }
+
+        if (userName.matches("[0-9 ]+")){
+            isValid = false;
+            errorMessage = "Username must contain characters";
+        }
+
+        if (!isValid){
+            Toast.makeText(SignUpActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+
+        return isValid;
+    }
+
 
     private void updateUI(FirebaseUser user){
         if (user != null) {
