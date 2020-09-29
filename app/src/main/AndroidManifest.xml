@@ -37,6 +37,7 @@
         <activity android:name=".logic.location.ActivityAddNewLocation" />
         <activity android:name=".pages.login.LoginActivity" />
         <activity android:name=".pages.home.home.AddLocationFragment" />
+        <activity android:name=".pages.home.tasksbylocation.StatisticsActivity" />
         <activity android:name=".MainActivity"></activity>
 
         <meta-data

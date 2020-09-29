@@ -46,6 +46,34 @@
 
 
     <TextView
+        android:id="@+id/textview_stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="27dp"
+        android:background="#EAEAEA"
+        android:padding="8dp"
+        android:text="Show Statistics"
+        android:textColor="#333333"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/fab_option_location"
+        app:layout_constraintEnd_toStartOf="@+id/fab_option_location" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_option_stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="#333333"
+        android:src="@drawable/switch_location_white5_icon"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/fab_option_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="32dp" />
+    <TextView
         android:id="@+id/textview_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,6 +87,7 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/fab_option_all_tasks"
         app:layout_constraintEnd_toStartOf="@+id/fab_option_location" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_option_location"
