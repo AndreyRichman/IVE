@@ -5,9 +5,11 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mta.ive.MainActivity;
 import com.mta.ive.logic.device.DeviceManager;
 import com.mta.ive.logic.filter.TasksFilterer;
 import com.mta.ive.logic.location.LocationWithTasksWrapper;
@@ -291,6 +293,7 @@ public class LogicHandler {
 
         deleteTasksAssociatedWithLocation(locationToDelete);
         getCurrentUser().getLocations().remove(locationId);
+        reloadUserData();
         loadSwichableLocations();
     }
 
@@ -321,11 +324,15 @@ public class LogicHandler {
         updateExistingTask(taskToArchive);
     }
 
-    public static void createUserIfNotExist(String email, String userName) {
+    public static void createUserIfNotExist(String email, String userName, MainActivity context) {
 
         currentUserEmail = email;
-        UsersHandler.getInstance().createUserIfNotExist(email, userName);
+        UsersHandler.getInstance().createUserIfNotExist(email, userName, context);
     }
+
+//    public static boolean userValidationComplated(){
+//        return UsersHandler.getInstance().isUserValidationCompleted();
+//    }
 
     private static List<LocationWithTasksWrapper> swichableLocationsWithAll;
     private static List<LocationWithTasksWrapper> swichableLocationsWithRelevant;
@@ -534,5 +541,16 @@ public class LogicHandler {
 
     public static String getCurrentSelectedLocationId() {
         return null;
+    }
+
+    private static GoogleSignInClient googleClient;
+    public static void setGoogleClient(GoogleSignInClient googleSignInClient) {
+        googleClient = googleSignInClient;
+    }
+
+    public static void signOutGoogleIfNeeded(){
+        if (googleClient != null ){
+            googleClient.signOut();
+        }
     }
 }

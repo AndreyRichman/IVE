@@ -1,6 +1,5 @@
 package com.mta.ive.pages.home.user;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,18 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.mta.ive.R;
-import com.mta.ive.logic.location.ActivityManageLocations;
+import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.pages.home.HomeActivity;
-import com.mta.ive.pages.home.home.AddLocationFragment;
-import com.mta.ive.pages.home.home.HomeFragment;
-import com.mta.ive.pages.login.LoginActivity;
 import com.mta.ive.pages.login.SignUpInActivity;
-import com.mta.ive.pages.settings.AppSettings;
 
 
 public class UserFragment extends Fragment {
@@ -52,6 +46,8 @@ public class UserFragment extends Fragment {
 
         logoutBtn.setOnClickListener( click -> {
             FirebaseAuth.getInstance().signOut();
+            LogicHandler.signOutGoogleIfNeeded();
+
             startActivity(new Intent(getActivity(), SignUpInActivity.class));
         });
 
