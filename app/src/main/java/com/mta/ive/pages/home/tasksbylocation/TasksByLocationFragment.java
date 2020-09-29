@@ -3,6 +3,7 @@ package com.mta.ive.pages.home.tasksbylocation;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
+import com.mta.ive.MainActivity;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.LocationWithTasksWrapper;
@@ -42,8 +44,8 @@ public class TasksByLocationFragment extends Fragment {
     ArrayList<Task> tasksList;
     TasksAdapter tasksAdapter;
     ViewGroup root;
-    FloatingActionButton switchLocationButton, exposeOptionsButton, showAllTasksButton;
-    TextView switchLocationText, showAllTasksText, tasksTitle;
+    FloatingActionButton switchLocationButton, exposeOptionsButton, showAllTasksButton, showStats;
+    TextView switchLocationText, showAllTasksText, tasksTitle, showStatsText;
     //Dialog locationsDialog;
 
     View view;
@@ -87,6 +89,8 @@ public class TasksByLocationFragment extends Fragment {
         switchLocationButton = view.findViewById(R.id.fab_option_location);
         showAllTasksButton = view.findViewById(R.id.fab_option_all_tasks);
         exposeOptionsButton = view.findViewById(R.id.fab);
+        showStats = view.findViewById(R.id.fab_option_stats);
+        showStatsText = view.findViewById(R.id.textview_stats);
         switchLocationText = view.findViewById(R.id.textview_location);
         showAllTasksText = view.findViewById(R.id.textview_all_tasks);
         tasksTitle = view.findViewById(R.id.showing_tasks_by);
@@ -479,6 +483,15 @@ public class TasksByLocationFragment extends Fragment {
             }
         });
 
+        showStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent homePage = new Intent(getContext(), StatisticsActivity.class);
+                //homePage.putExtra("email", email);
+                startActivity(homePage);
+            }
+        });
+
         showAllTasksButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -518,11 +531,14 @@ public class TasksByLocationFragment extends Fragment {
     private void hideFloating(){
         switchLocationText.setVisibility(View.INVISIBLE);
         showAllTasksText.setVisibility(View.INVISIBLE);
+        showStatsText.setVisibility(View.INVISIBLE);
         switchLocationButton.startAnimation(fab_close);
         showAllTasksButton.startAnimation(fab_close);
+        showStats.startAnimation(fab_close);
         exposeOptionsButton.startAnimation(fab_anticlock);
         switchLocationButton.setClickable(false);
         showAllTasksButton.setClickable(false);
+        showStats.setClickable(false);
         fabIsOpen = false;
     }
 
@@ -537,11 +553,14 @@ public class TasksByLocationFragment extends Fragment {
 
         switchLocationText.setVisibility(View.VISIBLE);
         showAllTasksText.setVisibility(View.VISIBLE);
+        showStatsText.setVisibility(View.VISIBLE);
         switchLocationButton.startAnimation(fab_open);
         showAllTasksButton.startAnimation(fab_open);
+        showStats.startAnimation(fab_open);
         exposeOptionsButton.startAnimation(fab_clock);
         switchLocationButton.setClickable(true);
         showAllTasksButton.setClickable(true);
+        showStats.setClickable(true);
         fabIsOpen = true;
     }
 
