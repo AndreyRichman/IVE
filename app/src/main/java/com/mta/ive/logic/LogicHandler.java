@@ -97,8 +97,8 @@ public class LogicHandler {
         userLocation.setId(locationId);
         getCurrentUser().addLocation(userLocation);
         reloadUserData();
+        updateCurrentUserLocation();
         loadSwichableLocations();
-
         ref.setValue(userLocation);
     }
 
@@ -135,6 +135,7 @@ public class LogicHandler {
                         .setValue(location);
                 getCurrentUser().getLocations().put(location.getId(), location);
                 reloadUserData();
+                updateCurrentUserLocation();
                 loadSwichableLocations();
             }
         };
