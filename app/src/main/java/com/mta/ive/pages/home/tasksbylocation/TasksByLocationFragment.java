@@ -246,7 +246,11 @@ public class TasksByLocationFragment extends Fragment {
                     String locationId = locationWithTasks.getLocation().getId();
 
                     if (locationId.equals(LogicHandler.getCurrentLocation().getId())){
-                        name += " (Current)";
+                        if (LogicHandler.locationWasFound) {
+                            name += " (Current)";
+                        } else {
+                            name += " (Closest)";
+                        }
                     }
                     locationsNames.add(name);
                 });
