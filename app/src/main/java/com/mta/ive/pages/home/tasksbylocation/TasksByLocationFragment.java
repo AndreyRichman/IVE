@@ -76,7 +76,7 @@ public class TasksByLocationFragment extends Fragment {
 //    List<UserLocation> locationsWithTasksPlusCurrent;
 //    List<String> locationsNames;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -97,6 +97,8 @@ public class TasksByLocationFragment extends Fragment {
 
         bottomDurationText = view.findViewById(R.id.tasksListBottomText);
 
+        LogicHandler.updateCurrentUserLocation(); //???
+
         currentLocation = LogicHandler.getCurrentLocation();
         locationIdToUserLocationMap = LogicHandler.getIdToUserLocationMap();
 //        locationToTasksMap = LogicHandler.getCurrentUserLocationToTasksMap();
@@ -110,6 +112,7 @@ public class TasksByLocationFragment extends Fragment {
         tasksAdapter = new TasksAdapter(view.getContext(), tasksToShowInList); //TODO: originally: MainActivity.this
         tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         tasksRecList.setAdapter(tasksAdapter);
+
 
         updateAllUserFields();
 
@@ -150,7 +153,7 @@ public class TasksByLocationFragment extends Fragment {
 
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private int getIndeOfCurrentUserLocationInList(List<LocationWithTasksWrapper> swichableLocations) {
 
         List<UserLocation> locationsInList =  new ArrayList<>();
@@ -165,6 +168,10 @@ public class TasksByLocationFragment extends Fragment {
 
 //        return getIndexOfCurrentLocationInList(locationsInList);
 
+        UserLocation currentLocation = LogicHandler.getCurrentLocation();
+        if (currentLocation == null){
+            LogicHandler.updateCurrentUserLocation();
+        }
 
         int index = 0;
         int indexOfCurrent = 0;
