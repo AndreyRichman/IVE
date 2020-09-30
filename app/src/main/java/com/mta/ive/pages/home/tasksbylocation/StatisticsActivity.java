@@ -11,10 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.LocationWithTasksWrapper;
-import com.mta.ive.logic.location.UserLocation;
+import com.mta.ive.logic.task.Task;
 
 public class StatisticsActivity extends AppCompatActivity {
 
+    TextView locationNameTextView;
     int completed = 3, created = 7;
 
     String locationName;
@@ -24,6 +25,8 @@ public class StatisticsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+
+        locationNameTextView = findViewById(R.id.textViewLocation);
 
         loadValues();
         updateChart();
@@ -36,10 +39,13 @@ public class StatisticsActivity extends AppCompatActivity {
                 .get(indexOfSelectedLocation);
 
         locationName = location.getLocation().getName();
+        locationNameTextView.setText("Productivity at " + locationName);
+
         String locationId = location.getLocation().getId();
         int leftToFinish = location.getTasks().size();
 
-        created = LogicHandler.getLocationIdToAllTasksCreated().get(locationId).size();
+        created = (int) LogicHandler.getLocationIdToAllTasksCreated().get(locationId).stream()
+                .filter(task -> task.getStatus() != Task.Status.ARCHIVED).count();
         completed = created - leftToFinish;
 
     }
