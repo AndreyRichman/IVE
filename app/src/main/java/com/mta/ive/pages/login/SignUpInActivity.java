@@ -65,7 +65,9 @@ public class SignUpInActivity extends AppCompatActivity {
         signInGmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signInGmail();
+                try {
+                    signInGmail();
+                } catch (Exception ignore){}
             }
         });
 
@@ -102,20 +104,24 @@ public class SignUpInActivity extends AppCompatActivity {
     }
 
     private void FirebaseGoogleAuth(GoogleSignInAccount account) {
-        AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        auth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(SignUpInActivity.this, "Succesfull", Toast.LENGTH_SHORT).show();
-                    FirebaseUser user = auth.getCurrentUser();
-                    updateUIFromUser(user);
-                } else {
-                    Toast.makeText(SignUpInActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+        try {
+
+
+            AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+            auth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(SignUpInActivity.this, "Succesfull", Toast.LENGTH_SHORT).show();
+                        FirebaseUser user = auth.getCurrentUser();
+                        updateUIFromUser(user);
+                    } else {
+                        Toast.makeText(SignUpInActivity.this, "Failed", Toast.LENGTH_SHORT).show();
 //                    updateUIFromUser(null);
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception ignore){}
     }
 
     private void updateUIFromGmail(){
