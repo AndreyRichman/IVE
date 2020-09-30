@@ -55,32 +55,36 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                location = searchView.getQuery().toString();
-                List<Address> addressList = null;
+                try {
+                    location = searchView.getQuery().toString();
+                    List<Address> addressList = null;
 
-                if (location != null && !location.equals("")){
-                    Geocoder geocoder = new Geocoder(GoogleMapActivity.this);
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 1);
-                        if (addressList.size() > 0){
-                        Address address = addressList.get(0);
+                    if (location != null && !location.equals("")) {
+                        Geocoder geocoder = new Geocoder(GoogleMapActivity.this);
+                        try {
+                            addressList = geocoder.getFromLocationName(location, 1);
+                            if (addressList.size() > 0) {
+                                Address address = addressList.get(0);
 
-                        latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                            if(currentMarker != null)
-                                currentMarker.remove();
-                        currentMarker = map.addMarker(new MarkerOptions().position(latLng).title(location));
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-                        selectButton.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                                latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                                if (currentMarker != null)
+                                    currentMarker.remove();
+                                currentMarker = map.addMarker(new MarkerOptions().position(latLng).title(location));
+                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+                                selectButton.setVisibility(View.VISIBLE);
+                            } else {
+                                String message = "Unable to find location";
+                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                             String message = "Unable to find location";
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        String message = "Unable to find location";
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                     }
+                } catch (Exception ignore){
+                    String message = "Unable to find location";
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
