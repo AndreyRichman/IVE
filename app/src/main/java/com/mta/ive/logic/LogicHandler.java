@@ -295,6 +295,7 @@ public class LogicHandler {
         getCurrentUser().getLocations().remove(locationId);
         reloadUserData();
         loadSwichableLocations();
+        updateCurrentUserLocation(); //?????
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
