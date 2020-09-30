@@ -3,7 +3,6 @@ package com.mta.ive.pages.home.tasksbylocation;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
-import com.mta.ive.MainActivity;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.LocationWithTasksWrapper;
@@ -30,6 +28,7 @@ import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.logic.users.User;
 import com.mta.ive.logic.users.UserSettings;
+import com.mta.ive.pages.home.HomeActivity;
 import com.mta.ive.vm.adapter.TasksAdapter;
 
 import java.util.ArrayList;
@@ -486,9 +485,12 @@ public class TasksByLocationFragment extends Fragment {
         showStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent homePage = new Intent(getContext(), StatisticsActivity.class);
-                //homePage.putExtra("email", email);
-                startActivity(homePage);
+                Bundle bundle = new Bundle();
+                ((HomeActivity)view.getContext()).openStatisticsPage(bundle);
+
+//                Intent homePage = new Intent(getContext(), StatisticsActivity.class);
+//                //homePage.putExtra("email", email);
+//                startActivity(homePage);
             }
         });
 

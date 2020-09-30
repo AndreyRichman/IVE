@@ -20,7 +20,7 @@ import com.mta.ive.pages.login.SignUpInActivity;
 public class UserFragment extends Fragment {
 
 //    private UserViewModel notificationsViewModel;
-    Button appSettingBtn, manageLocationBtn, personalSettingBtn, logoutBtn;
+    Button appSettingBtn, manageLocationBtn, logoutBtn; //personalSettingBtn
     View view;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -30,7 +30,7 @@ public class UserFragment extends Fragment {
 
         appSettingBtn = (Button)view.findViewById(R.id.app_settings);
         manageLocationBtn = (Button)view.findViewById(R.id.manage_locations);
-        personalSettingBtn = (Button)view.findViewById(R.id.personal_settings);
+//        personalSettingBtn = (Button)view.findViewById(R.id.personal_settings);
         logoutBtn = (Button)view.findViewById(R.id.logout_button);
 
         appSettingBtn.setOnClickListener(click -> {
@@ -38,10 +38,10 @@ public class UserFragment extends Fragment {
             ((HomeActivity)view.getContext()).openManageAppSettings(bundle);
         });
 
-        personalSettingBtn.setOnClickListener(click -> {
-            Bundle bundle = new Bundle();
-            ((HomeActivity)view.getContext()).openManagePersonalSettings(bundle);
-        });
+//        personalSettingBtn.setOnClickListener(click -> {
+//            Bundle bundle = new Bundle();
+//            ((HomeActivity)view.getContext()).openManagePersonalSettings(bundle);
+//        });
 
 
         logoutBtn.setOnClickListener( click -> {
