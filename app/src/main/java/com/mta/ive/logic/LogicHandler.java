@@ -294,8 +294,8 @@ public class LogicHandler {
         deleteTasksAssociatedWithLocation(locationToDelete);
         getCurrentUser().getLocations().remove(locationId);
         reloadUserData();
-        loadSwichableLocations();
         updateCurrentUserLocation(); //?????
+        loadSwichableLocations();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
