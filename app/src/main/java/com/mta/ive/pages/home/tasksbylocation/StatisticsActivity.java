@@ -1,5 +1,7 @@
 package com.mta.ive.pages.home.tasksbylocation;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.ProgressBar;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.LocationWithTasksWrapper;
@@ -30,6 +33,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
         loadValues();
         updateChart();
+        setNavigationButtons();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -63,5 +67,29 @@ public class StatisticsActivity extends AppCompatActivity {
         double d = (double) completed / (double) created;
         int progress = (int) (d * 100);
         pieChart.setProgress(progress);
+    }
+
+    private void setNavigationButtons() {
+        ((BottomNavigationView)findViewById(R.id.nav_view)).setSelectedItemId(R.id.navigation_location);
+
+        findViewById(R.id.navigation_location).setOnClickListener( t -> {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("selection", "1");
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        });
+        findViewById(R.id.navigation_add).setOnClickListener( t -> {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("selection", "2");
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        });
+
+        findViewById(R.id.navigation_user).setOnClickListener( t -> {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("selection", "3");
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        });
     }
 }
