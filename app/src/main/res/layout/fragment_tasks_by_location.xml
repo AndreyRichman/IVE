@@ -60,6 +60,7 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/fab_option_location"
         app:layout_constraintEnd_toStartOf="@+id/fab_option_location" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_option_stats"
         android:layout_width="wrap_content"
@@ -68,11 +69,14 @@
         android:layout_margin="16dp"
         android:layout_marginBottom="40dp"
         android:backgroundTint="#333333"
-        android:src="@drawable/switch_location_white5_icon"
+        android:src="@drawable/statistics_white_icon"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/fab_option_location"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="32dp" />
+
+
+
     <TextView
         android:id="@+id/textview_location"
         android:layout_width="wrap_content"
