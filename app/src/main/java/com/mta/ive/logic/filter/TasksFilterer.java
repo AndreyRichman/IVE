@@ -30,7 +30,7 @@ public class TasksFilterer {
             afterFilteringTasks = getFilteredTasksByUrgency(relevantByDate, userSettings);
         }
 
-        return afterFilteringTasks;
+        return afterFilteringTasks.size() > 4? afterFilteringTasks.subList(0, 4): afterFilteringTasks;
     }
 
 
