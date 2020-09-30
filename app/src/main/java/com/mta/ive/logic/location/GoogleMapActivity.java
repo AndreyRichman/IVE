@@ -26,6 +26,7 @@ import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,12 +58,16 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
             public boolean onQueryTextSubmit(String s) {
                 try {
                     location = searchView.getQuery().toString();
-                    List<Address> addressList = null;
+                    List<Address> addressList; //= new ArrayList<>();
 
                     if (location != null && !location.equals("")) {
                         Geocoder geocoder = new Geocoder(GoogleMapActivity.this);
                         try {
-                            addressList = geocoder.getFromLocationName(location, 1);
+                            try {
+                                addressList = geocoder.getFromLocationName(location, 1);
+                            } catch (IOException io){
+                                addressList = new ArrayList<>();
+                            }
                             if (addressList.size() > 0) {
                                 Address address = addressList.get(0);
 
@@ -75,16 +80,22 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
                             } else {
                                 String message = "Unable to find location";
                                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                selectButton.setVisibility(View.INVISIBLE);
+                                return false;
                             }
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                             String message = "Unable to find location";
+                            selectButton.setVisibility(View.INVISIBLE);
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                            return false;
                         }
                     }
                 } catch (Exception ignore){
                     String message = "Unable to find location";
+                    selectButton.setVisibility(View.INVISIBLE);
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                    return false;
                 }
                 return false;
             }
