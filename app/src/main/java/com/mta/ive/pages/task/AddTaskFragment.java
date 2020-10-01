@@ -1,4 +1,4 @@
-package com.mta.ive.pages.home.addtask;
+package com.mta.ive.pages.task;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -20,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.database.DatabaseReference;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.LocationWithTasksWrapper;
@@ -40,7 +39,6 @@ public class AddTaskFragment extends Fragment {
 
     Button saveBtn;
     Button deleteBtn;
-    DatabaseReference databaseReference;
     TextView nameTextField, descriptionTextField, durationTextField;
     EditText  dateTextField;
     Spinner prioritySpinner;
@@ -72,7 +70,6 @@ public class AddTaskFragment extends Fragment {
 
         saveBtn = view.findViewById(R.id.save_button);
         deleteBtn = view.findViewById(R.id.delete_button);
-//        Toast.makeText(view.getContext(),"New Task Page", Toast.LENGTH_SHORT).show();
 
         validateLocationsExist();
         updateLocations();
@@ -125,9 +122,6 @@ public class AddTaskFragment extends Fragment {
                         LogicHandler.updateLastSelectedLocationIndex(newIndex);
                     }
 
-
-
-                    //TODO: deside if this part is really irrelevant
                     btn.getRootView().findViewById(R.id.navigation_location).callOnClick();
                     Toast.makeText(getContext(), "Task was added", Toast.LENGTH_SHORT).show();
 
@@ -135,8 +129,7 @@ public class AddTaskFragment extends Fragment {
             }
         });
 
-
-        return view;//inflater.inflate(R.layout.fragment_add_task, container, false);
+        return view;
     }
 
     private int getNewIndexByLocationId(String idOfLastSelectedLocation) {
@@ -181,8 +174,6 @@ public class AddTaskFragment extends Fragment {
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
-//                            ((HomeActivity)view.getContext());
-//                            view.findViewById(R.id.navigation_location).callOnClick();
                             break;
                     }
                 }
@@ -244,7 +235,6 @@ public class AddTaskFragment extends Fragment {
         day = calendar.get(Calendar.DAY_OF_MONTH);
         month = calendar.get(Calendar.MONTH);
         year = calendar.get(Calendar.YEAR);
-//        calendar.set
 
         datePickerDialog = new DatePickerDialog(getContext(),
                 new DatePickerDialog.OnDateSetListener() {
@@ -272,30 +262,5 @@ public class AddTaskFragment extends Fragment {
             });
         }
         locationMultiSpinner.setItems(items);
-
-
-//        DatabaseReference reference = LogicHandler.getAllLocationsDBReference();
-//
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                ArrayList<Item> items = new ArrayList<>();
-//                for(DataSnapshot data: snapshot.getChildren()){
-//                    UserLocation location = data.getValue(UserLocation.class);
-//
-//                    Item spinnerItem = new Item(location.getName(), location.getId(), location);
-//                    items.add(spinnerItem);
-//                }
-//                locationMultiSpinner.setItems(items);
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
     }
 }

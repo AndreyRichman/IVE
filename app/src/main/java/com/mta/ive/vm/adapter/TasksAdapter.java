@@ -13,7 +13,6 @@ import com.mta.ive.R;
 import com.mta.ive.logic.task.Task;
 import com.mta.ive.pages.home.HomeActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
@@ -57,35 +56,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
             @Override
             public void onClick(View view) {
 
-//                view.findViewById(R.id.navigation_add).callOnClick();
-
-//                view.getRootView().findViewById(R.id.navigation_add).callOnClick();
-
-//                String taskName = allTasks.get(position).getName();
-//                String taskDescription = allTasks.get(position).getDescription();
-//                String taskDuration = allTasks.get(position).getDuration();
                 String taskId = allTasks.get(position).getId();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("taskId", taskId);
                 ((HomeActivity)context).openEditTaskPage(bundle);
-//                TextView v = view.getRootView().findViewById(R.id.task_name);
-//                v.setText("Andreyyyy");
 
-
-//                 setContentView(R.layout.activity_home);
-
-//                view.getRootView().findViewById(R.layout)
-//                Intent editTaskPage = new Intent(context, AddTaskFragment.class);
-
-//                Fragment currentFragment = ((FragmentActivity) view.getContext()).getSupportFra
-//                ((FragmentActivity)view.getContext()).getSupportFragmentManager()
-//                        .beginTransaction()
-//
-////                        .hide(view.getRootView().getF)
-////                        .show( new TasksByLocationFragment())
-//                        .replace(R.id.contentFragment, new AddTaskFragment())
-//                                .commit();
             }
         });
     }
@@ -105,19 +81,4 @@ public class TasksAdapter extends RecyclerView.Adapter<TaskViewHolder> {
 
         return count;
     }
-
-
-
-//    class TaskViewHolder extends  RecyclerView.ViewHolder{
-//
-//        TextView taskTitle, taskDescription, taskDuration;
-//
-//        public TaskViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//
-//            taskTitle = (TextView) itemView.findViewById(R.id.taskTitle);
-//            taskDescription = (TextView) itemView.findViewById(R.id.taskDescription);
-//            taskDuration = (TextView) itemView.findViewById(R.id.taskDuration);
-//        }
-//    }
 }

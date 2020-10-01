@@ -36,15 +36,13 @@ import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.users.User;
 import com.mta.ive.pages.home.HomeActivity;
 
-//import com.mta.ive.pages.delete.AllTasksActivity;
-
-
 public class MainActivity extends AppCompatActivity {
 
 
     Class<HomeActivity> homeAcivity;
     private FusedLocationProviderClient fusedLocationClient;
     private final int REQUEST_CHECK_SETTINGS = 79;
+    private boolean locationWasFound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
         homeAcivity = HomeActivity.class;
         LogicHandler.createUserIfNotExist(email, userName, this);
-//        loadUserFromDB();
     }
 
     public void loadUserFromDB() {
@@ -72,14 +69,12 @@ public class MainActivity extends AppCompatActivity {
                 LogicHandler.loadUserLocationsAndTasksMaps();
 
                 checkForLocationAndRequestIfNeeded();
-//                fetchLocationAndGoToHomePage();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -89,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         LogicHandler.loadSwichableLocations();
 
         Intent homePage = new Intent(MainActivity.this, HomeActivity.class);
-        startActivity(homePage);//, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
+        startActivity(homePage);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
@@ -113,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
-        builder.setAlwaysShow(true); //this is the key ingredient
+        builder.setAlwaysShow(true);
 
         SettingsClient client = LocationServices.getSettingsClient(this);
         Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
@@ -131,9 +126,6 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     goHomePageWithoutLocation("Location is not available");
                 }
-
-
-
             }
         });
 
@@ -141,11 +133,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 if (e instanceof ResolvableApiException) {
-                    // Location settings are not satisfied, but this can be fixed
-                    // by showing the user a dialog.
                     try {
-                        // Show the dialog by calling startResolutionForResult(),
-                        // and check the result in onActivityResult().
                         ResolvableApiException resolvable = (ResolvableApiException) e;
                         resolvable.startResolutionForResult(MainActivity.this,
                                 REQUEST_CHECK_SETTINGS);
@@ -163,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            // Check for the integer request code originally supplied to startResolutionForResult().
             case REQUEST_CHECK_SETTINGS:
                 switch (resultCode) {
                     case Activity.RESULT_OK:
@@ -179,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private boolean locationWasFound = false;
 
     @SuppressLint("MissingPermission")
     private void retryGettingDeviceLocationAfterEnablingSettings() {
@@ -282,11 +268,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Location found", Toast.LENGTH_SHORT).show();
             goToHomePage();
         }
-
-    }
-
-    private boolean shouldRequestForPermissions(){
-        return ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
     private boolean hasPermissionsToLocations(){
@@ -309,9 +290,7 @@ public class MainActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //GOT LOCATION PERMISSIONS -> let's ask for location
                     requestLocationWithGooglePermissions();
-//                    getDeviceLocationAndGoToHomePage();
                 }  else {
                     // Permissions denied -> go to come location without location feature
                     goHomePageWithoutLocation("No Permissions for location");

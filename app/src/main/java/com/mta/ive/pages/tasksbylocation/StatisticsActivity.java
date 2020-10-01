@@ -1,4 +1,4 @@
-package com.mta.ive.pages.home.tasksbylocation;
+package com.mta.ive.pages.tasksbylocation;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -55,7 +55,6 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     public void updateChart(){
-        // Update the text in a center of the chart:
 
         TextView numberOfCals = findViewById(R.id.number_of_calories);
         String doneStr = String.valueOf(completed);

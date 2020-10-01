@@ -1,6 +1,5 @@
 package com.mta.ive.logic.location;
 
-import com.google.android.gms.maps.model.LatLng;
 
 public class UserLocation {
 

@@ -7,20 +7,20 @@
 
     <fragment
         android:id="@+id/navigation_location"
-        android:name="com.mta.ive.pages.home.tasksbylocation.TasksByLocationFragment"
+        android:name="com.mta.ive.pages.tasksbylocation.TasksByLocationFragment"
         android:label="@string/title_location"
         tools:layout="@layout/fragment_tasks_by_location" />
 
 
     <fragment
         android:id="@+id/navigation_add"
-        android:name="com.mta.ive.pages.home.addtask.AddTaskFragment"
+        android:name="com.mta.ive.pages.task.AddTaskFragment"
         android:label="@string/title_add"
-        tools:layout="@layout/delete_fragment_add" />
+        tools:layout="@layout/fragment_add_task" />
 
     <fragment
         android:id="@+id/navigation_user"
-        android:name="com.mta.ive.pages.home.user.UserFragment"
+        android:name="com.mta.ive.pages.settings.SettingsFragment"
         android:label="@string/title_user"
         tools:layout="@layout/fragment_settings" />
 

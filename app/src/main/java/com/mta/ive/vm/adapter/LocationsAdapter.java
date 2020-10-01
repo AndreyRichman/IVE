@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mta.ive.R;
-import com.mta.ive.logic.location.ActivityManageLocations;
+import com.mta.ive.pages.location.ActivityManageLocations;
 import com.mta.ive.logic.location.UserLocation;
-import com.mta.ive.pages.home.home.AddLocationFragment;
+import com.mta.ive.pages.location.AddLocationFragment;
 
 import java.util.List;
 
@@ -52,9 +52,7 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationViewHolder> {
 
                 Intent editLocationPage = new Intent(context, AddLocationFragment.class);
                 editLocationPage.putExtras(bundle);
-//                context.startActivity(editLocationPage);
                 ((ActivityManageLocations)context).startActivityForResult(editLocationPage, 79);
-//                ((HomeActivity)context).openEditTaskPage(bundle);
             }
         });
     }

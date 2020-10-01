@@ -18,7 +18,6 @@ public class User {
     String name;
     String email;
 
-//    List<Task> tasks;
     Map<String, Task> tasks;
     Map<String, UserLocation> locations;
 

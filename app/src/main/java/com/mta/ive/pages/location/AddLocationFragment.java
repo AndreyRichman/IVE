@@ -1,4 +1,4 @@
-package com.mta.ive.pages.home.home;
+package com.mta.ive.pages.location;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,7 +20,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
-import com.mta.ive.logic.location.GoogleMapActivity;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
 
@@ -35,9 +34,6 @@ public class AddLocationFragment extends AppCompatActivity {
 
     boolean existingLocation = false;
     UserLocation currentLocation = null;
-//    ArrayList<Task> tasksUnderLocation = null;
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -56,8 +52,7 @@ public class AddLocationFragment extends AppCompatActivity {
         if (bundle != null) {
             title.setText("Edit Location");
             deleteButton.setEnabled(true);
-            //show/enable Delete Button
-            //move save button
+
             existingLocation = true;
             String locationId = bundle.getString("locationId");
             updateWindowWithLocation(locationId);
@@ -130,16 +125,12 @@ public class AddLocationFragment extends AppCompatActivity {
                 .setNegativeButton(noOptionText, dialogClickListener)
                 .show();
 
-
-//            finish();
         });
 
 
         setNavigationButtons();
 
         locationAddress.setOnClickListener(click -> {
-            // Intent addLocationPage = new Intent(this, AddLocationFragment.class);
-//            startActivity(new Intent(this, GoogleMapActivity.class));
             int LAUNCH_SECOND_ACTIVITY = 1;
             Intent googleMapPage = new Intent(this, GoogleMapActivity.class);
 
@@ -192,15 +183,6 @@ public class AddLocationFragment extends AppCompatActivity {
 
         return isValid;
 
-
-//        if (allFieldsAreValid())
-//            if(locationName.getText().toString().matches("")) {
-//                Toast.makeText(btn.getRootView().getContext(),"Name is missing", Toast.LENGTH_SHORT).show();
-//            }
-//            else if (locationAddress.getText().toString().matches("")){
-//                Toast.makeText(btn.getRootView().getContext(),"Address is missing", Toast.LENGTH_SHORT).show();
-//            }
-//        return false;
     }
 
     private void updateWindowWithLocation(String locationId) {
@@ -281,14 +263,4 @@ public class AddLocationFragment extends AppCompatActivity {
             finish();
         });
     }
-
-
-//    public View onCreateView(@NonNull LayoutInflater inflater,
-//                             ViewGroup container, Bundle savedInstanceState) {
-//
-//        View view = inflater.inflate(R.layout.fragment_add_new_location, container, false);
-//
-//
-//        return view;
-//    }
 }

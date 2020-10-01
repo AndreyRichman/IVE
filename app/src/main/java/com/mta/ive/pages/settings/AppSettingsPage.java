@@ -24,7 +24,7 @@ import com.mta.ive.logic.users.UserSettings;
 import java.time.LocalTime;
 import java.util.Calendar;
 
-public class AppSettings extends AppCompatActivity {
+public class AppSettingsPage extends AppCompatActivity {
 
     TextView startTime, endTime;
     Button saveSettingsButton;
@@ -62,21 +62,12 @@ public class AppSettings extends AppCompatActivity {
             }
         });
 
-//
-//        schedulePolicy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                policyChanged = true;
-//                selectedPolicyIndex = i;
-//            }
-//        });
-
         startTime.setOnClickListener(click -> {
             Calendar mcurrentTime = Calendar.getInstance();
             int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
             int minute = mcurrentTime.get(Calendar.MINUTE);
 
-            TimePickerDialog mTimePicker = new TimePickerDialog(AppSettings.this, new TimePickerDialog.OnTimeSetListener() {
+            TimePickerDialog mTimePicker = new TimePickerDialog(AppSettingsPage.this, new TimePickerDialog.OnTimeSetListener() {
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
@@ -84,8 +75,7 @@ public class AppSettings extends AppCompatActivity {
                     startTime.setText(userStartTime.toString());
                     startTimeChanged = true;
                 }
-            }, hour, minute, true);//Yes 24 hour time
-//            mTimePicker.setTitle("Select beginning of day time");
+            }, hour, minute, true);
             mTimePicker.show();
         });
 
@@ -94,7 +84,7 @@ public class AppSettings extends AppCompatActivity {
             int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
             int minute = mcurrentTime.get(Calendar.MINUTE);
 
-            TimePickerDialog mTimePicker = new TimePickerDialog(AppSettings.this, new TimePickerDialog.OnTimeSetListener() {
+            TimePickerDialog mTimePicker = new TimePickerDialog(AppSettingsPage.this, new TimePickerDialog.OnTimeSetListener() {
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
@@ -102,13 +92,12 @@ public class AppSettings extends AppCompatActivity {
                     endTime.setText(userEndTime.toString());
                     endTimeChanged = true;
                 }
-            }, hour, minute, true);//Yes 24 hour time
-//            mTimePicker.setTitle("Select end of day time");
+            }, hour, minute, true);
             mTimePicker.show();
         });
 
         saveSettingsButton.setOnClickListener(click -> {
-            if ( false) {//userStartTime.isAfter(userEndTime)){
+            if ( false) {
                 String msg = "Beginning of day must be before end of day";
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             }

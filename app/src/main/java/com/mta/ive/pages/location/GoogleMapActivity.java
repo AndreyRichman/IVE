@@ -1,4 +1,4 @@
-package com.mta.ive.logic.location;
+package com.mta.ive.pages.location;
 
 
 import android.app.Activity;
@@ -58,7 +58,7 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
             public boolean onQueryTextSubmit(String s) {
                 try {
                     location = searchView.getQuery().toString();
-                    List<Address> addressList; //= new ArrayList<>();
+                    List<Address> addressList;
 
                     if (location != null && !location.equals("")) {
                         Geocoder geocoder = new Geocoder(GoogleMapActivity.this);
@@ -107,11 +107,7 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
         });
 
         selectButton.setOnClickListener(click -> {
-            /*
-            *  String latStr = data.getStringExtra("lat");
-            String lngStr = data.getStringExtra("lng");
-            String address = data.getStringExtra("address");
-            * */
+
             Intent returnIntent = new Intent();
             returnIntent.putExtra("lat", this.latLng.latitude);
             returnIntent.putExtra("lng", this.latLng.longitude);
@@ -149,7 +145,6 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
 
 
             try {
-                String title;
                 List<Address> addressList = null;
                 Geocoder geocoder = new Geocoder(GoogleMapActivity.this, Locale.getDefault());
                 addressList = geocoder.getFromLocation(deviceLocation.getLatitude(), deviceLocation.getLongitude(), 1);
