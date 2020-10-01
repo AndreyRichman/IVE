@@ -1,4 +1,4 @@
-package com.mta.ive.pages.home.addtask;
+package com.mta.ive.pages.task;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DatabaseReference;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.UserLocation;
@@ -39,7 +38,6 @@ public class EditExistingTaskActivity extends AppCompatActivity {
 
     String taskId;
 
-    DatabaseReference databaseReference;
     Spinner prioritySpinner;
 
     DatePickerDialog datePickerDialog;
@@ -68,7 +66,6 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         this.taskId = bundle.getString("taskId");
 
-//        updateLocations();
 
         Button saveBtn = findViewById(R.id.save_button);
         Button deleteBtn = findViewById(R.id.delete_button);
@@ -226,38 +223,6 @@ public class EditExistingTaskActivity extends AppCompatActivity {
                     .collect(Collectors.toCollection(ArrayList::new));
         }
         updateLocations(locationItems);
-//        databaseReference = LogicHandler.getTaskDBReferenceById(taskId);
-//
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot != null) {
-//                    Task task = snapshot.getValue(Task.class);
-//
-//                    taskName.setText(task.getName());
-//                    taskDuration.setText(String.valueOf(task.getDuration()));
-//                    taskDescription.setText(task.getDescription());
-//                    dateTextField.setText(task.getDeadLineDate());
-//
-//                    List<UserLocation> taskLocations = task.getLocations();
-//                    ArrayList<Item> locationItems = null;
-//                    if (taskLocations != null) {
-//                        locationItems = taskLocations.stream()
-//                                .map(userLocation ->
-//                                        new Item(userLocation.getName(), userLocation.getId(), userLocation))
-//                                .collect(Collectors.toCollection(ArrayList::new));
-//                    }
-//                    updateLocations(locationItems);
-////                    locationMultiSpinner.setSelection(locationItems);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateTaskByFields(String taskId){
@@ -285,34 +250,11 @@ public class EditExistingTaskActivity extends AppCompatActivity {
             LogicHandler.updateExistingTask(task);
         }
 
-//
-//        databaseReference = LogicHandler.getTaskDBReferenceById(taskId);
-//
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Task task = snapshot.getValue(Task.class);
-//
-//                task.setName(taskName.getText().toString());
-//                task.setDescription(taskDescription.getText().toString());
-//                task.setDuration(Integer.parseInt(taskDuration.getText().toString()));
-//
-//                LogicHandler.updateExistingTask(task);// saveTask(task);
-////                databaseReference.setValue(task);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void deleteTaskById(String idToDelete){
         LogicHandler.deleteTaskById(idToDelete);
-//        FirebaseDatabase.getInstance().getReference()
-//                .child("task").child(String.valueOf(taskId)).removeValue();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -329,33 +271,5 @@ public class EditExistingTaskActivity extends AppCompatActivity {
         if (selectedItems != null && selectedItems.size() > 0) {
                     locationMultiSpinner.setSelection(selectedItems);
         }
-//        DatabaseReference reference = LogicHandler.getAllLocationsDBReference();
-//
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                ArrayList<Item> items = new ArrayList<>();
-//                for(DataSnapshot data: snapshot.getChildren()){
-//                    UserLocation location = data.getValue(UserLocation.class);
-//
-//                    Item spinnerItem = new Item(location.getName(), location.getId(), location);
-//                    items.add(spinnerItem);
-//                }
-//                locationMultiSpinner = (MultiSelectionSpinner) findViewById(R.id.spinner_locations);
-//                locationMultiSpinner.setItems(items);
-//
-//                if (selectedItems != null) {
-//                    locationMultiSpinner.setSelection(selectedItems);
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
     }
 }

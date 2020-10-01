@@ -32,17 +32,6 @@ public class UsersHandler {
         return instance;
     }
 
-//    public boolean userExist(String email){
-//        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference ref = database.getReference("users");
-//
-//
-//
-//
-//        return false;
-//    }
-
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Map<UserLocation, List<Task>> getLocationToTasksMap() {
         if (locationToTasksMap == null){
@@ -83,8 +72,6 @@ public class UsersHandler {
                 }
             }
         });
-//
-//        //getArrayOfAllCreatedTasks
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -96,10 +83,6 @@ public class UsersHandler {
         return idToAllCreatedTasks;
     }
 
-//    public User getUser(String email){
-//        return null;
-//    }
-
     public User getCurrentUser(){
         return currentUser;
     }
@@ -108,20 +91,7 @@ public class UsersHandler {
         this.currentUser = currentUser;
     }
 
-//    boolean userValidationCompleted = false;
-//
-//    public boolean isUserValidationCompleted() {
-//        return userValidationCompleted;
-//    }
-
     public void createUserIfNotExist(String email, String userName, MainActivity context) {
-        /*
-        * reference = FirebaseDatabase.getInstance().getReference()
-                .child("task").child(String.valueOf(id));
-                * */
-//        FirebaseDatabase.getInstance().getReference()
-//                .child("users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
-//
         FirebaseDatabase.getInstance().getReference()
                 .child("users").child(String.valueOf(email.hashCode())).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -131,7 +101,6 @@ public class UsersHandler {
 
                 }
                 context.loadUserFromDB();
-//                userValidationCompleted = true;
             }
 
             @Override

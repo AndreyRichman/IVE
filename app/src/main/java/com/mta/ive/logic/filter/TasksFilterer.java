@@ -102,6 +102,4 @@ public class TasksFilterer {
         });
         return tasksCanBeDoneByEOD;
     }
-
-
 }

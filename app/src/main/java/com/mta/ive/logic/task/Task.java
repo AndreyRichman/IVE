@@ -6,8 +6,6 @@ import androidx.annotation.RequiresApi;
 
 import com.mta.ive.logic.location.UserLocation;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class Task {
@@ -17,7 +15,6 @@ public class Task {
     private int duration = 0;
     private int priority = 0;
     private List<UserLocation> locations;
-//    private LocalDate deadLineDate;
     private String deadLineDate;
     private Status status = Status.ACTIVE;
 
@@ -25,12 +22,6 @@ public class Task {
 
 
     public enum Status { ACTIVE, ARCHIVED, DONE}
-
-//    private int urgency;
-//    private int estimatedDurationMinutes;
-//    private Location location ;
-    //optional//
-//    private Date dueDate;
 
     public Task() {
     }
@@ -43,15 +34,7 @@ public class Task {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void removeLocation(UserLocation locationToDelete) {
-//        int indexOfLocation;
-//        int index = 0;
-//        for (UserLocation location: locations){
-//            if(location.getId().equals(locationToDelete.getId())){
-//                indexOfLocation = index;
-//                break;
-//            }
-//            index++;
-//        }
+
         locations.removeIf(location -> location.getId().equals(locationToDelete.getId()));
     }
 
@@ -67,15 +50,6 @@ public class Task {
         return this.status == Status.ACTIVE;
     }
 
-    //    public LocalDate getDeadLineDate() {
-//        return deadLineDate;
-//    }
-//
-//    public void setDeadLineDate(LocalDate deadLineDate) {
-//        this.deadLineDate = deadLineDate;
-//    }
-
-
     public String getDeadLineDate() {
         return deadLineDate;
     }
@@ -90,13 +64,7 @@ public class Task {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean isRelevantForLocation(UserLocation specificLocation){
-        boolean contains = false;
         return this.locations.stream().map(UserLocation::getName).anyMatch(name -> name.equals(specificLocation.getName()));
-//        this.locations.forEach(location -> {
-//            if (location.getName() == specificLocation.getName())
-//                contains = true;
-//        } );
-        //return this.locations.contains(location);
     }
 
     public void setLocations(List<UserLocation> locations) {
@@ -143,17 +111,3 @@ public class Task {
         this.duration = duration;
     }
 }
-
-//    ListView tasksList;
-//    populateDummyTasksMap();
-//        tasksList = findViewById(R.id.allTasksListView);
-//                List<String> tasksTitles = tasks.values().stream().map(Task::getTitle).collect(Collectors.toCollection(ArrayList::new));
-
-//    public Map<String, Task> tasks = new HashMap();
-//
-//    private void populateDummyTasksMap() {
-//        tasks.put("1", new Task("contact asos about delivery", 3, 5, new Location("")));
-//        tasks.put("2", new Task("buy groceries from the supermarket", 2, 45, new Location("")));
-//        tasks.put("3", new Task("do homework in calculus", 1, 150, new Location("")));
-//        tasks.put("4", new Task("send CV to companies", 3, 60, new Location("")));
-//    }

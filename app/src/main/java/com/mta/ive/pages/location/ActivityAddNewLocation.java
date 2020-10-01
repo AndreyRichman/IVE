@@ -1,4 +1,4 @@
-package com.mta.ive.logic.location;
+package com.mta.ive.pages.location;
 
 import android.os.Bundle;
 

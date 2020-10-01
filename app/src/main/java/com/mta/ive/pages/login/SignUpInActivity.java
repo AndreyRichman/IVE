@@ -30,7 +30,6 @@ public class SignUpInActivity extends AppCompatActivity {
 
     private SignInButton signInGmailButton;
     private GoogleSignInClient googleSignInClient;
-    private String TAG = "LoginActivity";
     private FirebaseAuth auth;
     private int RC_SIGN_IN = 1;
 
@@ -117,7 +116,6 @@ public class SignUpInActivity extends AppCompatActivity {
                         updateUIFromUser(user);
                     } else {
                         Toast.makeText(SignUpInActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-//                    updateUIFromUser(null);
                     }
                 }
             });
@@ -132,8 +130,6 @@ public class SignUpInActivity extends AppCompatActivity {
             String personName = account.getGivenName();
             String personEmail = account.getEmail();
 
-//            Toast.makeText(SignUpInActivity.this, "Welcome " + personName, Toast.LENGTH_SHORT).show();
-
             Intent homePage = new Intent(this, MainActivity.class);
             homePage.putExtra("userName", personName);
             homePage.putExtra("email", personEmail);
@@ -147,15 +143,12 @@ public class SignUpInActivity extends AppCompatActivity {
             String personName = user.getDisplayName();
             String personEmail = user.getEmail();
 
-//            Toast.makeText(SignUpInActivity.this, "Welcome " + personName, Toast.LENGTH_SHORT).show();
-
             Intent homePage = new Intent(this, MainActivity.class);
             homePage.putExtra("userName", personName);
             homePage.putExtra("email", personEmail);
             startActivity(homePage);
             finish();
         }
-
     }
 
     public void openSignUpPage(View btn) {

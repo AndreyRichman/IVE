@@ -1,4 +1,4 @@
-package com.mta.ive.pages.home.tasksbylocation;
+package com.mta.ive.pages.tasksbylocation;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -20,13 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DatabaseReference;
 import com.mta.ive.R;
 import com.mta.ive.logic.LogicHandler;
 import com.mta.ive.logic.location.LocationWithTasksWrapper;
 import com.mta.ive.logic.location.UserLocation;
 import com.mta.ive.logic.task.Task;
-import com.mta.ive.logic.users.User;
 import com.mta.ive.logic.users.UserSettings;
 import com.mta.ive.pages.home.HomeActivity;
 import com.mta.ive.vm.adapter.TasksAdapter;
@@ -37,20 +35,15 @@ import java.util.Map;
 
 public class TasksByLocationFragment extends Fragment {
 
-    private TextView mainTitle, subTitle, bottomDurationText;
-    DatabaseReference reference;
+    private TextView bottomDurationText;
     RecyclerView tasksRecList;
     ArrayList<Task> tasksList;
     TasksAdapter tasksAdapter;
-    ViewGroup root;
     FloatingActionButton switchLocationButton, exposeOptionsButton, showAllTasksButton, showStats;
     TextView switchLocationText, showAllTasksText, tasksTitle, showStatsText;
-    //Dialog locationsDialog;
 
     View view;
-    String selected;
 
-//    Map<UserLocation, List<Task>> locationToTasksMap;
     Map<String, List<Task>> locationIdToTasksMap;
     Map<String, UserLocation> locationIdToUserLocationMap;
     List<LocationWithTasksWrapper> swichableLocationsWithRelevant;
@@ -63,19 +56,6 @@ public class TasksByLocationFragment extends Fragment {
     Boolean fabIsOpen = false;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
 
-//    private boolean showingAllTasksInLocation = false;
-//    UserLocation selectedLocation = null;
-
-//    int lastSelectedLocationIndex = -1;
-//    int userLocationByGPSIndex;
-
-//    public void setTasksAdapter(TasksAdapter tasksAdapter) {
-//        this.tasksAdapter = tasksAdapter;
-//    }
-
-//    List<UserLocation> locationsWithTasksPlusCurrent;
-//    List<String> locationsNames;
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -83,8 +63,6 @@ public class TasksByLocationFragment extends Fragment {
         tasksList = new ArrayList<>();
         view = inflater.inflate(R.layout.fragment_tasks_by_location, container, false);
         tasksRecList = view.findViewById(R.id.tasksRecycleList);
-//        tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//        tasksRecList.setAdapter(new TasksAdapter(view.getContext(), tasksList));
         switchLocationButton = view.findViewById(R.id.fab_option_location);
         showAllTasksButton = view.findViewById(R.id.fab_option_all_tasks);
         exposeOptionsButton = view.findViewById(R.id.fab);
@@ -97,11 +75,10 @@ public class TasksByLocationFragment extends Fragment {
 
         bottomDurationText = view.findViewById(R.id.tasksListBottomText);
 
-        LogicHandler.updateCurrentUserLocation(); //???
+        LogicHandler.updateCurrentUserLocation();
 
         currentLocation = LogicHandler.getCurrentLocation();
         locationIdToUserLocationMap = LogicHandler.getIdToUserLocationMap();
-//        locationToTasksMap = LogicHandler.getCurrentUserLocationToTasksMap();
         locationIdToTasksMap = LogicHandler.getLocationIdToTasksMap();
         swichableLocationsWithRelevant = LogicHandler.getSwichableLocationsWithRelevant();
         swichableLocationsWithAll = LogicHandler.getSwichableLocationsWithAll();
@@ -115,37 +92,7 @@ public class TasksByLocationFragment extends Fragment {
 
 
         updateAllUserFields();
-
         setFabButtons();
-
-
-//        updateUserTitle(view);
-
-
-//        reference = FirebaseDatabase.getInstance().getReference().child("task");
-
-//        reference = LogicHandler.getAllTasksDBReference();
-//
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                tasksList = new ArrayList<>();
-//                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-//                    Task task = dataSnapshot1.getValue(Task.class);
-//                    tasksList.add(task);
-//                }
-//
-//                tasksAdapter = new TasksAdapter(view.getContext(), tasksList); //TODO: originally: MainActivity.this
-//                tasksRecList.setAdapter(tasksAdapter);
-//                tasksAdapter.notifyDataSetChanged();
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Toast.makeText(getContext(),"Error pulling data", Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
         return view;
 
@@ -161,12 +108,6 @@ public class TasksByLocationFragment extends Fragment {
         swichableLocations.forEach(locationWithTasksWrapper -> {
             locationsInList.add(locationWithTasksWrapper.getLocation());
         });
-                //.map(LocationWithTasksWrapper::getLocation).collect(Collectors.toList());
-
-        //locationsInList.sort((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
-
-
-//        return getIndexOfCurrentLocationInList(locationsInList);
 
         UserLocation currentLocation = LogicHandler.getCurrentLocation();
         if (currentLocation == null){
@@ -182,29 +123,7 @@ public class TasksByLocationFragment extends Fragment {
             index++;
         }
         return indexOfCurrent;
-//        return locationsInList.indexOf(this.currentLocation);
     }
-
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    private Map<UserLocation, List<Task>> getSwichableLocations(Map<UserLocation, List<Task>> locationToTasksMap) {
-//        Map<UserLocation, List<Task>> swichableLocations = new HashMap<>();
-//
-//        locationToTasksMap.entrySet()
-//                .forEach(locationToTasksEntry -> {
-//                    UserLocation location = locationToTasksEntry.getKey();
-//                    List<Task> tasksInLocation = locationToTasksEntry.getValue();
-//
-//                    if (tasksInLocation.size() > 0){
-//                        swichableLocations.put(location, tasksInLocation);
-//                    }
-//                });
-//
-//        if (!swichableLocations.containsKey(currentLocation)){
-//
-//        }
-//
-//        return swichableLocations;
-//    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setSwitchLocationFunctionality() {
@@ -222,16 +141,11 @@ public class TasksByLocationFragment extends Fragment {
                             }
                             else
                             {
-                                tasksToShow = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();//this.locationIdToTasksMap.get(currentLocation.getId());
+                                tasksToShow = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();
                             }
-//                            = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation).getTasks();
                             updateUserTasksList(tasksToShow);
                             updateTitles();
-//                            updateUserTitle(LogicHandler.getCurrentUser());
 
-//                            updateAllUserFields();
-//                            boolean hasTasks = LogicHandler.getTasksOfCurrentUserInLocation(currentLocation).size() > 0;
-//                            String msg = hasTasks? "Showing tasks for selected location": "No tasks found in selected location";
                             String msg = "Location switched";
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                             hideFloating();
@@ -262,20 +176,11 @@ public class TasksByLocationFragment extends Fragment {
                     locationsNames.add(name);
                 });
 
-//                locationsNames.sort(String::compareToIgnoreCase);
-//                .stream()
-//                        .map(LocationWithTasksWrapper::getLocation)
-//                        .map(UserLocation::getName)
-//                        .collect(Collectors.toList());
-
-//                locationsNames.set(indexOfUserCurrentLocation, locationsNames.get(indexOfUserCurrentLocation) + "(Current)");
                 String[] namesToShowInWindow = new String[locationsNames.size()];
                 locationsNames.toArray(namesToShowInWindow);
 
-//                namesToShowInWindow[indexOfUserCurrentLocation] = locationsNames.get(indexOfUserCurrentLocation) + "(Current)";
 
                 alertBuilder.setSingleChoiceItems(namesToShowInWindow, indexOfCurrentlySelectedLocation, (dialogInterface, i) -> {
-//                    currentLocation = swichableLocations.get(i).getLocation();
                     indexOfCurrentlySelectedLocation = i;
                     LogicHandler.updateLastSelectedLocationIndex(indexOfCurrentlySelectedLocation);
                 });
@@ -289,60 +194,14 @@ public class TasksByLocationFragment extends Fragment {
                 } else {
                     alertMessage = "No more locations defined..";
                 }
-//                String msg = "No tasks found in other locations";
                 Toast.makeText(getContext(), alertMessage, Toast.LENGTH_SHORT).show();
             }
-
-//            locationsWithTasksPlusCurrent = LogicHandler.getAllLocationsWithTasks();
-//            if (locationsWithTasksPlusCurrent.size() > 1) {
-//                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-//                alertBuilder.setTitle("Switch Location");
-//                alertBuilder.setPositiveButton ("Switch", dialogClickListener);
-//                alertBuilder.setNegativeButton("Cancel", dialogClickListener);
-//
-//                if (lastSelectedLocationIndex == -1) {
-//                    lastSelectedLocationIndex = getIndexOfCurrentLocationInList(locationsWithTasksPlusCurrent);
-//                    userLocationByGPSIndex = lastSelectedLocationIndex;
-//                }
-////                = locations.indexOf(LogicHandler.getCurrentLocation().getName());
-//                List<String> names = locationsWithTasksPlusCurrent.stream().map(UserLocation::getName).collect(Collectors.toCollection(ArrayList::new));
-//                String currentLocationName = names.get(userLocationByGPSIndex).concat("(Current Location)");
-//                names.set(userLocationByGPSIndex, currentLocationName);
-//                String[] locationsNames = new String[names.size()];
-//                locationsNames = names.toArray(locationsNames);
-//
-//                alertBuilder.setSingleChoiceItems(locationsNames, lastSelectedLocationIndex, (dialogInterface, i) -> {
-//                    currentLocation = locationsWithTasksPlusCurrent.get(i);
-//                    lastSelectedLocationIndex = i;
-//                });
-////            alertBuilder.setOnCancelListener(quit -> {
-////                updateAllUserFields();
-////            });
-//                alertBuilder.show();
-//            }
-//            else {
-//                String msg = "No tasks found in other locations";
-//                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-//            }
         });
     }
 
-//    private int getIndexOfCurrentLocationInList(List<UserLocation> locationsWithTasksPlusCurrent) {
-//        int index = 0;
-//        int indexOfCurrent = 0;
-//        for (UserLocation location: locationsWithTasksPlusCurrent){
-//            if(location.getId().equals(LogicHandler.getCurrentLocation().getId())){
-//                indexOfCurrent = index;
-//            }
-//            index++;
-//        }
-//        return indexOfCurrent;
-//    }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateAllUserFields() {
-        User user = LogicHandler.getCurrentUser();
-//        List<Task> tasks = this.locationToTasksMap.get(currentLocation); //LogicHandler.getTasksOfCurrentUserInLocation(currentLocation);
+
         boolean showAllLocations = LogicHandler.isShowingAllLocations();
 
         List<Task> tasks = new ArrayList<>();
@@ -357,31 +216,16 @@ public class TasksByLocationFragment extends Fragment {
 
         updateUserTasksList(tasks);
         updateTitles();
-//        updateUserTitle(user);
-
-//        if (user != null) {
-//            updateUserTasksList(tasks);
-//            updateUserTitle(user, false);
-//        }
-//        else {
-//            LogicHandler.
-//            loadUserFromDBAndUpdateUI();
-//        }
     }
 
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateUserTasksList(List<Task> tasksToShow) {
-//        List<Task> tasks = this.locationToTasksMap.get(currentLocation); //LogicHandler.getTasksOfCurrentUserInLocation(currentLocation);
 
-        tasksAdapter = new TasksAdapter(view.getContext(), tasksToShow); //TODO: originally: MainActivity.this
-//        tasksAdapter.setAllTasks(tasksToShow);
-
+        tasksAdapter = new TasksAdapter(view.getContext(), tasksToShow);
         tasksRecList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         tasksRecList.setAdapter(tasksAdapter);
-//        tasksToShowInList = tasksToShow;
-//        tasksRecList.setAdapter(tasksAdapter);
         tasksAdapter.notifyDataSetChanged();
 
         String durationMessage = "";
@@ -397,40 +241,19 @@ public class TasksByLocationFragment extends Fragment {
         }
         bottomDurationText.setText(durationMessage);
     }
-//    private void loadUserFromDBAndUpdateUI() {
-//        String userEmail = LogicHandler.getCurrentUserEmail();
-//        DatabaseReference userReference = LogicHandler.getCurrentUserDBReferenceById(userEmail);
-//
-//        userReference.addValueEventListener(new ValueEventListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                User currentUser = snapshot.getValue(User.class);
-//                LogicHandler.setCurrentUser(currentUser);
-//                updateAllUserFieldsByUser(currentUser);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//
-//    }
 
     private void updateTitles(){
         updateUserTitle();
         updateTasksTitles();
     }
     private void updateUserTitle() {
-        String userName = LogicHandler.getCurrentUser().getName();// user.getName();
-        //UserLocation location = LogicHandler.getCurrentLocation();
+        String userName = LogicHandler.getCurrentUser().getName();
         TextView title = view.findViewById(R.id.tasksListMainTitle);
 
         String userTitle = "Hello "+ userName + "!\n";
 
         boolean hasLocations = LogicHandler.getCurrentUser().getArrayOfLocations().size() > 0;
-        boolean foundLocation = LogicHandler.userIsInOfOfHisLocations();// currentLocation != null;
+        boolean foundLocation = LogicHandler.userIsInOfOfHisLocations();
 
         String locationTitle;
         if (hasLocations){
@@ -441,22 +264,9 @@ public class TasksByLocationFragment extends Fragment {
         else {
             locationTitle = "No Locations defined";
         }
-//        String locationTitle;
-//
-//        if (chosenLocation){
-//            String locationName = swichableLocationsWithRelevant.get(indexOfCurrentlySelectedLocation)
-//                    .getLocation().getName();
-//            locationTitle = "Showing tasks at " + locationName;
-//        } else {
-//            locationTitle = foundLocation? "You are at " + currentLocation.getName() : hasLocations?
-//                    "Location not found" : "No locations defined";
-//        }
 
         title.setText(userTitle + locationTitle);
         updateTasksTitles();
-        //"Showing tasks by urgency"
-
-//        title.setText("Hello "+ userName + "! \n You are at " + location.getName());
     }
 
     private void updateTasksTitles(){
@@ -498,10 +308,6 @@ public class TasksByLocationFragment extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 ((HomeActivity)view.getContext()).openStatisticsPage(bundle);
-
-//                Intent homePage = new Intent(getContext(), StatisticsActivity.class);
-//                //homePage.putExtra("email", email);
-//                startActivity(homePage);
             }
         });
 
@@ -535,10 +341,7 @@ public class TasksByLocationFragment extends Fragment {
 
             }
         });
-
         setSwitchLocationFunctionality();
-
-
     }
 
     private void hideFloating(){
@@ -576,6 +379,4 @@ public class TasksByLocationFragment extends Fragment {
         showStats.setClickable(true);
         fabIsOpen = true;
     }
-
-
 }

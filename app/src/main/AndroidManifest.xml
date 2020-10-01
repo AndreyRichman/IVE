@@ -17,7 +17,7 @@
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/map_key"
             />
 
-        <activity android:name=".logic.location.GoogleMapActivity"></activity>
+        <activity android:name=".pages.location.GoogleMapActivity"></activity>
         <activity android:name=".pages.login.SignUpInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,19 +25,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".pages.home.addtask.EditExistingTaskActivity" />
+        <activity android:name=".pages.task.EditExistingTaskActivity" />
         <activity android:name=".pages.login.SignUpActivity" />
-<!--        <activity android:name=".pages.delete.AllTasksActivity" />-->
         <activity android:name=".pages.home.HomeActivity" />
-        <activity android:name=".pages.delete.NewTaskActivity" />
-        <activity android:name=".pages.delete.LobbyActivity" />
-        <activity android:name=".pages.settings.UserSettings" />
-        <activity android:name=".pages.settings.AppSettings" />
-        <activity android:name=".logic.location.ActivityManageLocations" />
-        <activity android:name=".logic.location.ActivityAddNewLocation" />
+        <activity android:name=".pages.settings.UserSettingsPage" />
+        <activity android:name=".pages.settings.AppSettingsPage" />
+        <activity android:name=".pages.location.ActivityManageLocations" />
+        <activity android:name=".pages.location.ActivityAddNewLocation" />
         <activity android:name=".pages.login.LoginActivity" />
-        <activity android:name=".pages.home.home.AddLocationFragment" />
-        <activity android:name=".pages.home.tasksbylocation.StatisticsActivity" />
+        <activity android:name=".pages.location.AddLocationFragment" />
+        <activity android:name=".pages.tasksbylocation.StatisticsActivity" />
         <activity android:name=".MainActivity"></activity>
 
         <meta-data

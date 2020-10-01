@@ -7,13 +7,14 @@
     android:background="#F4F4F4"
     android:orientation="vertical"
     android:paddingBottom="60dp"
-    tools:context=".pages.home.tasksbylocation.TasksByLocationFragment">
+    tools:context=".pages.tasksbylocation.TasksByLocationFragment">
 
     <LinearLayout
         android:id="@+id/linear_logo"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:id="@+id/imageView2"

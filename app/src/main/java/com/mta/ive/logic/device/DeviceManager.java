@@ -32,7 +32,6 @@ public class DeviceManager {
         return time;
     }
 
-
     public void setDeviceLocation(Location location) {
         deviceLocation = location;
     }
@@ -40,7 +39,6 @@ public class DeviceManager {
     public Location getDeviceLocation() {
         return deviceLocation;
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public LocalDate getDate() {
